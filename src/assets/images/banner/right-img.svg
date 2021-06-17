@@ -1,0 +1,70 @@
+<svg width="75" height="39" viewBox="0 0 75 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" width="5" height="5" transform="rotate(90 40 0)" fill="#181235"/>
+<rect x="35" y="5" width="5" height="5" transform="rotate(90 35 5)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 40 5)" fill="#181235"/>
+<rect x="30" y="10" width="5" height="5" transform="rotate(90 30 10)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 45 10)" fill="#181235"/>
+<rect x="25" y="15" width="5" height="5" transform="rotate(90 25 15)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 50 15)" fill="#181235"/>
+<rect x="25" y="20" width="5" height="5" transform="rotate(90 25 20)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 50 20)" fill="#7B79F7"/>
+<rect x="20" y="20" width="5" height="5" transform="rotate(90 20 20)" fill="#7B79F7"/>
+<rect x="20" y="15" width="5" height="5" transform="rotate(90 20 15)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 55 20)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 55 15)" fill="#181235"/>
+<rect x="15" y="20" width="5" height="5" transform="rotate(90 15 20)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 60 20)" fill="#181235"/>
+<rect x="5" y="25" width="5" height="5" transform="rotate(90 5 25)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 70 25)" fill="#181235"/>
+<rect x="10" y="30" width="5" height="5" transform="rotate(90 10 30)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 65 30)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 15 35)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 10 35)" fill="#181235"/>
+<rect x="60" y="35" width="5" height="5" transform="rotate(90 60 35)" fill="#7B79F7"/>
+<rect x="65" y="35" width="5" height="5" transform="rotate(90 65 35)" fill="#181235"/>
+<rect x="40" y="5" width="5" height="5" transform="rotate(90 40 5)" fill="#7B79F7"/>
+<rect x="40" y="10" width="5" height="5" transform="rotate(90 40 10)" fill="#7B79F7"/>
+<rect x="40" y="15" width="5" height="5" transform="rotate(90 40 15)" fill="#7B79F7"/>
+<rect x="40" y="20" width="5" height="5" transform="rotate(90 40 20)" fill="#7B79F7"/>
+<rect x="40" y="25" width="5" height="5" transform="rotate(90 40 25)" fill="#7B79F7"/>
+<rect x="20" y="25" width="5" height="5" transform="rotate(90 20 25)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 55 25)" fill="#7B79F7"/>
+<rect x="20" y="30" width="5" height="5" transform="rotate(90 20 30)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 55 30)" fill="#7B79F7"/>
+<rect x="40" y="30" width="5" height="5" transform="rotate(90 40 30)" fill="#7B79F7"/>
+<rect x="40" y="35" width="5" height="5" transform="rotate(90 40 35)" fill="#7B79F7"/>
+<rect x="25" y="25" width="5" height="5" transform="rotate(90 25 25)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 50 25)" fill="#7B79F7"/>
+<rect x="25" y="30" width="5" height="5" transform="rotate(90 25 30)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 50 30)" fill="#7B79F7"/>
+<rect x="35" y="10" width="5" height="5" transform="rotate(90 35 10)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 40 10)" fill="#7B79F7"/>
+<rect x="35" y="15" width="5" height="5" transform="rotate(90 35 15)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 40 15)" fill="#7B79F7"/>
+<rect x="30" y="15" width="5" height="5" transform="rotate(90 30 15)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 45 15)" fill="#7B79F7"/>
+<rect x="35" y="20" width="5" height="5" transform="rotate(90 35 20)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 40 20)" fill="#7B79F7"/>
+<rect x="35" y="25" width="5" height="5" transform="rotate(90 35 25)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 40 25)" fill="#7B79F7"/>
+<rect x="15" y="25" width="5" height="5" transform="rotate(90 15 25)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 60 25)" fill="#7B79F7"/>
+<rect x="15" y="30" width="5" height="5" transform="rotate(90 15 30)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 60 30)" fill="#7B79F7"/>
+<rect x="35" y="30" width="5" height="5" transform="rotate(90 35 30)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 40 30)" fill="#7B79F7"/>
+<rect x="35" y="35" width="5" height="5" transform="rotate(90 35 35)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 40 35)" fill="#7B79F7"/>
+<rect x="30" y="20" width="5" height="5" transform="rotate(90 30 20)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 45 20)" fill="#7B79F7"/>
+<rect x="30" y="25" width="5" height="5" transform="rotate(90 30 25)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 45 25)" fill="#7B79F7"/>
+<rect x="10" y="25" width="5" height="5" transform="rotate(90 10 25)" fill="#181235"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 65 25)" fill="#181235"/>
+<rect x="30" y="30" width="5" height="5" transform="rotate(90 30 30)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 45 30)" fill="#7B79F7"/>
+<rect x="30" y="35" width="5" height="5" transform="rotate(90 30 35)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 45 35)" fill="#7B79F7"/>
+<rect x="25" y="35" width="5" height="5" transform="rotate(90 25 35)" fill="#7B79F7"/>
+<rect width="5" height="5" transform="matrix(4.37114e-08 1 1 -4.37114e-08 50 35)" fill="#7B79F7"/>
+</svg>
