@@ -246,7 +246,8 @@ export default {
       }
 
       if (this.actionType === "repay") {
-        const maxAmount = parseFloat(+this.userTotalCollateral).toFixed(20);
+        const maxAmount = parseFloat(this.userTotalCollateral); //parseFloat should be sufficent, toFixed(20) rounds it sometimes higher than the actual balance.
+        //const maxAmount = parseFloat(+this.userTotalCollateral).toFixed(20);
         // .toLocaleString(
         //   "fullwide",
         //   {
