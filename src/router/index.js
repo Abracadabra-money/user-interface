@@ -34,14 +34,14 @@ const routes = [
   //   },
   //   component: () => import("../views/Mim3Pool.vue"),
   // },
-  // {
-  //   path: "/pool/:id",
-  //   name: "Pool",
-  //   meta: {
-  //     needConnection: true,
-  //   },
-  //   component: () => import("../views/Pool.vue"),
-  // },
+    {
+     path: "/pool/:id",
+     name: "Pool",
+     meta: {
+     needConnection: true,
+     },
+      component: () => import("../views/Pool.vue"),
+     },
   {
     path: "/dashboard",
     name: "Dashboard",
