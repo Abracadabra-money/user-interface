@@ -14,7 +14,7 @@
 
     <p class="subtitle">
       Change to<br />
-      Ethereum Mainnet
+      Avalanche Network
     </p>
 
     <img src="@/assets/images/browser-warn-logo.svg" alt="" class="main-img" />

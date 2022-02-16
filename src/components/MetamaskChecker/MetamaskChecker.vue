@@ -33,7 +33,6 @@ export default {
   methods: {
     async checkProvider() {
       const provider = await detectEthereumProvider();
-
       if (!provider) {
         this.$store.commit("setPopupState", {
           type: "browser",
@@ -88,7 +87,7 @@ export default {
         (network) => network.chainId === chainId
       );
 
-      if (chainId !== "0x1") {
+      if (chainId !== "0xa86a" && chainId !== "0x539") {
         this.$store.commit("setPopupState", {
           type: "wrong-network",
           isShow: true,

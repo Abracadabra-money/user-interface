@@ -1624,10 +1624,10 @@ export default {
 
           const estimateGas = await this.pool.contractInstance.estimateGas.cook(
             [11, 20, 10],
-            [0, 0, 0],
+            [0, amount, 0],
             [updateEncode, depositEncode, colateralEncode],
             {
-              value: 0,
+              value: amount,
               // gasPrice,
               // gasLimit: 1000000,
             }
@@ -1639,10 +1639,10 @@ export default {
 
           const result = await this.pool.contractInstance.cook(
             [11, 20, 10],
-            [0, 0, 0],
+            [0, amount, 0],
             [updateEncode, depositEncode, colateralEncode],
             {
-              value: 0,
+              value: amount,
               // gasPrice,
               gasLimit,
             }
@@ -1654,10 +1654,10 @@ export default {
 
         const estimateGas = await this.pool.contractInstance.estimateGas.cook(
           [20, 10],
-          [0, 0],
+          [amount, 0],
           [depositEncode, colateralEncode],
           {
-            value: 0,
+            value: amount,
             // gasPrice,
             // gasLimit: 1000000,
           }
@@ -1669,10 +1669,10 @@ export default {
 
         const result = await this.pool.contractInstance.cook(
           [20, 10],
-          [0, 0],
+          [amount, 0],
           [depositEncode, colateralEncode],
           {
-            value: 0,
+            value: amount,
             // gasPrice,
             gasLimit,
           }
@@ -1699,10 +1699,10 @@ export default {
 
           const estimateGas = await this.pool.contractInstance.estimateGas.cook(
             [11, 20, 10],
-            [0, 0, 0],
+            [0, amount, 0],
             [updateEncode, depositEncode, colateralEncode],
             {
-              value: 0,
+              value: amount,
               // gasPrice,
               // gasLimit: 1000000,
             }
@@ -1714,10 +1714,10 @@ export default {
 
           const result = await this.pool.contractInstance.cook(
             [11, 20, 10],
-            [0, 0, 0],
+            [0, amount, 0],
             [updateEncode, depositEncode, colateralEncode],
             {
-              value: 0,
+              value: amount,
               // gasPrice,
               gasLimit,
             }
@@ -1729,10 +1729,10 @@ export default {
 
         const estimateGas = await this.pool.contractInstance.estimateGas.cook(
           [20, 10],
-          [0, 0],
+          [amount, 0],
           [depositEncode, colateralEncode],
           {
-            value: 0,
+            value: amount,
             // gasPrice,
             // gasLimit: 1000000,
           }
@@ -1744,10 +1744,10 @@ export default {
 
         const result = await this.pool.contractInstance.cook(
           [20, 10],
-          [0, 0],
+          [amount, 0],
           [depositEncode, colateralEncode],
           {
-            value: 0,
+            value: amount,
             // gasPrice,
             gasLimit,
           }
@@ -1763,10 +1763,10 @@ export default {
 
         const estimateGas = await this.pool.contractInstance.estimateGas.cook(
           [24, 11, 20, 10],
-          [0, 0, 0, 0],
+          [0, 0, amount, 0],
           [approvalEncode, updateEncode, depositEncode, colateralEncode],
           {
-            value: 0,
+            value: amount,
             // gasPrice,
             // gasLimit: 1000000,
           }
@@ -1778,10 +1778,10 @@ export default {
 
         const result = await this.pool.contractInstance.cook(
           [24, 11, 20, 10],
-          [0, 0, 0, 0],
+          [0, 0, amount, 0],
           [approvalEncode, updateEncode, depositEncode, colateralEncode],
           {
-            value: 0,
+            value: amount,
             // gasPrice,
             gasLimit,
           }
@@ -1793,10 +1793,10 @@ export default {
 
       const estimateGas = await this.pool.contractInstance.estimateGas.cook(
         [24, 20, 10],
-        [0, 0, 0],
+        [0, amount, 0],
         [approvalEncode, depositEncode, colateralEncode],
         {
-          value: 0,
+          value: amount,
           // gasPrice,
           // gasLimit: 1000000,
         }
@@ -1808,10 +1808,10 @@ export default {
 
       const result = await this.pool.contractInstance.cook(
         [24, 20, 10],
-        [0, 0, 0],
+        [0, amount, 0],
         [approvalEncode, depositEncode, colateralEncode],
         {
-          value: 0,
+          value: amount,
           // gasPrice,
           gasLimit,
         }
@@ -1842,7 +1842,7 @@ export default {
 
           const estimateGas = await this.pool.contractInstance.estimateGas.cook(
             [11, 5, 21, 20, 10],
-            [0, 0, 0, 0, 0],
+            [0, 0, 0, collateralAmount, 0],
             [
               updateEncode,
               borrowEncode,
@@ -1851,7 +1851,7 @@ export default {
               colateralEncode,
             ],
             {
-              value: "0",
+              value: collateralAmount,
               // gasPrice,
               // gasLimit: 1000000,
             }
@@ -1863,7 +1863,7 @@ export default {
 
           const result = await this.pool.contractInstance.cook(
             [11, 5, 21, 20, 10],
-            [0, 0, 0, 0, 0],
+            [0, 0, 0, collateralAmount, 0],
             [
               updateEncode,
               borrowEncode,
@@ -1872,7 +1872,7 @@ export default {
               colateralEncode,
             ],
             {
-              value: "0",
+              value: collateralAmount,
               // gasPrice,
               gasLimit,
             }
@@ -1884,10 +1884,10 @@ export default {
 
         const estimateGas = await this.pool.contractInstance.estimateGas.cook(
           [5, 21, 20, 10],
-          [0, 0, 0, 0],
+          [0, 0, collateralAmount, 0],
           [borrowEncode, bentoWithdrawEncode, depositEncode, colateralEncode],
           {
-            value: "0",
+            value: collateralAmount,
             // gasPrice,
             // gasLimit: 1000000,
           }
@@ -1899,10 +1899,10 @@ export default {
 
         const result = await this.pool.contractInstance.cook(
           [5, 21, 20, 10],
-          [0, 0, 0, 0],
+          [0, 0, collateralAmount, 0],
           [borrowEncode, bentoWithdrawEncode, depositEncode, colateralEncode],
           {
-            value: "0",
+            value: collateralAmount,
             // gasPrice,
             gasLimit,
           }
@@ -1929,7 +1929,7 @@ export default {
 
           const estimateGas = await this.pool.contractInstance.estimateGas.cook(
             [11, 5, 21, 20, 10],
-            [0, 0, 0, 0, 0],
+            [0, 0, 0, collateralAmount, 0],
             [
               updateEncode,
               borrowEncode,
@@ -1938,7 +1938,7 @@ export default {
               colateralEncode,
             ],
             {
-              value: "0",
+              value: collateralAmount,
               // gasPrice,
               // gasLimit: 1000000,
             }
@@ -1950,7 +1950,7 @@ export default {
 
           const result = await this.pool.contractInstance.cook(
             [11, 5, 21, 20, 10],
-            [0, 0, 0, 0, 0],
+            [0, 0, 0, collateralAmount, 0],
             [
               updateEncode,
               borrowEncode,
@@ -1959,7 +1959,7 @@ export default {
               colateralEncode,
             ],
             {
-              value: "0",
+              value: collateralAmount,
               // gasPrice,
               gasLimit,
             }
@@ -1971,10 +1971,10 @@ export default {
 
         const estimateGas = await this.pool.contractInstance.estimateGas.cook(
           [5, 21, 20, 10],
-          [0, 0, 0, 0],
+          [0, 0, collateralAmount, 0],
           [borrowEncode, bentoWithdrawEncode, depositEncode, colateralEncode],
           {
-            value: "0",
+            value: collateralAmount,
             // gasPrice,
             // gasLimit: 1000000,
           }
@@ -1986,10 +1986,10 @@ export default {
 
         const result = await this.pool.contractInstance.cook(
           [5, 21, 20, 10],
-          [0, 0, 0, 0],
+          [0, 0, collateralAmount, 0],
           [borrowEncode, bentoWithdrawEncode, depositEncode, colateralEncode],
           {
-            value: "0",
+            value: collateralAmount,
             // gasPrice,
             gasLimit,
           }
@@ -2005,7 +2005,7 @@ export default {
 
         const estimateGas = await this.pool.contractInstance.estimateGas.cook(
           [24, 11, 5, 21, 20, 10],
-          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, collateralAmount, 0],
           [
             approvalEncode,
             updateEncode,
@@ -2015,7 +2015,7 @@ export default {
             colateralEncode,
           ],
           {
-            value: "0",
+            value: collateralAmount,
             // gasPrice,
             // gasLimit: 1000000,
           }
@@ -2027,7 +2027,7 @@ export default {
 
         const result = await this.pool.contractInstance.cook(
           [24, 11, 5, 21, 20, 10],
-          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, collateralAmount, 0],
           [
             approvalEncode,
             updateEncode,
@@ -2037,7 +2037,7 @@ export default {
             colateralEncode,
           ],
           {
-            value: "0",
+            value: collateralAmount,
             // gasPrice,
             gasLimit,
           }
@@ -2049,7 +2049,7 @@ export default {
 
       const estimateGas = await this.pool.contractInstance.estimateGas.cook(
         [24, 5, 21, 20, 10],
-        [0, 0, 0, 0, 0],
+        [0, 0, 0, collateralAmount, 0],
         [
           approvalEncode,
           borrowEncode,
@@ -2058,7 +2058,7 @@ export default {
           colateralEncode,
         ],
         {
-          value: "0",
+          value: collateralAmount,
           // gasPrice,
           // gasLimit: 1000000,
         }
@@ -2070,7 +2070,7 @@ export default {
 
       const result = await this.pool.contractInstance.cook(
         [24, 5, 21, 20, 10],
-        [0, 0, 0, 0, 0],
+        [0, 0, 0, collateralAmount, 0],
         [
           approvalEncode,
           borrowEncode,
@@ -2079,7 +2079,7 @@ export default {
           colateralEncode,
         ],
         {
-          value: "0",
+          value: collateralAmount,
           // gasPrice,
           gasLimit,
         }
@@ -2091,6 +2091,7 @@ export default {
       { collateralAmount, amount, updatePrice, minExpected },
       isApprowed
     ) {
+      console.log('cookMultiBorrow');
       const tokenAddr = this.pool.token.address;
       const swapperAddres = this.pool.swapContract.address;
       const userAddr = this.account;
@@ -2239,9 +2240,11 @@ export default {
       );
     },
     getDepositEncode(amount) {
+      // const decode = this.$ethers.utils.defaultAbiCoder.decode(["address", "address", "int256", "int256"],'0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b7a4459c2845f5cd3974e7f2eb58a281993c517e0000000000000000000000000000000000000000000000007ce66c50e28400000000000000000000000000000000000000000000000000000000000000000000');
+      // console.log('decode', decode);
       return this.$ethers.utils.defaultAbiCoder.encode(
         ["address", "address", "int256", "int256"],
-        [this.pool.token.address, this.account, amount, "0"]
+        ['0x0000000000000000000000000000000000000000', this.account, amount, "0"]
       );
     },
     getUpdateRateEncode() {

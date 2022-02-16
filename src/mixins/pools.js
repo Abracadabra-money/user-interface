@@ -62,11 +62,11 @@ export default {
         this.signer
       );
 
-      const swapContract = new this.$ethers.Contract(
-        pool.swapContractInfo.address,
-        JSON.stringify(pool.swapContractInfo.abi),
-        this.signer
-      );
+      // const swapContract = new this.$ethers.Contract(
+      //   pool.swapContractInfo.address,
+      //   JSON.stringify(pool.swapContractInfo.abi),
+      //   this.signer
+      // );
 
       const oracleExchangeRate = await this.getOracleExchangeRate(
         pool.token.oracleId,
@@ -121,9 +121,12 @@ export default {
 
       let userBalance;
       try {
-        userBalance = await tokenContract.balanceOf(this.account, {
-          gasLimit: 600000,
-        });
+        // userBalance = await tokenContract.balanceOf(this.account, {
+        //   gasLimit: 600000,
+        // });
+        userBalance = await this.$ethers
+          .getDefaultProvider("http://localhost:8545")
+          .getBalance(this.account);
       } catch (e) {
         console.log("userBalance Err:", e);
       }
@@ -186,7 +189,7 @@ export default {
           decimals: pool.token.decimals,
           oracleExchangeRate: tokenPairRate,
         },
-        swapContract: swapContract,
+        // swapContract: swapContract,
       };
     },
     async getContractExchangeRate(contract) {
@@ -282,9 +285,16 @@ export default {
           reqObj = [multiply, divide, parsedDecimals]; //xSUSHI pool
         }
 
-        const bytesData = await oracleContract.getDataParameter(...reqObj, {
-          gasLimit: 300000,
-        });
+        if (oracleId === 3) {
+          reqObj = [multiply, divide, parsedDecimals];
+        }
+        // const bytesData = await oracleContract.getDataParameter(...reqObj, {
+        //   gasLimit: 300000,
+        // });
+        const bytesData = this.$ethers.utils.defaultAbiCoder.encode(
+          ["address", "address", "uint256"],
+          [...reqObj]
+        );
 
         const rate = await oracleContract.peekSpot(bytesData, {
           gasLimit: 300000,
@@ -354,7 +364,7 @@ export default {
           additional: "",
         },
         {
-          title: "MIM borrowed",
+          title: "NUSD borrowed",
           value: `$${parseFloat(userBorrowPart).toFixed(4)}`,
           additional: "",
         },
@@ -364,7 +374,7 @@ export default {
           additional: "",
         },
         {
-          title: "MIM left to borrow",
+          title: "NUSD left to borrow",
           value: `${borrowLeftParsed}`,
           additional: "",
         },

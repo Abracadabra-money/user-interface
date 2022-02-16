@@ -16,8 +16,18 @@ export default {
         name: "FTM",
         code: 250,
       },
+      {
+        chainId: "0xa86a",
+        name: "AVAX",
+        code: 43114,
+      },
+      {
+        chainId: "0x539",
+        name: "AVAX local",
+        code: 1337,
+      },
     ],
-    activeNetwork: "0x1",
+    activeNetwork: "0xa86a",
   },
   mutations: {
     setActiveNetwork(state, payload) {

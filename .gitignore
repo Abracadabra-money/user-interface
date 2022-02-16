@@ -25,3 +25,6 @@ pnpm-debug.log*
 .gitlab-ci.yml
 Dockerfile
 nginx.conf
+
+yarn.lock
+package-lock.json

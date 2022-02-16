@@ -6,8 +6,8 @@
       <CollParamItem v-for="(item, idx) in infoItems" :key="idx" :item="item" />
     </div>
 
-    <p class="btm-text">1MIM = 1USD</p>
-    <p class="btm-text">1{{ tokenName }} = {{ tokentToMim }}MIM</p>
+    <p class="btm-text">1NUSD = 1USD</p>
+    <p class="btm-text">1{{ tokenName }} = {{ tokentToMim }}NUSD</p>
   </div>
 </template>
 

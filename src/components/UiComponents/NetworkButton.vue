@@ -10,12 +10,13 @@
 import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
 import binanceIcon from "@/assets/images/networks/binance-icon.svg";
 import fantomIcon from "@/assets/images/networks/fantom-icon.svg";
+import avaxIcon from "@/assets/images/networks/avalanche-avax-icon.svg";
 
 export default {
   props: {
     networkType: {
       type: String,
-      default: "0x1",
+      default: "0xa86a",
     },
   },
   data() {
@@ -35,6 +36,16 @@ export default {
           chainid: "0xfa",
           title: "FANTOM",
           icon: fantomIcon,
+        },
+        {
+          chainid: "0xa86a",
+          title: "AVAX",
+          icon: avaxIcon,
+        },
+        {
+          chainid: "0x539",
+          title: "AVAX local",
+          icon: avaxIcon,
         },
       ],
     };
