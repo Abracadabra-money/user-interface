@@ -183,7 +183,7 @@ export default {
     async addAndBorrowHandler(data) {
       console.log("ADD COLL & BORROW HANDLER", data);
 
-      const useAVAXStatus = this.getAVAXStatus;
+      const useAVAXStatus = this.getAVAXStatus();
 
       const isApprowed = await this.isApprowed();
 
@@ -209,8 +209,7 @@ export default {
     },
     async addCollateralHandler(data) {
       console.log("ADD COL HANDLER", data);
-      const useAVAXStatus = this.getAVAXStatus;
-
+      const useAVAXStatus = this.getAVAXStatus();
       const isApprowed = await this.isApprowed();
 
       if (!useAVAXStatus) {
