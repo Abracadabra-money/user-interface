@@ -77,7 +77,7 @@ export default {
     },
     valueName: {
       type: String,
-      default: "ETH",
+      default: "AVAX",
     },
     parentValue: {
       default: "",

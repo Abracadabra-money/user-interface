@@ -120,13 +120,15 @@ export default {
       );
 
       let userBalance;
+      let userBalanceNativeToken = "";
       try {
-        // userBalance = await tokenContract.balanceOf(this.account, {
-        //   gasLimit: 600000,
-        // });
-        userBalance = await this.$store.getters.getProvider.getBalance(
-          this.account
-        );
+        if (pool.name === "AVAX") {
+          userBalanceNativeToken =
+            await this.$store.getters.getProvider.getBalance(this.account);
+        }
+        userBalance = await tokenContract.balanceOf(this.account, {
+          gasLimit: 600000,
+        });
       } catch (e) {
         console.log("userBalance Err:", e);
       }
@@ -140,10 +142,15 @@ export default {
         console.log("userBalance Err:", e);
       }
 
+      const borrowFee =
+        (await poolContract.BORROW_OPENING_FEE()).toNumber() / 1000;
+      console.log("borrowFee", borrowFee);
+
       const mainInfo = this.getMainInfo(
         pool.ltv,
         pool.stabilityFee,
-        pool.interest
+        pool.interest,
+        borrowFee
       );
 
       const tokenPairPrice = 1;
@@ -171,6 +178,7 @@ export default {
         stabilityFee: pool.stabilityFee,
         interest: pool.interest,
         userBalance,
+        userBalanceNativeToken,
         userPairBalance,
         ltv: pool.ltv,
         askUpdatePrice,
@@ -305,7 +313,7 @@ export default {
         console.log("getOracleExchangeRate err:", e);
       }
     },
-    getMainInfo(ltv, stabilityFee, interest) {
+    getMainInfo(ltv, stabilityFee, interest, borrowFee) {
       return [
         {
           title: "Maximum collateral ratio",
@@ -320,7 +328,7 @@ export default {
         },
         {
           title: "Borrow fee",
-          value: `0.05%`,
+          value: `${borrowFee}%`,
           additional:
             "This fee is added to your debt every time you borrow NUSD.",
         },

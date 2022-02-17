@@ -8,6 +8,7 @@ import pools from "@/store/modules/pools";
 import tokens from "@/store/modules/tokens";
 import swap from "@/store/modules/swap";
 import notification from "@/store/modules/notification";
+import avaxStatus from "@/store/modules/avaxStatus";
 
 Vue.use(Vuex);
 
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     tokens,
     swap,
     notification,
+    avaxStatus,
   },
 });

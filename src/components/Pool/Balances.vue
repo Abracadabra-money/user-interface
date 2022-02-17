@@ -2,7 +2,7 @@
   <div class="balances-block">
     <h2>Your Balances</h2>
 
-    <BalanceItem v-for="(item, idx) in balances" :item="item" :key="idx" />
+    <BalanceItem v-for="(item, idx) in filtredBalances" :item="item" :key="idx" />
   </div>
 </template>
 
@@ -15,6 +15,14 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data() {
+    return {
+      filtredBalances: [],
+    };
+  },
+  mounted() {
+    this.filtredBalances = this.balances.filter((item) => item.balance !== "");
   },
   components: {
     BalanceItem,

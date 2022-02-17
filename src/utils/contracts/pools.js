@@ -8567,7 +8567,7 @@ export default [
       ],
     },
     token: {
-      name: "AVAX",
+      name: "WAVAX",
       decimals: 18,
       address: "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
       oracleId: 3,
@@ -9714,8 +9714,8 @@ export default [
         },
       ],
     },
-    stabilityFee: 3,
-    interest: 0.5,
+    stabilityFee: 12.5,
+    interest: 1,
     ltv: 75,
     initialMax: 20,
     swapContractInfo: {
