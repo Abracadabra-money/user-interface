@@ -34,14 +34,14 @@ const routes = [
   //   },
   //   component: () => import("../views/Mim3Pool.vue"),
   // },
-    {
-     path: "/pool/:id",
-     name: "Pool",
-     meta: {
-     needConnection: true,
-     },
-      component: () => import("../views/Pool.vue"),
-     },
+  {
+    path: "/pool/:id",
+    name: "Pool",
+    meta: {
+      needConnection: true,
+    },
+    component: () => import("../views/Pool.vue"),
+  },
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -68,12 +68,12 @@ const routes = [
   //   name: "Tech",
   //   component: () => import("../views/Tech.vue"),
   // },
-   {
-     path: "/liquidations",
-     name: "Liquidations",
-     component: () => import("../views/Liquidations.vue"),
+  {
+    path: "/liquidations",
+    name: "Liquidations",
+    component: () => import("../views/Liquidations.vue"),
   },
-  ];
+];
 
 const router = new VueRouter({
   mode: "history",

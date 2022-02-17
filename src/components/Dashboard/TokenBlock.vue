@@ -95,9 +95,10 @@ export default {
     },
     async getUserBalance() {
       try {
-        const balance = await this.tokensInfo.mainToken.contractInstance.balanceOf(
-          this.account
-        );
+        const balance =
+          await this.tokensInfo.mainToken.contractInstance.balanceOf(
+            this.account
+          );
 
         this.exactBalance = balance.toString();
 
@@ -108,13 +109,14 @@ export default {
     },
     async isTokenApprowed() {
       try {
-        const addressApprowed = await this.tokensInfo.stakeToken.contractInstance.allowance(
-          this.account,
-          this.tokensInfo.mainToken.contractInstance.address,
-          {
-            gasLimit: 1000000,
-          }
-        );
+        const addressApprowed =
+          await this.tokensInfo.stakeToken.contractInstance.allowance(
+            this.account,
+            this.tokensInfo.mainToken.contractInstance.address,
+            {
+              gasLimit: 1000000,
+            }
+          );
         return parseFloat(addressApprowed.toString()) > 0;
       } catch (e) {
         console.log("SPELL isApprowed err:", e);
@@ -123,10 +125,11 @@ export default {
     },
     async approveToken() {
       try {
-        const estimateGas = await this.tokensInfo.stakeToken.contractInstance.estimateGas.approve(
-          this.tokensInfo.mainToken.contractInstance.address,
-          "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-        );
+        const estimateGas =
+          await this.tokensInfo.stakeToken.contractInstance.estimateGas.approve(
+            this.tokensInfo.mainToken.contractInstance.address,
+            "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          );
 
         const gasLimit = 1000 + +estimateGas.toString();
 

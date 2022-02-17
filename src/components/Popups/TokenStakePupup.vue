@@ -190,9 +190,10 @@ export default {
 
         console.log("AMOUNT", amount.toString());
 
-        const estimateGas = await this.sSpellTokenObject.mainToken.contractInstance.estimateGas.mint(
-          amount
-        );
+        const estimateGas =
+          await this.sSpellTokenObject.mainToken.contractInstance.estimateGas.mint(
+            amount
+          );
 
         const gasLimit = 1000 + +estimateGas.toString();
 
@@ -220,10 +221,11 @@ export default {
 
         console.log("AMOUNT", amount.toString());
 
-        const estimateGas = await this.sSpellTokenObject.mainToken.contractInstance.estimateGas.burn(
-          this.account,
-          amount
-        );
+        const estimateGas =
+          await this.sSpellTokenObject.mainToken.contractInstance.estimateGas.burn(
+            this.account,
+            amount
+          );
 
         const gasLimit = 1000 + +estimateGas.toString();
 

@@ -124,9 +124,9 @@ export default {
         // userBalance = await tokenContract.balanceOf(this.account, {
         //   gasLimit: 600000,
         // });
-        userBalance = await this.$ethers
-          .getDefaultProvider("http://localhost:8545")
-          .getBalance(this.account);
+        userBalance = await this.$store.getters.getProvider.getBalance(
+          this.account
+        );
       } catch (e) {
         console.log("userBalance Err:", e);
       }
@@ -322,7 +322,7 @@ export default {
           title: "Borrow fee",
           value: `0.05%`,
           additional:
-            "This fee is added to your debt every time you borrow MIM. As an example, if you borrow 1000 MIM your debt will immediately increase by 0.50MIM and  become 1000.50MIM",
+            "This fee is added to your debt every time you borrow NUSD.",
         },
         {
           title: "Interest",

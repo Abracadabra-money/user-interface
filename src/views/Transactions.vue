@@ -50,12 +50,10 @@ export default {
           this.account
         );
         const logsRepay = pool.contractInstance.filters.LogRepay(this.account);
-        const logsAddCollaretal = pool.contractInstance.filters.LogAddCollateral(
-          this.account
-        );
-        const logsRemoveCollaretal = pool.contractInstance.filters.LogRemoveCollateral(
-          this.account
-        );
+        const logsAddCollaretal =
+          pool.contractInstance.filters.LogAddCollateral(this.account);
+        const logsRemoveCollaretal =
+          pool.contractInstance.filters.LogRemoveCollateral(this.account);
         console.log(`LOGS:________${pool.name}_______`);
         console.log("logsBorrow", logsBorrow);
         console.log("logsRepay", logsRepay);
