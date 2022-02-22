@@ -141,7 +141,6 @@ h3 {
 .btn {
   width: 176px;
   height: 60px;
-  background: #7b79f7;
   border-radius: 8px;
   background-color: $clrBlue;
   font-style: normal;
@@ -152,7 +151,7 @@ h3 {
   align-items: center;
   justify-content: center;
   text-align: center;
-  text-transform: uppercase;
+  //text-transform: uppercase;
   color: #ffffff;
   cursor: pointer;
   outline: none;
@@ -178,7 +177,7 @@ h3 {
 }
 
 #app {
-  font-family: "Sofia Pro", sans-serif;
+  font-family: "Work Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -193,7 +192,7 @@ h3 {
 .tooltip {
   display: block !important;
   z-index: 10000;
-  font-family: "Sofia Pro", sans-serif;
+  font-family: "Work Sans", sans-serif;
 
   .tooltip-inner {
     background: $clrBg2;
