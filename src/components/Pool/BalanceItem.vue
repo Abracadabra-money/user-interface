@@ -34,6 +34,7 @@ export default {
   created() {
     this.parseBalance(this.item.balance, this.item.decimals);
   },
+
   components: {
     TokenIcon,
   },

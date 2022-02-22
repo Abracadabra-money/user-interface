@@ -2,16 +2,16 @@
   <header class="app-header" :class="{ transparent: itsTransparent }">
     <div class="container">
       <transition name="fade">
-        <img
-          v-if="showLogoBg"
-          src="@/assets/images/logo-bg.svg"
-          alt=""
-          class="logo-bg"
-        />
+        <!--        <img-->
+        <!--          v-if="showLogoBg"-->
+        <!--          src="@/assets/images/logo-bg.svg"-->
+        <!--          alt=""-->
+        <!--          class="logo-bg"-->
+        <!--        />-->
       </transition>
 
       <router-link :to="{ name: 'Home' }" class="logo-wrap"
-        ><img src="@/assets/images/text-logo.svg" alt="" class="logo"
+      ><img src="@/assets/images/text-logo.svg" alt="" class="logo"
       /></router-link>
 
       <nav>
@@ -19,7 +19,11 @@
         <!--          >farm</router-link-->
         <!--        >-->
         <router-link :to="{ name: 'Stand' }" class="nav-link"
-          >borrow</router-link
+        > Nereus Markets </router-link
+        >
+
+        <router-link :to="{ name: 'Borrow' }" class="borrow-btn"
+        > Borrow </router-link
         >
 
         <!-- <router-link :to="{ name: 'Mim3Pool' }" class="nav-link"
@@ -44,9 +48,9 @@
           </div>
         </div>
 
-        <TokenButton :tokenName="'Spell'" v-if="!itsDashboard" />
-        <TokenButton :tokenName="'sSpell'" v-if="itsDashboard" />
-        <TokenButton :tokenName="'MIM'" />
+        <!--        <TokenButton :tokenName="'Spell'" v-if="!itsDashboard" />-->
+        <!--        <TokenButton :tokenName="'sSpell'" v-if="itsDashboard" />-->
+        <!--        <TokenButton :tokenName="'MIM'" />-->
       </nav>
 
       <img
@@ -62,7 +66,7 @@
 <script>
 const NetworkButton = () => import("@/components/UiComponents/NetworkButton");
 const ConnectButton = () => import("@/components/UiComponents/ConnectButton");
-const TokenButton = () => import("@/components/UiComponents/AddTokenBtn");
+//const TokenButton = () => import("@/components/UiComponents/AddTokenBtn");
 
 export default {
   computed: {
@@ -117,13 +121,14 @@ export default {
   components: {
     NetworkButton,
     ConnectButton,
-    TokenButton,
+    //TokenButton,
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .app-header {
+  background: #4D4AEC;
   height: $headerHeight;
   z-index: 200;
 
@@ -133,20 +138,20 @@ export default {
     left: 0;
     width: 100%;
 
-    .logo-bg {
-      display: block;
-    }
+    //.logo-bg {
+    //  display: block;
+    //}
   }
 
-  .logo-bg {
-    display: none;
-
-    position: absolute;
-    top: -30px;
-    left: -125px;
-    width: auto;
-    z-index: 1;
-  }
+  //.logo-bg {
+  //  display: none;
+  //
+  //  position: absolute;
+  //  top: -30px;
+  //  left: -125px;
+  //  width: auto;
+  //  z-index: 1;
+  //}
 
   .container {
     height: 100%;
@@ -157,26 +162,28 @@ export default {
   }
 
   .logo {
-    width: 220px;
-    height: auto;
+    height: 32px;
+    width: 146px;
+    right: 102%;
+    top: 30%;
     object-fit: contain;
-    position: relative;
+    position: absolute;
     z-index: 2;
   }
 
-  .token-btn {
-    margin-left: 30px;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: none;
-    cursor: pointer;
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-  }
+  //.token-btn {
+  //  margin-left: 30px;
+  //  width: 36px;
+  //  height: 36px;
+  //  background: none;
+  //  border: none;
+  //  cursor: pointer;
+  //
+  //  img {
+  //    max-width: 100%;
+  //    height: auto;
+  //  }
+  //}
 
   nav {
     display: flex;
@@ -196,20 +203,69 @@ export default {
     }
 
     .nav-link {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 6px 16px;
+
+      height: 32px;
+      width: 139px;
+      margin-right: 40px;
+      border-radius: 16px;
+
+      position: absolute;
+      right: 690%;
+      top: 0px;
+      background: #55BCC0;
+
+
       font-style: normal;
       font-weight: normal;
-      font-size: 16px;
-      line-height: 1.2;
-      text-transform: uppercase;
-      color: #ffffff;
-      margin: 0 30px;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+      color: #FFFFFF;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+      margin: 0px 10px;
       text-decoration: none;
       transition: all 0.3s ease;
       cursor: pointer;
 
+
       &:hover {
-        color: $clrNavHover;
+        color: black;
+        background: #E7FC6E;
       }
+    }
+  }
+
+  .borrow-btn {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-left: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    background: rgba(28, 28, 28, 0.16);
+    height: 32px;
+    width: 80px;
+    border-radius: 21px;
+
+    top: 0px;
+    padding: 4px 12px 4px 12px;
+
+
+    &:hover {
+      color: $clrNavHover;
     }
   }
 

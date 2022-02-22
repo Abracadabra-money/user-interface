@@ -29,6 +29,12 @@ export default {
   },
 };
 </script>
+this.$store.commit.namemethodMutation.
+export defaults{}
+state{}
+mutations{}
+action {}
+metos.state
 
 <style scoped lang="scss">
 .balances-block {

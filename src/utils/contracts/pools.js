@@ -7834,7 +7834,7 @@ export default [
     id: 6,
     contract: {
       name: "CauldronV2",
-      address: "0x3581559DaA31DD3113E9dd338323Fca6c1215EFF",
+      address: "0x23ea68E82FBD7eBFAdCF37bA6fAcEfED7EEC2B30",
       abi: [
         {
           inputs: [
@@ -9460,7 +9460,7 @@ export default [
     pairToken: {
       name: "NUSD",
       decimals: 18,
-      address: "0x83A90d53dbc9a55888333224ca6C8210A3a7bDef",
+      address: "0x6940aA098b8d84367f394234F35C6F8e0355b30F",
       abi: [
         {
           anonymous: false,
