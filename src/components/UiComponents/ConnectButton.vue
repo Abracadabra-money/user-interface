@@ -10,7 +10,8 @@
       <ButtonLoader v-if="connectLoader"/>
       <template v-if="itsHover"> Dashboard </template>
       <template v-else>
-        {{ walletBtnText }}
+        {{ walletBtnText}}
+        {{slicedAccountAddress}}
       </template>
     </button>
   </div>
@@ -89,13 +90,17 @@ export default {
   },
   computed: {
     walletBtnText() {
-      let account = this.$store.getters.getAccount;
       let networkType = this.$store.getters.getChainId;
       let networkName = this.networks.find((item) => item.chainid == networkType);
+
+      return `${networkName.title}`;
+    },
+    slicedAccountAddress() {
+      let account = this.$store.getters.getAccount;
       let startAddr = account.slice(0, 4);
       let endAddr = account.slice(-4);
 
-      return `${networkName.title} ${startAddr}...${endAddr}`;
+      return `${startAddr}...${endAddr}`;
     },
     connectBtnText() {
       return this.btnText;

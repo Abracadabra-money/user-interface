@@ -60,7 +60,7 @@ export default {
   computed: {
     isWalletConnected() {
       return this.$store.getters.getWalletIsConnected;
-      },
+    },
     activeNetwork() {
       return this.networks.find((item) => item.chainid == this.networkType);
     },

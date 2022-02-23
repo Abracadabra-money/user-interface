@@ -165,6 +165,7 @@ export default {
   .containerS {
     display: flex;
     align-items: center;
+    margin-left: 0;
   }
   .logo {
     height: 32px;
@@ -234,16 +235,15 @@ export default {
     margin-left: 40px;
     top: 24px;
     background: #55BCC0;
-
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
+    font-family: "Work Sans", sans-serif;
     text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+
     color: #FFFFFF;
     flex: none;
-    order: 0;
-    flex-grow: 0;
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
