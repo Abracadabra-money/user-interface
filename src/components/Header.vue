@@ -9,18 +9,23 @@
 <!--          class="logo-bg"-->
 <!--        />-->
 <!--      </transition>-->
+      <div class="containerS">
+        <div>
+          <router-link :to="{ name: 'Home' }" class="logo-wrap">
+            <img src="@/assets/images/text-logo.svg" alt="" class="logo" />
+          </router-link>
+        </div>
+        <div><router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link></div>
+      </div>
 
-      <router-link :to="{ name: 'Home' }" class="logo-wrap"
-        ><img src="@/assets/images/text-logo.svg" alt="" class="logo"
-      /></router-link>
-      <router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link>
       <nav>
         <!--        <router-link :to="{ name: 'FarmStand' }" class="nav-link"-->
         <!--          >farm</router-link-->
         <!--        >-->
 
-
-        <router-link :to="{ name: 'Borrow' }" class="borrow-btn"> Borrow </router-link>
+        <div>
+          <router-link :to="{ name: 'Borrow' }" class="borrow-btn"> Borrow </router-link>
+        </div>
 
         <!-- <router-link :to="{ name: 'Mim3Pool' }" class="nav-link"
           >MIM3POOL</router-link
@@ -36,8 +41,7 @@
         <div class="btns-wrap">
           <NetworkButton
             @click="networkClickHandler"
-            :networkType="activeNetwork"
-          />
+            :networkType="activeNetwork"/>
 
           <div class="btn-margin">
             <ConnectButton />
@@ -155,15 +159,17 @@ export default {
     align-items: center;
     justify-content: space-between;
     position: relative;
+    margin: 0 80px 24px 80px;
   }
 
+  .containerS {
+    display: flex;
+    align-items: center;
+  }
   .logo {
     height: 32px;
     width: 146px;
-    right: 102%;
-    top: 30%;
     object-fit: contain;
-    position: absolute;
     z-index: 2;
   }
 
@@ -184,63 +190,51 @@ export default {
   nav {
     display: flex;
     align-items: center;
-    margin-left: auto;
-    position: relative;
+    flex-direction: row;
     z-index: 2;
+    margin-right: 80px;
 
     .btns-wrap {
-      margin-left: 30px;
+      margin-left: 12px;
       display: flex;
       align-items: center;
 
       .btn-margin {
-        margin-left: 30px;
-      }
-    }
-
-    .borrow-btn {
-      color: #FFFFFF;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 24px;
-      letter-spacing: 0em;
-      text-align: center;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      background: rgba(28, 28, 28, 0.16);
-      height: 32px;
-      width: 80px;
-      border-radius: 21px;
-
-      top: 0px;
-      padding: 4px 12px;
-
-
-      &:hover {
-        color: $clrNavHover;
+        margin-left: 12px;
       }
     }
   }
 
+  .borrow-btn {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: rgba(28, 28, 28, 0.16);
+    padding: 8px 15px;
+    width: 80px;
+    height: 32px;
+    margin-left: 12px;
+    border-radius: 21px;
+
+    &:hover {
+      color: $clrNavHover;
+    }
+  }
+
   .nereus-btn {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     padding: 6px 16px;
 
     height: 32px;
     width: 139px;
-    margin-right: 40px;
     border-radius: 16px;
 
-    position: absolute;
-    left: 40px;
+    margin-left: 40px;
     top: 24px;
     background: #55BCC0;
-
 
     font-style: normal;
     font-weight: normal;
@@ -279,8 +273,8 @@ export default {
   }
 
   .app-header nav .borrow-btn {
-    margin: 0 14px;
-    font-size: 14px;
+    margin: 0 12px;
+    font-size: 16px;
   }
 }
 
@@ -291,7 +285,7 @@ export default {
 
   .app-header nav .borrow-btn {
     margin: 0 13px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .app-header nav .btns-wrap,

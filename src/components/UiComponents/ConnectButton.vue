@@ -1,17 +1,35 @@
 <template>
-  <button
-    class="btn mini connect-btn"
-    :class="{ load: connectLoader }"
-    @click="walletBtnHandler"
-    @mouseenter="itsHover = true"
-    @mouseleave="itsHover = false"
-  >
-    <ButtonLoader v-if="connectLoader" />
-    <template v-else-if="itsHover"> Dashboard </template>
-    <template v-else>
-      {{ walletBtnText }}
-    </template>
-  </button>
+  <div v-if="isConnected()">
+    <button
+      class="btn mini connected-btn"
+      :class="{ load: connectLoader, connected: isWalletConnected }"
+      @click="walletBtnHandler"
+      @mouseenter="itsHover = true"
+      @mouseleave="itsHover = false"
+    >
+      <ButtonLoader v-if="connectLoader"/>
+      <template v-if="itsHover"> Dashboard </template>
+      <template v-else>
+        {{ walletBtnText }}
+      </template>
+    </button>
+  </div>
+
+  <div v-else>
+    <button
+      class="btn mini connect-btn"
+      :class="{ load: connectLoader, connected: isWalletConnected }"
+      @click="walletBtnHandler"
+      @mouseenter="itsHover = true"
+      @mouseleave="itsHover = false"
+    >
+      <ButtonLoader v-if="connectLoader"/>
+      <template v-if="itsHover"> Dashboard </template>
+      <template v-else>
+        {{ connectBtnText }}
+      </template>
+    </button>
+  </div>
 </template>
 
 <script>
@@ -72,22 +90,28 @@ export default {
   computed: {
     walletBtnText() {
       let account = this.$store.getters.getAccount;
-      if (account) {
-        let networkType = this.$store.getters.getChainId;
-        let networkName = this.networks.find((item) => item.chainid == networkType);
-        let startAddr = account.slice(0, 4);
-        let endAddr = account.slice(-4);
+      let networkType = this.$store.getters.getChainId;
+      let networkName = this.networks.find((item) => item.chainid == networkType);
+      let startAddr = account.slice(0, 4);
+      let endAddr = account.slice(-4);
 
-        return `${networkName.title} ${startAddr}...${endAddr}`;
-      } else {
-        return this.btnText;
-      }
+      return `${networkName.title} ${startAddr}...${endAddr}`;
+    },
+    connectBtnText() {
+      return this.btnText;
     },
     isWalletConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
   },
   methods: {
+    isConnected() {
+      if(this.isWalletConnected){
+        return true;
+      } else {
+        return false;
+      }
+    },
     async walletBtnHandler() {
       if (this.isWalletConnected) {
         this.toDashboard();
@@ -117,19 +141,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 
-.connect-btn {
+.connected-btn {
   height: 40px;
   width: 104px;
   border-radius: 100px;
-  position: absolute;
-  left: 150%;
-  top: -5px;
-  margin-left: 12px;
+  margin: 24px 0px 24px 12px;
+
   //Typography
   font-family: Work Sans, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
+
   line-height: 16px;
   letter-spacing: 0em;
   text-align: center;
@@ -138,6 +161,27 @@ export default {
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.connect-btn {
+  background: #E7FC6E;
+  border-radius: 21px;
+
+  height: 32px;
+  width: 90px;
+  padding: 6px 16px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+
+  text-align: center;
+  color: #000000;
+
+  &:hover {
+    color: #000000;
+    background: #E7FC6E;
   }
 }
 </style>

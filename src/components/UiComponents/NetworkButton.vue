@@ -1,10 +1,12 @@
 <template>
-  <button class="btn mini network-btn" @click="clickHandler">
-    <img :src="activeNetwork.icon" alt="" />
-
-    {{ activeNetwork.title }}
-  </button>
+  <div v-if="isConnected()">
+    <button class="btn mini network-btn" @click="clickHandler">
+      <img :src="activeNetwork.icon" alt="" />
+      {{ activeNetwork.title }}
+    </button>
+  </div>
 </template>
+
 
 <script>
 //import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
@@ -56,11 +58,21 @@ export default {
     };
   },
   computed: {
+    isWalletConnected() {
+      return this.$store.getters.getWalletIsConnected;
+      },
     activeNetwork() {
       return this.networks.find((item) => item.chainid == this.networkType);
     },
   },
   methods: {
+    isConnected() {
+      if(this.isWalletConnected){
+        return true;
+      } else {
+        return false;
+      }
+    },
     clickHandler() {
       // this.$emit("click");
     },
@@ -70,13 +82,7 @@ export default {
 
 <style lang="scss" scoped>
 .network-btn {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   padding: 4px 12px;
-
-  position: absolute;
-  left: 70%;
   top: 0px;
   width: 91px;
   height: 32px;
