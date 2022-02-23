@@ -15,7 +15,7 @@
             <img src="@/assets/images/text-logo.svg" alt="" class="logo" />
           </router-link>
         </div>
-        <div><router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link></div>
+          <router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link>
       </div>
 
       <nav>
@@ -159,13 +159,12 @@ export default {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    margin: 0 80px 24px 80px;
+    margin: 0 80px;
   }
 
   .containerS {
     display: flex;
     align-items: center;
-    margin-left: 0;
   }
   .logo {
     height: 32px;
@@ -227,7 +226,6 @@ export default {
 
   .nereus-btn {
     padding: 6px 16px;
-
     height: 32px;
     width: 139px;
     border-radius: 16px;
