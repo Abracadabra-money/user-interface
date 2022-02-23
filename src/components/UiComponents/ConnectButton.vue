@@ -10,8 +10,10 @@
       <ButtonLoader v-if="connectLoader"/>
       <template v-if="itsHover"> Dashboard </template>
       <template v-else>
-        {{ walletBtnText}}
-        {{slicedAccountAddress}}
+        <div>
+          {{ walletBtnText}}
+          <p class="slicedAddress">{{slicedAccountAddress}} </p>
+        </div>
       </template>
     </button>
   </div>
@@ -145,6 +147,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.slicedAddress {
+  height: 16px;
+  width: 65px;
+  padding-left: 5px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #FFFFFF;
+  opacity: 50%;
+}
 
 .connected-btn {
   height: 40px;
