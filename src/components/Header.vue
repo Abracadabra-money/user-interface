@@ -192,15 +192,14 @@ export default {
     align-items: center;
     flex-direction: row;
     z-index: 2;
-    margin-right: 80px;
 
     .btns-wrap {
-      margin-left: 12px;
+      margin-left: 15px;
       display: flex;
       align-items: center;
 
       .btn-margin {
-        margin-left: 12px;
+        margin-left: 15px;
       }
     }
   }
@@ -269,7 +268,7 @@ export default {
 
 @media screen and(max-width: 1280px) {
   .app-header .logo {
-    width: 180px;
+    width: 146px;
   }
 
   .app-header nav .borrow-btn {
