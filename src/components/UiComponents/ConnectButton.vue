@@ -165,7 +165,7 @@ export default {
   height: 40px;
   width: 104px;
   border-radius: 100px;
-  margin: 24px 0px 24px 12px;
+  margin: 24px 0px;
 
   //Typography
   font-family: Work Sans, sans-serif;

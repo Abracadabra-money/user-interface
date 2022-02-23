@@ -86,7 +86,6 @@ export default {
   top: 0px;
   width: 91px;
   height: 32px;
-  margin-left: 12px;
   border-radius: 21px;
   background: rgba(28, 28, 28, 0.16);
 

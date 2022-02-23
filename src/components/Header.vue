@@ -194,12 +194,12 @@ export default {
     z-index: 2;
 
     .btns-wrap {
-      margin-left: 15px;
+      margin-left: 12px;
       display: flex;
       align-items: center;
 
       .btn-margin {
-        margin-left: 15px;
+        margin-left: 12px;
       }
     }
   }
@@ -270,7 +270,6 @@ export default {
   }
 
   .app-header nav .borrow-btn {
-    margin: 0 12px;
     font-size: 16px;
   }
 }
