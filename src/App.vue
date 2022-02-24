@@ -6,7 +6,8 @@
       <transition name="fade" mode="out-in">
         <router-view></router-view>
       </transition>
-      <Footer></Footer>
+      <SocialLink></SocialLink>
+      <!--<Footer></Footer> -->
 
       <PopupsWrapper v-if="showPopup" />
     </template>
@@ -22,7 +23,8 @@
 
 <script>
 const Header = () => import("@/components/Header");
-const Footer = () => import("@/components/Footer");
+const SocialLink = () => import("@/components/SocialLink");
+//const Footer = () => import("@/components/Footer");
 // const Banner = () => import("@/components/UiComponents/Banner");
 const PopupsWrapper = () => import("@/components/Popups/PopupWrapper");
 const NotificationContainer = () =>
@@ -77,7 +79,8 @@ export default {
   },
   components: {
     Header,
-    Footer,
+    SocialLink,
+    //Footer,
     // Banner,
     PopupsWrapper,
     MetamaskChecker,
@@ -127,7 +130,7 @@ h3 {
   padding: 0 $containerSidePadding;
   margin-left: auto;
   margin-right: auto;
-  width: 95%;
+  width: 100%;
 
   &.mini {
     max-width: $containerMiniWidth;
