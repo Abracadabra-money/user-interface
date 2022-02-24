@@ -1,8 +1,8 @@
 <template>
   <div class="stand-view">
-    <img src="@/assets/images/stand/bg-top-left.svg" alt="" class="bg-1" />
-    <img src="@/assets/images/stand/bg-btm-right.svg" alt="" class="bg-2" />
-    <img src="@/assets/images/stand/bg-btm-left.svg" alt="" class="bg-3" />
+<!--    <img src="@/assets/images/stand/bg-top-left.svg" alt="" class="bg-1" />-->
+<!--    <img src="@/assets/images/stand/bg-btm-right.svg" alt="" class="bg-2" />-->
+<!--    <img src="@/assets/images/stand/bg-btm-left.svg" alt="" class="bg-3" />-->
 
     <div class="container mini">
       <div class="stand-group">
