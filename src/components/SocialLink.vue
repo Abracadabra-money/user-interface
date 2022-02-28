@@ -68,7 +68,6 @@ export default {
     .footer-nav {
       display: flex;
       align-items: center;
-      margin-left: 80px;
 
       .nav-link {
         width: 46px;
@@ -93,7 +92,6 @@ export default {
       display: flex;
       align-items: center;
       margin-left: auto;
-      margin-right: 82px;
 
       .link-item {
         display: block;
