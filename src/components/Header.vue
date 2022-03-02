@@ -1,26 +1,31 @@
 <template>
   <header class="app-header" :class="{ transparent: itsTransparent }">
     <div class="container">
-      <transition name="fade">
-        <img
-          v-if="showLogoBg"
-          src="@/assets/images/logo-bg.svg"
-          alt=""
-          class="logo-bg"
-        />
-      </transition>
-
-      <router-link :to="{ name: 'Home' }" class="logo-wrap"
-        ><img src="@/assets/images/text-logo.svg" alt="" class="logo"
-      /></router-link>
+<!--      <transition name="fade">-->
+<!--        <img-->
+<!--          v-if="showLogoBg"-->
+<!--          src="@/assets/images/logo-bg.svg"-->
+<!--          alt=""-->
+<!--          class="logo-bg"-->
+<!--        />-->
+<!--      </transition>-->
+      <div class="containerS">
+        <div>
+          <router-link :to="{ name: 'Home' }" class="logo-wrap">
+            <img src="@/assets/images/text-logo.svg" alt="" class="logo" />
+          </router-link>
+        </div>
+          <router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link>
+      </div>
 
       <nav>
         <!--        <router-link :to="{ name: 'FarmStand' }" class="nav-link"-->
         <!--          >farm</router-link-->
         <!--        >-->
-        <router-link :to="{ name: 'Stand' }" class="nav-link"
-          >borrow</router-link
-        >
+
+        <div>
+          <router-link :to="{ name: 'Borrow' }" class="borrow-btn"> Borrow </router-link>
+        </div>
 
         <!-- <router-link :to="{ name: 'Mim3Pool' }" class="nav-link"
           >MIM3POOL</router-link
@@ -36,17 +41,16 @@
         <div class="btns-wrap">
           <NetworkButton
             @click="networkClickHandler"
-            :networkType="activeNetwork"
-          />
+            :networkType="activeNetwork"/>
 
           <div class="btn-margin">
             <ConnectButton />
           </div>
         </div>
 
-        <TokenButton :tokenName="'Spell'" v-if="!itsDashboard" />
-        <TokenButton :tokenName="'sSpell'" v-if="itsDashboard" />
-        <TokenButton :tokenName="'MIM'" />
+<!--        <TokenButton :tokenName="'Spell'" v-if="!itsDashboard" />-->
+<!--        <TokenButton :tokenName="'sSpell'" v-if="itsDashboard" />-->
+<!--        <TokenButton :tokenName="'MIM'" />-->
       </nav>
 
       <img
@@ -62,7 +66,7 @@
 <script>
 const NetworkButton = () => import("@/components/UiComponents/NetworkButton");
 const ConnectButton = () => import("@/components/UiComponents/ConnectButton");
-const TokenButton = () => import("@/components/UiComponents/AddTokenBtn");
+//const TokenButton = () => import("@/components/UiComponents/AddTokenBtn");
 
 export default {
   computed: {
@@ -117,13 +121,14 @@ export default {
   components: {
     NetworkButton,
     ConnectButton,
-    TokenButton,
+    //TokenButton,
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .app-header {
+  background: #4D4AEC;
   height: $headerHeight;
   z-index: 200;
 
@@ -133,20 +138,20 @@ export default {
     left: 0;
     width: 100%;
 
-    .logo-bg {
-      display: block;
-    }
+    //.logo-bg {
+    //  display: block;
+    //}
   }
 
-  .logo-bg {
-    display: none;
-
-    position: absolute;
-    top: -30px;
-    left: -125px;
-    width: auto;
-    z-index: 1;
-  }
+  //.logo-bg {
+  //  display: none;
+  //
+  //  position: absolute;
+  //  top: -30px;
+  //  left: -125px;
+  //  width: auto;
+  //  z-index: 1;
+  //}
 
   .container {
     height: 100%;
@@ -154,64 +159,101 @@ export default {
     align-items: center;
     justify-content: space-between;
     position: relative;
+    margin-left: 80px;
   }
 
+  .containerS {
+    display: flex;
+    align-items: center;
+  }
   .logo {
-    width: 220px;
-    height: auto;
+    height: 32px;
+    width: 146px;
     object-fit: contain;
-    position: relative;
     z-index: 2;
   }
 
-  .token-btn {
-    margin-left: 30px;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: none;
-    cursor: pointer;
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-  }
+  //.token-btn {
+  //  margin-left: 30px;
+  //  width: 36px;
+  //  height: 36px;
+  //  background: none;
+  //  border: none;
+  //  cursor: pointer;
+  //
+  //  img {
+  //    max-width: 100%;
+  //    height: auto;
+  //  }
+  //}
 
   nav {
     display: flex;
     align-items: center;
-    margin-left: auto;
-    position: relative;
+    flex-direction: row;
     z-index: 2;
 
     .btns-wrap {
-      margin-left: 30px;
+      margin-left: 12px;
       display: flex;
       align-items: center;
 
       .btn-margin {
-        margin-left: 30px;
-      }
-    }
-
-    .nav-link {
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 1.2;
-      text-transform: uppercase;
-      color: #ffffff;
-      margin: 0 30px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      cursor: pointer;
-
-      &:hover {
-        color: $clrNavHover;
+        margin-left: 12px;
+        margin-right: 80px;
       }
     }
   }
+
+  .borrow-btn {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: rgba(28, 28, 28, 0.16);
+    padding: 8px 15px;
+    width: 80px;
+    height: 32px;
+    border-radius: 21px;
+
+    &:hover {
+      color: $clrNavHover;
+    }
+  }
+
+  .nereus-btn {
+    padding: 6px 16px;
+    height: 32px;
+    width: 139px;
+    border-radius: 16px;
+
+    margin-left: 40px;
+    top: 24px;
+    background: #55BCC0;
+    font-family: "Work Sans", sans-serif;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+
+    color: #FFFFFF;
+    flex: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+
+    &:hover {
+      color: black;
+      background: #E7FC6E;
+    }
+  }
+
+
 
   .mobile-btn {
     width: 24px;
@@ -224,12 +266,11 @@ export default {
 
 @media screen and(max-width: 1280px) {
   .app-header .logo {
-    width: 180px;
+    width: 146px;
   }
 
-  .app-header nav .nav-link {
-    margin: 0 14px;
-    font-size: 14px;
+  .app-header nav .borrow-btn {
+    font-size: 16px;
   }
 }
 
@@ -238,9 +279,9 @@ export default {
     width: 170px;
   }
 
-  .app-header nav .nav-link {
+  .app-header nav .borrow-btn {
     margin: 0 13px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .app-header nav .btns-wrap,

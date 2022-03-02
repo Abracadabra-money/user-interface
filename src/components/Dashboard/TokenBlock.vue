@@ -39,7 +39,7 @@
         </template>
         <template v-else>
           <button class="btn mini" @click.prevent="approveToken">
-            approve
+            Approve
           </button>
         </template>
       </div>
