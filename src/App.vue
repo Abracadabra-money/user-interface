@@ -12,8 +12,8 @@
     </template>
 
     <MetamaskChecker
-      @checkSuccess="metamaskCheckSuccess"
-      @checkError="metamaskCheckError"
+        @checkSuccess="metamaskCheckSuccess"
+        @checkError="metamaskCheckError"
     />
 
     <NotificationContainer />
@@ -26,9 +26,9 @@ const Footer = () => import("@/components/Footer");
 // const Banner = () => import("@/components/UiComponents/Banner");
 const PopupsWrapper = () => import("@/components/Popups/PopupWrapper");
 const NotificationContainer = () =>
-  import("@/components/Notifications/NotificationContainer");
+    import("@/components/Notifications/NotificationContainer");
 const MetamaskChecker = () =>
-  import("@/components/MetamaskChecker/MetamaskChecker");
+    import("@/components/MetamaskChecker/MetamaskChecker");
 
 import poolsMixin from "@/mixins/pools.js";
 import farmPoolsMixin from "@/mixins/farmPools.js";

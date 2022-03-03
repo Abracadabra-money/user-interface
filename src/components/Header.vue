@@ -160,6 +160,7 @@ export default {
     justify-content: space-between;
     position: relative;
     margin-left: 80px;
+    margin-right: 0px;
   }
 
   .containerS {
@@ -191,6 +192,7 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: row;
+    margin-right: 80px;
     z-index: 2;
 
     .btns-wrap {
@@ -200,7 +202,6 @@ export default {
 
       .btn-margin {
         margin-left: 12px;
-        margin-right: 80px;
       }
     }
   }

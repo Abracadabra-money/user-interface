@@ -2,7 +2,7 @@
   <div class="stand-view">
     <img src="@/assets/images/stand/bg-top-left.svg" alt="" class="bg-1" />
     <img src="@/assets/images/stand/bg-btm-right.svg" alt="" class="bg-2" />
-    <img src="@/assets/images/stand/bg-btm-left.svg" alt="" class="bg-3" />
+<!--    <img src="@/assets/images/stand/bg-btm-left.svg" alt="" class="bg-3" />-->
 
     <div class="container mini">
       <div class="stand-group">
@@ -63,15 +63,15 @@ export default {
     min-width: 160px;
   }
 
-  .bg-3 {
-    position: absolute;
-    bottom: -$footerHeight;
-    left: 0;
-
-    width: 33%;
-    max-width: 485px;
-    min-width: 160px;
-  }
+  //.bg-3 {
+  //  position: absolute;
+  //  bottom: -$footerHeight;
+  //  left: 0;
+  //
+  //  width: 33%;
+  //  max-width: 485px;
+  //  min-width: 160px;
+  //}
 
   .stand-group {
     padding-top: 100px;
