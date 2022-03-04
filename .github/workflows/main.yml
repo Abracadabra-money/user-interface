@@ -26,9 +26,6 @@ jobs:
       - name: install
         run: npm i
 
-      - name: prepare env
-        run: cp ${ENV:-'.github/.env.staging'} .env
-
       - name: build
         run: npm run build
         
