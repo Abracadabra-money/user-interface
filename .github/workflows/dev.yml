@@ -2,7 +2,7 @@ name: Build-and-Deploy-Master
 env:
   UI_VERSION: ${{ github.sha }}
   DOCKER_CR_LOGIN_SERVER: "nereuscr.azurecr.io"
-  
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
@@ -26,12 +26,9 @@ jobs:
       - name: install
         run: npm i
 
-      - name: prepare env
-        run: cp ${ENV:-'.github/.env.staging'} .env
-
       - name: build
         run: npm run build
-        
+
       - name: Login to Docker Registry
         uses: azure/docker-login@v1
         with:
