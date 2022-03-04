@@ -23,6 +23,3 @@ pnpm-debug.log*
 *.sw?
 
 .gitlab-ci.yml
-
-yarn.lock
-package-lock.json
