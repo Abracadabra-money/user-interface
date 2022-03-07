@@ -56,23 +56,23 @@ export default {
   },
   computed: {
     tokenPrice() {
-      const tokenToMim = 1 / this.pool.tokenPrice;
-      return tokenToMim;
+      const tokenToNUSD = 1 / this.$store.getters.getTokenPrice;
+      return tokenToNUSD;
     },
     stableCoinMultiplyer() {
-      if (this.pool.ltv === 90) {
+      if (this.$store.getters.getPoolLtv === 90) {
         return 10;
       }
 
       return 1;
     },
     liquidationPrice() {
-      const liquidationMultiplier = (200 - this.pool.ltv) / 100;
+      const liquidationMultiplier = (200 - this.$store.getters.getPoolLtv) / 100;
 
       const liquidationPrice =
-        ((this.pool.userBorrowPart * this.pool.tokenPrice) /
-          this.pool.userCollateralShare) *
-        (1 / this.pool.tokenPrice) *
+        ((this.$store.getters.getUserBorrowPart * this.$store.getters.getTokenPrice) /
+          this.$store.getters.getUserCollateralShare) *
+        (1 / this.$store.getters.getTokenPrice) *
         liquidationMultiplier;
 
       return liquidationPrice;
@@ -83,7 +83,7 @@ export default {
       return priceDifferens;
     },
     liquidationRisk() {
-      if (+this.pool.userBorrowPart === 0 || isNaN(this.liquidationPrice))
+      if (+this.$store.getters.getUserBorrowPart === 0 || isNaN(this.liquidationPrice))
         return 0;
 
       const riskPersent =

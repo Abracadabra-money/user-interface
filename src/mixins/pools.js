@@ -123,9 +123,11 @@ export default {
       let userBalanceNativeToken = "";
       try {
         if (pool.name === "AVAX") {
+          await this.$store.dispatch("checkBalanceNativeToken");
           userBalanceNativeToken =
             await this.$store.getters.getProvider.getBalance(this.account);
         }
+        await this.$store.dispatch("checkBalanceToken", tokenContract);
         userBalance = await tokenContract.balanceOf(this.account, {
           gasLimit: 600000,
         });
@@ -135,6 +137,7 @@ export default {
 
       let userPairBalance;
       try {
+        await this.$store.dispatch("checkBalancePairToken", pairTokenContract);
         userPairBalance = await pairTokenContract.balanceOf(this.account, {
           gasLimit: 600000,
         });
@@ -158,6 +161,16 @@ export default {
       const tokenPrice = Number(
         this.$ethers.utils.formatUnits(tokenPairRate, pool.token.decimals)
       );
+
+      this.$store.commit("setTokenPrice", tokenPrice);
+      this.$store.commit("setPoolLtv", pool.ltv);
+      await this.$store.dispatch(
+        "setUserCollateralShare",
+        poolContract,
+        pool.token.decimals
+      );
+      await this.$store.dispatch("setUserBorrowPart", poolContract);
+      await this.$store.dispatch("createCollateralInfo");
 
       const collateralInfo = this.createCollateralInfo(
         userCollateralShare,
@@ -343,9 +356,9 @@ export default {
     createCollateralInfo(userCollateralShare, userBorrowPart, tokenPrice, ltv) {
       const tokenInUsd = userCollateralShare / tokenPrice;
 
-      const maxMimBorrow = (tokenInUsd / 100) * (ltv - 1);
+      const maxNUSDBorrow = (tokenInUsd / 100) * (ltv - 1);
 
-      const borrowLeft = parseFloat(maxMimBorrow - userBorrowPart).toFixed(20);
+      const borrowLeft = parseFloat(maxNUSDBorrow - userBorrowPart).toFixed(20);
       let re = new RegExp(
         // eslint-disable-next-line no-useless-escape
         `^-?\\d+(?:\.\\d{0,` + (4 || -1) + `})?`
