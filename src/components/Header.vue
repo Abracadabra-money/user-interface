@@ -279,7 +279,6 @@ export default {
   }
 
   .app-header nav .borrow-btn {
-    margin: 0 13px;
     font-size: 16px;
   }
 
