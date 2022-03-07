@@ -1,21 +1,21 @@
 <template>
   <header class="app-header" :class="{ transparent: itsTransparent }">
     <div class="container">
-<!--      <transition name="fade">-->
-<!--        <img-->
-<!--          v-if="showLogoBg"-->
-<!--          src="@/assets/images/logo-bg.svg"-->
-<!--          alt=""-->
-<!--          class="logo-bg"-->
-<!--        />-->
-<!--      </transition>-->
+      <!--      <transition name="fade">-->
+      <!--        <img-->
+      <!--          v-if="showLogoBg"-->
+      <!--          src="@/assets/images/logo-bg.svg"-->
+      <!--          alt=""-->
+      <!--          class="logo-bg"-->
+      <!--        />-->
+      <!--      </transition>-->
       <div class="containerS">
         <div>
           <router-link :to="{ name: 'Home' }" class="logo-wrap">
             <img src="@/assets/images/text-logo.svg" alt="" class="logo" />
           </router-link>
         </div>
-          <router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link>
+        <router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link>
       </div>
 
       <nav>
@@ -48,9 +48,9 @@
           </div>
         </div>
 
-<!--        <TokenButton :tokenName="'Spell'" v-if="!itsDashboard" />-->
-<!--        <TokenButton :tokenName="'sSpell'" v-if="itsDashboard" />-->
-<!--        <TokenButton :tokenName="'MIM'" />-->
+        <!--        <TokenButton :tokenName="'Spell'" v-if="!itsDashboard" />-->
+        <!--        <TokenButton :tokenName="'sSpell'" v-if="itsDashboard" />-->
+        <!--        <TokenButton :tokenName="'MIM'" />-->
       </nav>
 
       <img
@@ -159,7 +159,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    margin-left: 80px;
+    padding: 0 80px 0 80px;
   }
 
   .containerS {
@@ -200,7 +200,6 @@ export default {
 
       .btn-margin {
         margin-left: 12px;
-        margin-right: 80px;
       }
     }
   }

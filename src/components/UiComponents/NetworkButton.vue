@@ -9,7 +9,7 @@
 
 
 <script>
-//import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
+import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
 import binanceIcon from "@/assets/images/networks/binance-icon.svg";
 import fantomIcon from "@/assets/images/networks/fantom-icon.svg";
 import avaxIcon from "@/assets/images/networks/avalanche-avax-icon.svg";
@@ -25,9 +25,9 @@ export default {
     return {
       networks: [
         {
-          chainid: "0xa86a",
-          title: "AVAX",
-          icon: avaxIcon,
+          chainid: "0x1",
+          title: "ERC-20",
+          icon: ethIcon,
         },
         {
           chainid: "0x38",
@@ -40,20 +40,15 @@ export default {
           icon: fantomIcon,
         },
         {
-          chainid: 43113,
+          chainid: "0xa86a",
           title: "AVAX",
           icon: avaxIcon,
         },
         {
           chainid: "0x539",
-          title: "AVAX",
+          title: "AVAX local",
           icon: avaxIcon,
         },
-        // {
-        //   chainid: "0x1",
-        //   title: "ERC-20",
-        //   icon: ethIcon,
-        // },
       ],
     };
   },
@@ -62,7 +57,7 @@ export default {
       return this.$store.getters.getWalletIsConnected;
     },
     activeNetwork() {
-      return this.networks.find((item) => item.chainid == this.networkType);
+      return this.networks.find((item) => item.chainid === this.networkType);
     },
   },
   methods: {
@@ -82,16 +77,16 @@ export default {
 
 <style lang="scss" scoped>
 .network-btn {
-  padding: 4px 12px;
+  padding: 4px 6px;
   top: 0px;
-  width: 91px;
+  width: auto;
   height: 32px;
   border-radius: 21px;
   background: rgba(28, 28, 28, 0.16);
 
   img {
     width: 24px;
-    height: auto;
+    height: 24px;
     margin-right: 10px;
   }
 
