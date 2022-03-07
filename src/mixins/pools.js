@@ -309,6 +309,10 @@ export default {
         if (oracleId === 3) {
           reqObj = [multiply, divide, parsedDecimals];
         }
+
+        if (oracleId === 4) {
+          reqObj = [multiply, divide, parsedDecimals];
+        }
         // const bytesData = await oracleContract.getDataParameter(...reqObj, {
         //   gasLimit: 300000,
         // });

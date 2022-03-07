@@ -87,7 +87,7 @@ export default {
         (network) => network.chainId === chainId
       );
 
-      if (chainId !== "0xa86a" && chainId !== "0x539") {
+      if (chainId !== "0xa86a" && chainId !== "0x539" && chainId !== "0xa869") {
         this.$store.commit("setPopupState", {
           type: "wrong-network",
           isShow: true,
