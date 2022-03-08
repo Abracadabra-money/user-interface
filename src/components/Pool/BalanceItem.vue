@@ -31,9 +31,6 @@ export default {
       this.userBalance = parseFloat(parsedBalance).toFixed(4);
     },
   },
-  // created() {
-  //   this.parseBalance(this.item.balance, this.item.decimals);
-  // },
   computed: {
     balance() {
       this.parseBalance(this.item.balance, this.item.decimals);

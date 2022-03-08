@@ -7,11 +7,10 @@
   </div>
 </template>
 
-
 <script>
-import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
-import binanceIcon from "@/assets/images/networks/binance-icon.svg";
-import fantomIcon from "@/assets/images/networks/fantom-icon.svg";
+// import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
+// import binanceIcon from "@/assets/images/networks/binance-icon.svg";
+// import fantomIcon from "@/assets/images/networks/fantom-icon.svg";
 import avaxIcon from "@/assets/images/networks/avalanche-avax-icon.svg";
 
 export default {
@@ -25,30 +24,35 @@ export default {
     return {
       networks: [
         {
-          chainid: "0x1",
-          title: "ERC-20",
-          icon: ethIcon,
-        },
-        {
-          chainid: "0x38",
-          title: "BSC",
-          icon: binanceIcon,
-        },
-        {
-          chainid: "0xfa",
-          title: "FANTOM",
-          icon: fantomIcon,
-        },
-        {
           chainid: "0xa86a",
           title: "AVAX",
           icon: avaxIcon,
         },
+        // {
+        //   chainid: "0x38",
+        //   title: "BSC",
+        //   icon: binanceIcon,
+        // },
+        // {
+        //   chainid: "0xfa",
+        //   title: "FANTOM",
+        //   icon: fantomIcon,
+        // },
         {
-          chainid: "0x539",
-          title: "AVAX local",
+          chainid: "0xa869",
+          title: "AVAX Fuji",
           icon: avaxIcon,
         },
+        // {
+        //   chainid: "0x539",
+        //   title: "AVAX",
+        //   icon: avaxIcon,
+        // },
+        // {
+        //   chainid: "0x1",
+        //   title: "ERC-20",
+        //   icon: ethIcon,
+        // },
       ],
     };
   },
