@@ -204,18 +204,18 @@ export default {
     },
     maxMainValue() {
       const balance = this.getAVAXStatus()
-        ? this.userBalanceNativeToken
-        : this.userBalance;
+        ? this.$store.getters.getBalanceNativeToken
+        : this.$store.getters.getBalanceToken;
 
       if (this.actionType === "borrow") return balance;
       if (this.actionType === "repay") {
         if (
-          parseFloat(this.userTotalBorrowed) >
+          parseFloat(this.$store.getters.getUserBorrowPart) >
           parseFloat(this.parsedPairBalance)
         )
           return this.parsedPairBalance;
 
-        return this.userTotalBorrowed;
+        return this.$store.getters.getUserBorrowPart;
       }
 
       return 0;
@@ -248,7 +248,7 @@ export default {
     },
     parsedPairBalance() {
       return this.$ethers.utils.formatUnits(
-        this.pairBalance.toString(),
+        this.$store.getters.getBalancePairToken.toString(),
         this.tokenPairDecimals
       );
     },
@@ -261,16 +261,18 @@ export default {
           valueInDolars = this.mainValue / this.tokenToUsd;
           maxPairValue = (valueInDolars / 100) * (this.ltv - 1);
         } else {
-          valueInDolars = this.userTotalCollateral / this.tokenToUsd;
+          valueInDolars =
+            this.$store.getters.getUserCollateralShare / this.tokenToUsd;
           maxPairValue =
-            (valueInDolars / 100) * (this.ltv - 1) - this.userTotalBorrowed;
+            (valueInDolars / 100) * (this.ltv - 1) -
+            this.$store.getters.getUserBorrowPart;
         }
 
         return maxPairValue;
       }
 
       if (this.actionType === "repay") {
-        const maxAmount = parseFloat(+this.userTotalCollateral).toFixed(20);
+        const maxAmount = parseFloat(+this.$store.getters.getUserCollateralShare).toFixed(20);
         // .toLocaleString(
         //   "fullwide",
         //   {
@@ -325,8 +327,8 @@ export default {
 
       if (!this.mainValue && this.pairValue) {
         const liquidationPrice =
-          (((+this.userTotalBorrowed + +this.pairValue) * this.tokenToUsd) /
-            +this.userTotalCollateral) *
+          (((+this.$store.getters.getUserBorrowPart + +this.pairValue) * this.tokenToUsd) /
+            +this.$store.getters.getUserCollateralShare) *
           (1 / this.tokenToUsd) *
           this.liquidationMultiplier;
 

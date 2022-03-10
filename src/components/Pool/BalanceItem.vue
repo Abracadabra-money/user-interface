@@ -4,7 +4,7 @@
       <TokenIcon :token="this.item.token" />
       <p>{{ this.item.token }}</p>
     </div>
-    <p class="value-text">{{ userBalance }}</p>
+    <p class="value-text">{{ balance }}</p>
   </div>
 </template>
 
@@ -31,8 +31,11 @@ export default {
       this.userBalance = parseFloat(parsedBalance).toFixed(4);
     },
   },
-  created() {
-    this.parseBalance(this.item.balance, this.item.decimals);
+  computed: {
+    balance() {
+      this.parseBalance(this.item.balance, this.item.decimals);
+      return this.userBalance;
+    },
   },
   components: {
     TokenIcon,

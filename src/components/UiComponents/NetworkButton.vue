@@ -9,7 +9,7 @@
 
 
 <script>
-//import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
+import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
 import binanceIcon from "@/assets/images/networks/binance-icon.svg";
 import fantomIcon from "@/assets/images/networks/fantom-icon.svg";
 import avaxIcon from "@/assets/images/networks/avalanche-avax-icon.svg";
@@ -49,11 +49,11 @@ export default {
           title: "AVAX",
           icon: avaxIcon,
         },
-        // {
-        //   chainid: "0x1",
-        //   title: "ERC-20",
-        //   icon: ethIcon,
-        // },
+        {
+          chainid: "0x1",
+          title: "ERC-20",
+          icon: ethIcon,
+        },
       ],
     };
   },

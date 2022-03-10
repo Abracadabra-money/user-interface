@@ -4,8 +4,11 @@
       class="btn mini connected-btn"
       :class="{ load: connectLoader, connected: isWalletConnected }"
       @click="walletBtnHandler"
+      @mouseenter="itsHover = true"
+      @mouseleave="itsHover = false"
     >
       <ButtonLoader v-if="connectLoader"/>
+      <template v-else-if="itsHover"> Dashboard </template>
       <template v-else>
         <div>
           {{ walletBtnText}}
@@ -53,11 +56,6 @@ export default {
 
       networks: [
         {
-          chainid: "0xa86a",
-          title: "Avax Network",
-          icon: avaxIcon,
-        },
-        {
           chainid: "0x1",
           title: "ERC-20",
           icon: ethIcon,
@@ -73,13 +71,13 @@ export default {
           icon: fantomIcon,
         },
         {
-          chainid: 43113,
-          title: "Avax Fuji",
+          chainid: "0xa86a",
+          title: "Avax Network",
           icon: avaxIcon,
         },
         {
           chainid: "0x539",
-          title: "AVAX local",
+          title: "Avax local",
           icon: avaxIcon,
         },
       ],
@@ -115,6 +113,11 @@ export default {
       }
     },
     async walletBtnHandler() {
+      if (this.isWalletConnected) {
+        this.toDashboard();
+        return false;
+      }
+
       if (!window.ethereum) return false;
 
       this.connectLoader = true;
@@ -126,6 +129,9 @@ export default {
       }
 
       this.connectLoader = false;
+    },
+    toDashboard() {
+      this.$router.push({ name: "Dashboard" });
     },
   },
   components: {

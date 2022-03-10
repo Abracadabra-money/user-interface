@@ -3,14 +3,14 @@
     <div class="item-main" @click="toggleInfo">
       <div class="title">
         <img src="@/assets/images/i-icon.svg" alt="" class="info-icon" />
-        <p>{{ item.title }}</p>
+        <p>{{ itemProp.title }}</p>
       </div>
 
-      <p class="percent-text">{{ item.value }}</p>
+      <p class="percent-text">{{ itemProp.value }}</p>
     </div>
     <transition name="fade">
       <div class="item-info" v-if="showInfo && hasInfo">
-        <p>{{ item.additional }}</p>
+        <p>{{ itemProp.additional }}</p>
       </div>
     </transition>
   </div>
@@ -32,6 +32,9 @@ export default {
   computed: {
     hasInfo() {
       return !!this.item.additional;
+    },
+    itemProp() {
+      return this.item;
     },
   },
   methods: {

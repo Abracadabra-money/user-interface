@@ -3,11 +3,11 @@
     <h2>MY OPEN POSITION</h2>
 
     <div class="items-wrap">
-      <CollParamItem v-for="(item, idx) in infoItems" :key="idx" :item="item" />
+      <CollParamItem v-for="(item, idx) in getInfoItems" :key="idx" :item="item" />
     </div>
 
     <p class="btm-text">1NUSD = 1USD</p>
-    <p class="btm-text">1{{ tokenName }} = {{ tokentToMim }}NUSD</p>
+    <p class="btm-text">1{{ tokenName }} = {{ tokentToNUSD }}NUSD</p>
   </div>
 </template>
 
@@ -28,12 +28,15 @@ export default {
     },
   },
   computed: {
-    tokentToMim() {
-      const tokenToMim = 1 / this.exchangeRate;
+    tokentToNUSD() {
+      const tokenToNUSD = 1 / this.exchangeRate;
 
       // eslint-disable-next-line no-useless-escape
       let re = new RegExp(`^-?\\d+(?:\.\\d{0,` + (4 || -1) + `})?`);
-      return tokenToMim.toString().match(re)[0];
+      return tokenToNUSD.toString().match(re)[0];
+    },
+    getInfoItems() {
+      return this.infoItems;
     },
   },
   components: {
