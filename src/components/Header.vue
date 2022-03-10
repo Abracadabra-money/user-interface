@@ -1,14 +1,6 @@
 <template>
   <header class="app-header" :class="{ transparent: itsTransparent }">
     <div class="container">
-      <!--      <transition name="fade">-->
-      <!--        <img-->
-      <!--          v-if="showLogoBg"-->
-      <!--          src="@/assets/images/logo-bg.svg"-->
-      <!--          alt=""-->
-      <!--          class="logo-bg"-->
-      <!--        />-->
-      <!--      </transition>-->
       <div class="containerS">
         <div>
           <router-link :to="{ name: 'Home' }" class="logo-wrap">
@@ -19,24 +11,9 @@
       </div>
 
       <nav>
-        <!--        <router-link :to="{ name: 'FarmStand' }" class="nav-link"-->
-        <!--          >farm</router-link-->
-        <!--        >-->
-
         <div>
           <router-link :to="{ name: 'Borrow' }" class="borrow-btn"> Borrow </router-link>
         </div>
-
-        <!-- <router-link :to="{ name: 'Mim3Pool' }" class="nav-link"
-          >MIM3POOL</router-link
-        > -->
-        <!--        <a href="https://crv.to/pool" target="_blank" class="nav-link"-->
-        <!--          >MIM3POOL</a-->
-        <!--        >-->
-
-        <!--        <a href="https://crv.to/" target="_blank" class="nav-link">swap</a>-->
-
-        <!-- <p class="nav-link" @click="showSwapPopup">Swap</p> -->
 
         <div class="btns-wrap">
           <NetworkButton
@@ -47,10 +24,6 @@
             <ConnectButton />
           </div>
         </div>
-
-        <!--        <TokenButton :tokenName="'Spell'" v-if="!itsDashboard" />-->
-        <!--        <TokenButton :tokenName="'sSpell'" v-if="itsDashboard" />-->
-        <!--        <TokenButton :tokenName="'MIM'" />-->
       </nav>
 
       <img
@@ -159,7 +132,8 @@ export default {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding: 0 80px 0 80px;
+    padding: 0 80px;
+    width: 100%;
   }
 
   .containerS {
