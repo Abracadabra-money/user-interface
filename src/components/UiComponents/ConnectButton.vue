@@ -25,8 +25,7 @@
       @click="walletBtnHandler"
     >
       <ButtonLoader v-if="connectLoader"/>
-      <template v-if="itsHover"> Dashboard </template>
-      <template v-else>
+      <template>
         {{ connectBtnText }}
       </template>
     </button>

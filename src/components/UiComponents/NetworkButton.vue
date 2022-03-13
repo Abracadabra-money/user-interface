@@ -73,7 +73,7 @@ export default {
       }
     },
     clickHandler() {
-      // this.$emit("click");
+      //this.$emit("click");
     },
   },
 };

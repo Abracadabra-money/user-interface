@@ -3,20 +3,22 @@
     <div class="container">
       <div class="leftLinks">
         <SocialLink
-            v-for="(item, index) in filtredLeftIcons"
+            v-for="(item, index) in filteredLeftIcons"
             :key="index"
             :data="item.data"
             :link="item.link"
-            :type="item.type"
+            :icon="item.icon"
+            :text="item.text"
         />
       </div>
       <div class="rightLinks">
         <SocialLink
-            v-for="(item, index) in filtredRightIcons"
+            v-for="(item, index) in filteredRightIcons"
             :key="index"
             :data="item.data"
             :link="item.link"
-            :type="item.type"
+            :icon="item.icon"
+            :text="item.text"
         />
       </div>
     </div>
@@ -24,59 +26,65 @@
 </template>
 
 <script>
+
 const SocialLink = () => import("@/components/SocialLink");
-import Discord from "@/assets/images/Discord.svg";
-import Twitter from "@/assets/images/Twitter.svg";
-import Medium from "@/assets/images/Medium.svg";
+import Discord from "../assets/images/discord.svg";
+import Twitter from "../assets/images/twitter.svg";
+import Medium from "../assets/images/medium.svg";
+import Content from "./UiComponents/Content.vue";
+import IconContent from "./UiComponents/IconContent.vue";
 
 export default {
-  data(){
+  data() {
     return {
       socialLink: [
         {
-          data: "GitBook",
-          link: 'https://gitbook.com',
-          position: 'left',
-          type: 'text',
+          data: Content,
+          text: "GitBook",
+          link: "https://gitbook.com",
+          position: "left",
         },
         {
-          data: Discord,
-          link: 'https://discord.com',
-          position: 'right',
-          type: 'image',
+          data: IconContent,
+          icon: Discord,
+          link: "https://discord.com",
+          position: "right",
         },
         {
-          data: Twitter,
-          link: 'https://twitter.com',
-          position: 'right',
-          type: 'image',
+          data: IconContent,
+          icon: Twitter,
+          link: "https://twitter.com",
+          position: "right",
         },
         {
-          data: Medium,
-          link: 'https://medium.com',
-          position: 'right',
-          type: 'image',
+          data: IconContent,
+          icon: Medium,
+          link: "https://medium.com",
+          position: "right",
         },
       ],
-      filtredRightIcons: [],
-      filtredLeftIcons: [],
+      filteredLeftIcons: [],
+      filteredRightIcons: [],
     };
   },
   components: {
-    // eslint-disable-next-line vue/no-unused-components
     SocialLink,
+  },
+  mounted() {
+    this.socialLink.forEach((item) => {
+      if (item.position === "left") {
+        this.filteredLeftIcons.push(item);
+      } else if (item.position === "right") {
+        this.filteredRightIcons.push(item);
+      }
+    });
   },
   computed: {
     itsTransparent() {
       const pages = ["Home", "Docs", "Tech", "Liquidations"];
-
       return pages.indexOf(this.$route.name) !== -1;
     },
-  },
-  mounted() {
-    this.filtredRightIcons = this.socialLink.filter((item) => item.position === "right");
-    this.filtredLeftIcons = this.socialLink.filter((item) => item.position === "left");
-  },
+  }
 };
 </script>
 <style scoped lang="scss">
