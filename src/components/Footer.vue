@@ -3,7 +3,7 @@
     <div class="container">
       <div class="leftLinks">
         <SocialLink
-            v-for="(item, index) in filtredLeftIcons"
+            v-for="(item, index) in filteredLeftIcons"
             :key="index"
             :data="item.data"
             :link="item.link"
@@ -12,7 +12,7 @@
       </div>
       <div class="rightLinks">
         <SocialLink
-            v-for="(item, index) in filtredRightIcons"
+            v-for="(item, index) in filteredRightIcons"
             :key="index"
             :data="item.data"
             :link="item.link"
@@ -58,8 +58,8 @@ export default {
           type: 'image',
         },
       ],
-      filtredRightIcons: [],
-      filtredLeftIcons: [],
+      filteredRightIcons: [],
+      filteredLeftIcons: [],
     };
   },
   components: {
