@@ -86,6 +86,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .app-footer {
+  z-index: 1;
   height: $footerHeight;
   background: #262626;
 

@@ -148,7 +148,6 @@ export default {
 .slicedAddress {
   height: 16px;
   width: 65px;
-  padding-left: 5px;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
