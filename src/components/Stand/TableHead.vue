@@ -19,11 +19,11 @@ export default {
     return {
       colsGetTitles: ["Pool", "~Yield per $1000", "ROI Annually", "TVL"],
       colsLostTitles: [
-        "COMPONENT",
-        "TVL",
-        "left to borrow",
+        "Components",
+        "Total nUSD borrowed",
+        "nUSD left to borrow",
         "Interest",
-        "LIQUIDATION FEE",
+        "Liquidation fee",
       ],
     };
   },
@@ -39,10 +39,11 @@ export default {
 .stand-table-head {
   display: flex;
   align-items: center;
-  padding: 15px 30px;
+  padding: 15px 24px;
   background-color: $clrBg2;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  margin-bottom: 1px;
 
   .action-col {
     width: 150px;
@@ -51,14 +52,17 @@ export default {
 
   .table-col {
     width: calc((100% - 150px) / 4);
-    text-align: left;
+    text-align: right;
+    color: #8A8A8A;
 
     p {
-      text-transform: uppercase;
       font-size: 12px;
-      letter-spacing: 0.065em;
-      max-width: 120px;
+      line-height: 16px;
+      //max-width: 120px;
     }
+  }
+  .table-col:first-child {
+    text-align: left;
   }
 }
 

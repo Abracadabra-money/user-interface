@@ -3,6 +3,7 @@ export default {
   state: {
     collateralShare: 0,
     borrowPart: 0,
+    totalBorrow: 0,
     ltv: 0,
     tokenPrice: 0,
     collateralInfo: [],
@@ -27,8 +28,16 @@ export default {
     setUserBorrowPart(state, payload) {
       state.borrowPart = payload;
     },
+
+    setTotalBorrow(state, payload) {
+      state.totalBorrow = payload;
+    },
   },
   actions: {
+    async checkTotalBorrow({ commit }, contract) {
+      const totalBorrowResp = await contract.totalBorrow();
+      commit("setTotalBorrow", totalBorrowResp.base);
+    },
     async setUserCollateralShare({ getters, commit }, contract, decimals) {
       try {
         const userCollateralShare = await contract.userCollateralShare(
@@ -129,5 +138,6 @@ export default {
     getPoolLtv: (state) => state.ltv,
     getTokenPrice: (state) => state.tokenPrice,
     getCollateralInfo: (state) => state.collateralInfo,
+    getTotalBorrow: (state) => state.totalBorrow,
   },
 };

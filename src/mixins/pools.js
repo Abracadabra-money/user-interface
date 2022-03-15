@@ -109,6 +109,7 @@ export default {
       try {
         const totalBorrowResp = await poolContract.totalBorrow();
         totalBorrow = totalBorrowResp.base;
+        this.$store.dispatch("checkTotalBorrow", poolContract);
       } catch (e) {
         console.log("totalBorrow Err:", e);
       }

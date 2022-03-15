@@ -236,24 +236,14 @@ export default {
     }
 
     .token-icon-wrap {
-      width: 34px;
-      height: 34px;
-      margin-right: 10px;
+      width: 24px;
+      height: 24px;
       position: relative;
 
       .bg {
         width: 100%;
         height: 100%;
         object-fit: contain;
-      }
-
-      .token-icon {
-        max-width: 70%;
-        height: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
       }
     }
 

@@ -159,6 +159,10 @@ export default {
         this.pool.pairTokenContract
       );
       await this.checkCollateralInfo();
+      await this.$store.dispatch(
+        "checkTotalBorrow",
+        this.pool.contractInstance
+      );
     },
     async checkCollateralInfo() {
       this.$store.commit("setTokenPrice", this.pool.tokenPrice);

@@ -62,15 +62,13 @@ export default {
   height: 16px;
   min-width: 16px;
   min-height: 16px;
-  margin-right: 10px;
+  margin-right: 16px;
   position: relative;
-
   &.mini {
     width: 16px;
     height: 16px;
     min-width: 16px;
     min-height: 16px;
-
     &.pair {
       width: 20px;
       height: 20px;
@@ -78,14 +76,12 @@ export default {
       min-height: 20px;
     }
   }
-
   &.pair {
     width: 46px;
     height: 40px;
     min-width: 46px;
     min-height: 40px;
   }
-
   &.mim-wrap {
     .token-icon {
       width: 32px;
@@ -93,20 +89,17 @@ export default {
       object-fit: contain;
       max-width: 100%;
     }
-
     .bg {
       opacity: 0;
     }
   }
-
   .bg {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
-
   .token-icon {
-    max-width: 70%;
+    max-width: 100%;
     height: auto;
     position: absolute;
     top: 50%;
