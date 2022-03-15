@@ -1,15 +1,11 @@
 <template>
   <div class="dashboard-view">
     <div class="container mini">
-      <h1>DAshboard</h1>
+      <h1>Dashboard</h1>
 
       <div class="transaction-btn" @click="toTransactions" v-if="false">
         <p>Transactions</p>
       </div>
-
-      <template v-if="sSpellTokenObject">
-        <TokenBlock :tokensInfo="sSpellTokenObject" />
-      </template>
 
       <template v-if="pools">
         <StatisticsBlock :pools="userPools" />
@@ -50,7 +46,6 @@
 const StatisticsBlock = () => import("@/components/Dashboard/StatisticsBlock");
 const OpenPoolItem = () => import("@/components/Dashboard/OpenPoolItem");
 const EmptyPoolsState = () => import("@/components/Dashboard/EmptyPoolsState");
-const TokenBlock = () => import("@/components/Dashboard/TokenBlock");
 
 import sspellToken from "@/mixins/sspellToken.js";
 
@@ -62,9 +57,6 @@ export default {
     };
   },
   computed: {
-    sSpellTokenObject() {
-      return this.$store.getters.getSSpellObject;
-    },
     pools() {
       return this.$store.getters.getPools;
     },
@@ -116,7 +108,6 @@ export default {
     StatisticsBlock,
     OpenPoolItem,
     EmptyPoolsState,
-    TokenBlock,
   },
 };
 </script>
