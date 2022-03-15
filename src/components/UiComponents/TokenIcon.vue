@@ -58,8 +58,8 @@ export default {
 
 <style lang="scss" scoped>
 .token-icon-wrap {
-  width: 16px;
-  height: 16px;
+  width: 32px;
+  height: 32px;
   min-width: 16px;
   min-height: 16px;
   margin-right: 10px;

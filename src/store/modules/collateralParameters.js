@@ -96,19 +96,19 @@ export default {
         },
         {
           title: "Collateral value",
-          value: `$${parseFloat(tokenInUsd).toFixed(4)}`,
+          value: `$ ${parseFloat(tokenInUsd).toFixed(4)}`,
           tooltip: "USD Value of the Collateral Deposited in your Position",
           additional: "",
         },
         {
           title: "NUSD borrowed",
-          value: `$${parseFloat(userBorrowPart).toFixed(4)}`,
+          value: `$ ${parseFloat(userBorrowPart).toFixed(4)}`,
           tooltip: "NUSD Currently Borrowed in your Position",
           additional: "",
         },
         {
           title: "Liquidation price",
-          value: `$${parseFloat(liquidationPrice).toFixed(4)}`,
+          value: `$ ${parseFloat(liquidationPrice).toFixed(4)}`,
           tooltip: "Collateral Price at which your Position will be Liquidated",
           additional: "",
         },
