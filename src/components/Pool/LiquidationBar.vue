@@ -1,33 +1,26 @@
 <template>
   <div class="liquidation-bar">
-    <div class="image-wrap">
-      <img src="@/assets/images/wizard.png" alt="" class="wizard-img" />
-
-      <img
-        src="@/assets/images/i-icon.svg"
-        alt=""
-        class="info-icon"
-        v-tooltip="
-          'This mana bar displays how healthy your position is. If it is empty, you will be flagged for liquidation. Stable ibTKNs Mana bar is enlarged by 10x to allow better visual representation.'
-        "
-      />
-    </div>
 
     <div class="main-wrap">
+
       <div class="info-wrap">
-        <div class="amount-indicator" v-if="priceDifferens">
+        <div class="image-wrap">
           <img
-            src="@/assets/images/coin.svg"
+            src="@/assets/images/i-icon.svg"
             alt=""
-            class="coin-img"
+            class="info-icon"
             v-tooltip="
-              'If your Collateral Price drops by this amount, you will be flagged for liquidation.'
-            "
+          'This bar displays how healthy your position is. If it is empty, you will be flagged for liquidation. The bar is enlarged by 10x to allow better visual representation.'
+        "
           />
-          <p>&lt;{{ parseFloat(priceDifferens).toFixed(6) }}$</p>
         </div>
-        <div class="percent-indicator">
-          <p>{{ liquidationRisk }}% of 100%</p>
+        <div class="indicator-wrap">
+          <div class="amount-indicator" v-if="priceDifferens">
+            <p>&lt;{{ parseFloat(priceDifferens).toFixed(6) }}$</p>
+          </div>
+          <div class="percent-indicator">
+            <p>{{ liquidationRisk }}% of 100%</p>
+          </div>
         </div>
       </div>
 
@@ -102,64 +95,55 @@ export default {
 
 <style lang="scss" scoped>
 .liquidation-bar {
-  background: $clrBg2;
-  border-radius: 12px;
-  padding: 7px 10px;
+  //background: $clrBg2;
+  //border-radius: 12px;
+  //padding: 7px 10px;
   display: flex;
   align-items: center;
 
   .image-wrap {
-    width: 24px;
-    height: 26px;
-    position: relative;
+    //width: 24px;
+    //height: 26px;
+    display: flex;
+    align-items: center;
+    //position: relative;
 
     .info-icon {
-      width: 12px;
-      height: 12px;
-      object-fit: contain;
-      cursor: pointer;
-      position: absolute;
-      bottom: -4px;
-      right: -4px;
-    }
-
-    .wizard-img {
-      width: 24px;
-      height: 24px;
-      object-fit: cover;
+      width: 13px;
+      height: 13px;
     }
   }
 
   .range {
-    background: #403b83;
-    border: 1px solid #403b83;
-    border-radius: 39px;
+    background: #606060;
+    //border: 1px solid #403b83;
+    border-radius: 4px;
     display: flex;
-    height: 9px;
+    height: 12px;
 
     .range-indicator {
       height: 100%;
-      width: 39%;
-      border-radius: 39px;
+      //width: 39%;
+      border-radius: 4px;
       transition: all 0.3s ease;
 
       &.safe {
-        background: #75c9ee;
+        background: #FDD33F;
       }
 
       &.medium {
-        background: #f2994a;
+        background: #FDD33F;
       }
 
       &.hight {
-        background: #bb0145;
+        background: #FDD33F;
       }
     }
   }
 
   .main-wrap {
     flex: 1;
-    padding-left: 9px;
+    //padding-left: 9px;
   }
 
   .amount-indicator {
@@ -177,10 +161,14 @@ export default {
 
   .info-wrap {
     display: flex;
-    justify-content: flex-end;
-    font-size: 12px;
-    line-height: 12px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    line-height: 24px;
     margin-bottom: 6px;
+  }
+  .indicator-wrap {
+    display: flex;
   }
 }
 </style>

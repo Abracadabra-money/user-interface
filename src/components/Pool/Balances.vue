@@ -34,12 +34,16 @@ export default {
 
 <style scoped lang="scss">
 .balances-block {
-  padding: 30px 20px;
+  //padding: 16px 24px;
   background: $clrBg2;
-  border-radius: 20px;
+  border-radius: 4px;
 
   h2 {
-    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #1c1c1c;
   }
 }
 

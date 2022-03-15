@@ -30,10 +30,10 @@
           v-if="isCustom"
           v-model.trim="customValue"
           type="number"
-          placeholder="XX%"
+          placeholder="Custom"
           @input="setCustomValue($event.target.value)"
         />
-        <p v-else>custom</p>
+        <p v-else>Custom</p>
       </label>
     </div>
   </div>
@@ -120,6 +120,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .liquid-rules-block {
   .block-head {
     display: flex;
@@ -129,6 +134,8 @@ export default {
   }
 
   .price-text {
+    font-size: 14px;
+    line-height: 20px;
     span {
       padding-left: 10px;
     }
@@ -138,38 +145,35 @@ export default {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     overflow-x: auto;
   }
 
   .percent-item {
+    font-size: 14px;
+    line-height: 20px;
     background: rgba(255, 255, 255, 0.06);
-    border-radius: 20px;
-    height: 40px;
-    padding: 0 20px;
+    border-radius: 100px;
+    padding: 6px 14px;
     display: flex;
-    align-items: center;
     justify-content: center;
     cursor: pointer;
-    border: 1px solid transparent;
     transition: border 0.3s ease;
-    margin-right: 5px;
+    margin-right: 8px;
 
     &.custom {
-      width: 140px;
       margin-right: 0;
     }
 
     input {
       background-color: transparent;
       border: none;
-      height: 100%;
+      //height: 100%;
       text-align: center;
-      color: #fff;
+      color: #1C1C1C;
       outline: none;
-      width: 100%;
-      padding-left: 20px;
-      padding-right: 20px;
+      max-width: 82px;
+      //padding-left: 20px;
+      //padding-right: 20px;
     }
 
     &.disabled {
@@ -179,7 +183,9 @@ export default {
 
     &.active,
     &:hover {
-      border: 1px solid #7b79f7;
+      //border: 1px solid #7b79f7;
+      color: #1C1C1C;
+      background-color: $clrBg3;
     }
 
     &.error {
@@ -192,7 +198,7 @@ export default {
     height: 24px;
     outline: none;
     border: none;
-    background: $clrBlue4;
+    background: $clrGreen;
     border-radius: 23px;
     font-size: 12px;
     color: $clrText;

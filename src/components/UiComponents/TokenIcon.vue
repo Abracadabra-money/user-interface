@@ -3,7 +3,7 @@
     class="token-icon-wrap"
     :class="{ 'mim-wrap': token === 'MIM' || full, pair: itsGroup, mini }"
   >
-    <img :src="bgIcon" alt="" class="bg" />
+<!--    <img :src="bgIcon" alt="" class="bg" />-->
     <img :src="tokenIcon" alt="" class="token-icon" />
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   props: {
     token: {
       type: String,
-      default: "ETH",
+      default: "AVAX",
     },
     mini: {
       type: Boolean,
@@ -35,21 +35,13 @@ export default {
   computed: {
     tokenIcon() {
       try {
-        if (this.token === "xSUSHI") {
-          const tokenImage = require(`@/assets/images/tokens-icon/Token_${this.token}.png`);
-
-          return (
-            tokenImage || require("@/assets/images/tokens-icon/Token_ETH.svg")
-          );
-        }
-
         const tokenImage = require(`@/assets/images/tokens-icon/Token_${this.token}.svg`);
 
         return (
-          tokenImage || require("@/assets/images/tokens-icon/Token_ETH.svg")
+          tokenImage || require("@/assets/images/tokens-icon/Token_AVAX.svg")
         );
       } catch (e) {
-        return require("@/assets/images/tokens-icon/Token_ETH.svg");
+        return require("@/assets/images/tokens-icon/Token_AVAX.svg");
       }
     },
     bgIcon() {
@@ -66,10 +58,10 @@ export default {
 
 <style lang="scss" scoped>
 .token-icon-wrap {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  min-height: 32px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
   margin-right: 10px;
   position: relative;
 

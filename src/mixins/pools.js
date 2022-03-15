@@ -335,23 +335,27 @@ export default {
         {
           title: "Maximum collateral ratio",
           value: `${ltv}%`,
+          tooltip: "Maximum collateral ratio (MCR) - MCR represents the maximum amount of debt a user can borrow with a selected collateral token.",
           additional: `Maximum collateral ratio (MCR) - MCR represents the maximum amount of debt a user can borrow with a selected collateral token.`,
         },
         {
           title: "Liquidation fee",
           value: `${stabilityFee}%`,
+          tooltip: "This is the discount a liquidator gets when buying collateral flagged for liquidation.",
           additional:
             "This is the discount a liquidator gets when buying collateral flagged for liquidation.",
         },
         {
           title: "Borrow fee",
           value: `${borrowFee}%`,
+          tooltip: "This fee is added to your debt every time you borrow NUSD.",
           additional:
             "This fee is added to your debt every time you borrow NUSD.",
         },
         {
           title: "Interest",
           value: `${interest}%`,
+          tooltip: "This is the annualized percent that your debt will increase each year.",
           additional:
             "This is the annualized percent that your debt will increase each year.",
         },

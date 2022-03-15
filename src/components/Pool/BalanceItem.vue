@@ -48,17 +48,25 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
-  margin: 5px 0;
+  margin-bottom: 16px;
+  padding: 0 24px;
+
+  .value-text {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+  }
 
   .value-type {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 14px;
+    line-height: 20px;
 
     .type-icon {
-      width: 32px;
-      height: 32px;
+      width: 16px;
+      height: 16px;
       object-fit: contain;
       margin-right: 10px;
     }

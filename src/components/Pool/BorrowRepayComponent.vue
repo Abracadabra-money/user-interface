@@ -9,7 +9,8 @@
         @click="toggleUseAVAX"
         :class="{ active: useAVAX }"
       >
-        <div class="box"></div>
+        <div class="checkbox" v-if="useAVAX"><img class="checkbox-checked" src="@/assets/images/checkboxChecked.svg" alt=""></div>
+        <div class="checkbox" v-else><img src="@/assets/images/checkbox.svg" alt=""></div>
       </div>
       <p class="label-text" @click="toggleUseAVAX">Use AVAX</p>
     </div>
@@ -29,7 +30,7 @@
 
     <div class="input-wrap">
       <ValueInput
-        :max="maxPairValue"
+        :max="maxValueAmount"
         :showMax="showMax"
         :valueName="pairValueTokenName"
         @onchange="updatePairValue"
@@ -52,9 +53,10 @@
         <div
           class="box-wrap"
           @click="toggleShowLeverage"
-          :class="{ active: showLeverage }"
+          :class="{ active: showLeverage, disabled: !showLeverage }"
         >
-          <div class="box"></div>
+          <div class="checkbox" v-if="showLeverage"><img class="checkbox-checked" src="@/assets/images/checkboxChecked.svg" alt=""></div>
+          <div class="checkbox" v-else><img src="@/assets/images/checkbox.svg" alt=""></div>
         </div>
         <p class="label-text" @click="toggleShowLeverage">Change leverage</p>
 
@@ -62,7 +64,7 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="'Some txt'"
+          v-tooltip="'Will be implemented in the future'"
         />
       </div>
 
@@ -83,7 +85,8 @@
           @click="toggleUpdatePrice"
           :class="{ active: updatePrice }"
         >
-          <div class="box"></div>
+          <div class="checkbox" v-if="updatePrice"><img class="checkbox-checked" src="@/assets/images/checkboxChecked.svg" alt=""></div>
+          <div class="checkbox" v-else><img src="@/assets/images/checkbox.svg" alt=""></div>
         </div>
         <p class="label-text" @click="toggleUpdatePrice">Update price</p>
 
@@ -91,7 +94,7 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="'Update ibTKN price for a small gas fee'"
+          v-tooltip="'Update Collateral price from the oracle, for a small gas fee!'"
         />
       </div>
 
@@ -191,6 +194,26 @@ export default {
     },
   },
   computed: {
+    maxValueAmount() {
+      const borrowedInDolarts = this.$store.getters.getUserBorrowPart / this.tokenPairToUsd;
+      const collateralInDolarts = this.$store.getters.getUserCollateralShare / this.tokenToUsd;
+      const userHasDolars = collateralInDolarts - borrowedInDolarts;
+
+      let calcAmount;
+
+      if (this.mainValue) {
+        const borrowPercent =
+          (this.mainValue / this.$store.getters.getUserBorrowPart) * 100;
+
+        calcAmount = (this.maxPairValue * borrowPercent) / 100;
+      } else {
+        const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
+
+        calcAmount = (this.maxPairValue * acceptedPercent) / 100;
+      }
+
+      return calcAmount;
+    },
     useAVAX() {
       return this.$store.getters.getUseAVAX;
     },
@@ -204,8 +227,13 @@ export default {
     },
     maxMainValue() {
       const balance = this.getAVAXStatus()
-        ? this.$store.getters.getBalanceNativeToken
-        : this.$store.getters.getBalanceToken;
+        ? this.$ethers.utils.formatEther(
+            this.$store.getters.getBalanceNativeToken.toString()
+          )
+        : this.$ethers.utils.formatUnits(
+            this.$store.getters.getBalanceToken.toString(),
+            this.tokenDecimals
+          );
 
       if (this.actionType === "borrow") return balance;
       if (this.actionType === "repay") {
@@ -367,7 +395,7 @@ export default {
         this.multiplier = 1;
       }
 
-      this.showLeverage = !this.showLeverage;
+      // this.showLeverage = !this.showLeverage;
     },
     toggleUseAVAX() {
       const AVAXStatus = this.$store.getters.getUseAVAX;
@@ -583,7 +611,7 @@ export default {
       this.mainValue = value;
 
       if (parseFloat(value) > parseFloat(this.maxMainValue)) {
-        this.mainValueError = `The value cannot be greater than ${this.maxMainValue}`;
+        this.mainValueError = `Insufficient amount. The value available ${this.maxMainValue}`;
         return false;
       }
 
@@ -591,10 +619,10 @@ export default {
 
       if (this.actionType === "repay") {
         const collateralPercent = (this.pairValue / this.maxPairValue) * 100;
-        const borrowPercent = (value / this.userTotalBorrowed) * 100;
+        const borrowPercent = (value / this.$store.getters.getUserBorrowPart) * 100; //this.userTotalBorrowed
 
-        const borrowedInDolarts = this.userTotalBorrowed / this.tokenPairToUsd;
-        const collateralInDolarts = this.userTotalCollateral / this.tokenToUsd;
+        const borrowedInDolarts = this.$store.getters.getUserBorrowPart/ this.tokenPairToUsd; //this.userTotalBorrowed
+        const collateralInDolarts = this.$store.getters.getUserCollateralShare / this.tokenToUsd; //this.userTotalCollateral
         const userHasDolars = collateralInDolarts - borrowedInDolarts;
         const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
 
@@ -620,7 +648,7 @@ export default {
     },
     updatePairValue(value) {
       if (parseFloat(value) > parseFloat(this.maxPairValue)) {
-        this.pairValueError = `The value cannot be greater than ${this.maxPairValue}`;
+        this.pairValueError = `Insufficient amount. The value available ${this.maxPairValue}`;
         return false;
       }
 
@@ -630,8 +658,8 @@ export default {
           this.pairValue = value;
         }
 
-        const borrowedInDolarts = this.userTotalBorrowed / this.tokenPairToUsd;
-        const collateralInDolarts = this.userTotalCollateral / this.tokenToUsd;
+        const borrowedInDolarts = this.$store.getters.getUserBorrowPart / this.tokenPairToUsd;
+        const collateralInDolarts = this.$store.getters.getUserCollateralShare / this.tokenToUsd;
         const userHasDolars = collateralInDolarts - borrowedInDolarts;
         const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
 
@@ -643,8 +671,7 @@ export default {
         // );
 
         const collateralPercent = (value / this.maxPairValue) * 100;
-        const borrowPercent = (this.mainValue / this.userTotalBorrowed) * 100;
-
+        const borrowPercent = (this.mainValue / this.$store.getters.getUserBorrowPart) * 100;
         if (
           acceptedPercent < collateralPercent &&
           collateralPercent > borrowPercent
@@ -718,29 +745,32 @@ export default {
 
 <style scoped lang="scss">
 .deposit-borrow-block {
-  padding: 30px 20px;
+  padding: 0 24px;
   background: $clrBg2;
-  border-radius: 20px;
+  border-radius: 4px;
   width: 100%;
 
   .config-box {
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 20px;
+    border-radius: 4px;
+    border: 1px solid #606060;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
 
   .checkbox-wrap {
     display: flex;
     align-items: center;
+    font-size: 14px;
+    line-height: 20px;
 
     .label-text {
       cursor: pointer;
     }
 
     .info-icon {
-      width: 16px;
-      height: 16px;
+      width: 13px;
+      height: 13px;
       margin-left: 5px;
     }
 
@@ -748,25 +778,35 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
       margin-right: 10px;
-      border-radius: 8px;
-      border: 1px solid #57507a;
       background: rgba(255, 255, 255, 0.06);
       cursor: pointer;
       transition: all 0.1s ease;
 
       &:hover {
-        border: 1px solid $clrBlue;
+        //border: 1px solid $clrBlue;
       }
 
       &.active {
-        border: 1px solid $clrBlue;
-
         .box {
           opacity: 1;
         }
+      }
+
+      &.disabled .checkbox {
+        cursor: not-allowed;
+        filter: brightness(0) saturate(100%) invert(61%) sepia(1%) saturate(2362%) hue-rotate(40deg) brightness(90%) contrast(83%);
+      }
+
+      .checkbox {
+        height: 18px;
+        width: 18px;
+      }
+
+      .checkbox-checked {
+        filter: brightness(0) saturate(100%) invert(81%) sepia(54%) saturate(404%) hue-rotate(18deg) brightness(108%) contrast(98%);
       }
 
       .box {
@@ -784,23 +824,32 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 16px 0 24px;
   }
 
   h3 {
-    margin-bottom: 15px;
+    margin: 24px 0 16px;
     text-align: left;
-    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .input-wrap {
-    margin: 20px 0;
+    margin: 16px 0;
   }
 
   .action-btn {
+    color: #000000;
     margin-left: auto;
-    width: auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    //width: auto;
+    width: 200px;
+    height: 32px;
+  }
+
+  .btn {
+    &:disabled {
+      color: $clrDisableText;
+    }
   }
 }
 

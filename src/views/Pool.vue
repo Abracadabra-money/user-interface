@@ -1,7 +1,7 @@
 <template>
   <div class="pool-view">
     <div class="container mini">
-      <BackButton :text="'Stand'" @click="toStand" />
+      <BackButton :text="'Back'" @click="toStand" />
 
       <h1>Magic happens here</h1>
 
@@ -285,26 +285,9 @@ export default {
     async borrowHandler(data) {
       console.log("BORROW HANDLER", data);
       const isApprowed = await this.isApprowed();
-      const useAVAXStatus = this.getAVAXStatus();
 
-      if (useAVAXStatus) {
+      if (isApprowed) {
         this.cookBorrow(data, isApprowed);
-      } else {
-        const isTokenApprove = await this.isTokenApprowed(
-          this.pool.token.contract,
-          this.pool.masterContractInstance.address
-        );
-
-        if (isTokenApprove) {
-          this.cookBorrow(data, isApprowed);
-          return false;
-        }
-
-        const approveResult = await this.approveToken(
-          this.pool.token.contract,
-          this.pool.masterContractInstance.address
-        );
-        if (approveResult) this.cookBorrow(data, isApprowed);
       }
     },
     async removeAndRepayHandler(data) {
@@ -2760,50 +2743,59 @@ export default {
 
 <style lang="scss" scoped>
 .pool-view {
-  padding-top: 60px;
-  padding-bottom: 155px;
+  padding: 40px 0;
   flex: 1;
 
   h1 {
-    margin: 60px 0;
+    font-size: 32px;
+    line-height: 36px;
+    text-align: left;
+    margin: 40px 0 56px;
   }
 
   .pool-head-bar {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
     display: grid;
-    grid-template-columns: 62.5% 37.5%;
+    grid-template-columns: 600px 375px;
     column-gap: 20px;
   }
 
   .btns-group {
     display: flex;
     align-items: center;
+    width: 146px;
+    height: 32px;
+    background: #262626;
+    border-radius: 100px;
+    padding: 2px;
 
     .btn {
-      width: 127px;
-      font-size: 16px;
-      line-height: 1;
-      background: rgba(123, 121, 247, 0.3);
+      width: 73px;
+      height: 28px;
+      font-size: 14px;
+      line-height: 20px;
+      background: #262626;
 
       &:hover {
-        background-color: $clrBlue5;
+        //background-color: $clrBlue5;
       }
 
       &.borrow-btn {
-        margin-right: 20px;
+        //margin-right: 20px;
       }
 
       &.active {
-        background-color: $clrBlue;
+        color: black;
+        background-color: $clrBg3;
       }
     }
   }
 
   .pool-content {
     display: grid;
-    grid-template-columns: 62.5% 37.5%;
+    grid-template-columns: 600px 375px;
     column-gap: 20px;
-    row-gap: 20px;
+    row-gap: 16px;
   }
 }
 
@@ -2817,18 +2809,18 @@ export default {
     grid-template-columns: 100%;
   }
 
-  .pool-view .btns-group .btn.borrow-btn {
-    margin: 0 10px;
-  }
-
-  .pool-view .btns-group .btn {
-    margin: 0 10px;
-  }
+  //.pool-view .btns-group .btn.borrow-btn {
+  //  margin: 0 10px;
+  //}
+  //
+  //.pool-view .btns-group .btn {
+  //  margin: 0 10px;
+  //}
 }
 
 @media screen and(max-width: 780px) {
   .pool-view {
-    padding-top: 50px;
+    padding-top: 40px;
   }
 }
 
