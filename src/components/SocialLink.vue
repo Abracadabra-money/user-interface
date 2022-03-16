@@ -17,16 +17,16 @@
 export default {
   props: {
     data: {
-      type: Object,
+      type: String,
     },
     link: {
-      type: Object,
+      type: String,
     },
     position: {
-      type: Object,
+      type: String,
     },
     type: {
-      type: Object,
+      type: String,
     }
   },
 };
