@@ -2,7 +2,7 @@
   <div v-if="isConnected()">
     <button
       class="btn mini connected-btn"
-      :class="{ load: connectLoader, connected: isWalletConnected }"
+      :class="{ load: connectLoader, connected: isConnected }"
       @click="walletBtnHandler"
       @mouseenter="itsHover = true"
       @mouseleave="itsHover = false"
@@ -21,7 +21,7 @@
   <div v-else>
     <button
       class="btn mini connect-btn"
-      :class="{ load: connectLoader, connected: isWalletConnected }"
+      :class="{ load: connectLoader, connected: isConnected }"
       @click="walletBtnHandler"
     >
       <ButtonLoader v-if="connectLoader"/>
@@ -105,17 +105,10 @@ export default {
     connectBtnText() {
       return this.btnText;
     },
-    isWalletConnected() {
-      return this.$store.getters.getWalletIsConnected;
-    },
   },
   methods: {
     isConnected() {
-      if(this.isWalletConnected){
-        return true;
-      } else {
-        return false;
-      }
+      return this.$store.getters.getWalletIsConnected;
     },
     async walletBtnHandler() {
       if (this.isWalletConnected) {
