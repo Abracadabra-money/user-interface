@@ -138,6 +138,7 @@ input::-webkit-inner-spin-button {
     line-height: 20px;
     span {
       padding-left: 10px;
+      font-weight: 700;
     }
   }
 

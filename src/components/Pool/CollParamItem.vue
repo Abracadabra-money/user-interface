@@ -58,6 +58,9 @@ export default {
       font-weight: 700;
       margin-left: auto;
     }
+    .percent-text:i {
+      font-weight: 400;
+    }
   }
 
   .item-info {
