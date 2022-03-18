@@ -114,12 +114,15 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-view {
-  padding-top: 160px;
-  padding-bottom: 100px;
+  padding-top: 40px;
+  padding-bottom: 40px;
   flex: 1;
 
   h1 {
-    margin-bottom: 60px;
+    font-size: 32px;
+    line-height: 36px;
+    margin-bottom: 20px;
+    text-align: left;
   }
 
   .transaction-btn {
@@ -130,7 +133,6 @@ export default {
 
     p {
       font-size: 20px;
-      text-transform: uppercase;
       color: $clrBlue;
     }
   }
@@ -138,33 +140,40 @@ export default {
   .btns-group {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
+    width: 146px;
+    height: 32px;
+    background: #262626;
+    border-radius: 100px;
+    padding: 2px;
+    margin-bottom: 24px;
 
     .btn {
-      width: 127px;
-      font-size: 16px;
-      line-height: 1;
-      background: rgba(123, 121, 247, 0.3);
+      width: 73px;
+      height: 28px;
+      font-size: 14px;
+      line-height: 20px;
+      background: #262626;
 
       &:hover {
-        background-color: $clrBlue5;
+        //background-color: $clrBlue5;
       }
 
       &.borrow-btn {
-        margin-right: 20px;
+        //margin-right: 20px;
       }
 
       &.active {
-        background-color: $clrBlue;
+        color: black;
+        background-color: $clrBg3;
       }
     }
   }
 
   .items-wrap {
     display: grid;
-    grid-template-columns: 50% 50%;
-    column-gap: 20px;
-    row-gap: 20px;
+    grid-template-columns: 486px 486px;
+    column-gap: 26px;
+    row-gap: 26px;
   }
 }
 
@@ -175,14 +184,6 @@ export default {
 
   .dashboard-view .btns-group {
     justify-content: center;
-  }
-
-  .dashboard-view .btns-group .btn.borrow-btn {
-    margin: 0 10px;
-  }
-
-  .dashboard-view .btns-group .btn {
-    margin: 0 10px;
   }
 }
 

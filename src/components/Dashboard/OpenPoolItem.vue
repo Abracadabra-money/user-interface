@@ -2,19 +2,23 @@
   <div class="pool-item">
     <div class="item-head">
       <h2 v-if="actionType === 'borrow'">
-        {{ actionType.toUpperCase() }} more
+        {{ actionType }} more
       </h2>
-      <h2 v-if="actionType === 'repay'">{{ actionType.toUpperCase() }}</h2>
+      <h2 v-if="actionType === 'repay'">{{ actionType }}</h2>
       <div class="status-item" v-if="false">
         <p>liquidation possibility</p>
       </div>
+    </div>
+
+    <div class="liquidation-bar-wrap">
+      <LiquidationBar :pool="pool" />
     </div>
 
     <div class="valutes-row">
       <div class="valute-item">
         <div class="value-type">
           <TokenIcon :token="pool.token.name" />
-          <p>{{ pool.token.name }}</p>
+          <p>{{ pool.name }}</p>
         </div>
 
         <p class="amount">
@@ -31,17 +35,31 @@
       </div>
     </div>
 
-    <div class="liquidation-info" v-if="false">
-      <p class="price-text">Liquidation price <span>$xxx.xx</span></p>
-      <button class="safe-status">Safe</button>
+    <div class="liquidation-info" v-if="true">
+      <p class="price-text">Liquidation price</p>
+      <p class="price-value">{{ liquidationPrice.toFixed(4) || $xxx.xx }}</p>
+      <button
+        class="safe-status"
+        :class="{
+          safe: liquidationRisk > 75,
+          medium: liquidationRisk > 5 && liquidationRisk <= 75,
+          hight: liquidationRisk > 0 && liquidationRisk <= 5,
+        }"
+      >
+        {{ liquidationRiskStatus }}
+      </button>
     </div>
 
-    <button class="btn action-btn" @click="toPool">{{ actionType }}</button>
+    <div class="item-foot">
+      <p>1 {{pool.token.name}} = {{tokenPrice.toFixed(4)}} nUSD</p>
+      <button class="btn action-btn" @click="toPool"><p>{{ actionType }}</p></button>
+    </div>
   </div>
 </template>
 
 <script>
 const TokenIcon = () => import("@/components/UiComponents/TokenIcon");
+const LiquidationBar = () => import("@/components/Pool/LiquidationBar");
 export default {
   props: {
     pool: {
@@ -62,8 +80,63 @@ export default {
       });
     },
   },
+  computed: {
+    tokenPrice() {
+      const tokenToNUSD = 1 / this.$store.getters.getTokenPrice;
+      return tokenToNUSD;
+    },
+    stableCoinMultiplyer() {
+      if (this.$store.getters.getPoolLtv === 90) {
+        return 10;
+      }
+
+      return 1;
+    },
+    liquidationPrice() {
+      const liquidationMultiplier = (200 - this.$store.getters.getPoolLtv) / 100;
+
+      const liquidationPrice =
+        ((this.$store.getters.getUserBorrowPart * this.$store.getters.getTokenPrice) /
+          this.$store.getters.getUserCollateralShare) *
+        (1 / this.$store.getters.getTokenPrice) *
+        liquidationMultiplier;
+
+      return liquidationPrice;
+    },
+    priceDifferens() {
+      const priceDifferens = this.tokenPrice - this.liquidationPrice;
+
+      return priceDifferens;
+    },
+    liquidationRisk() {
+      if (+this.$store.getters.getUserBorrowPart === 0 || isNaN(this.liquidationPrice))
+        return 0;
+
+      const riskPersent =
+        ((this.priceDifferens * this.stableCoinMultiplyer) / this.tokenPrice) *
+        100;
+
+      if (riskPersent > 100) {
+        return 100;
+      }
+
+      return parseFloat(riskPersent).toFixed(2);
+    },
+    liquidationRiskStatus() {
+      let status = "";
+      if (this.liquidationRisk > 75) {
+        status = "Safe";
+      } else if (this.liquidationRisk > 5 && this.liquidationRisk <= 75) {
+        status = "Medium";
+      } else if (this.liquidationRisk > 0 && this.liquidationRisk <= 5) {
+        status = "High";
+      }
+      return status;
+    },
+  },
   components: {
     TokenIcon,
+    LiquidationBar,
   },
 };
 </script>
@@ -72,39 +145,63 @@ export default {
 .pool-item {
   width: 100%;
   background: $clrBg2;
-  border-radius: 20px;
-  padding: 20px 20px 30px;
+  border-radius: 4px;
+  padding: 24px;
 
   .liquidation-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
-    background: rgba(34, 27, 71, 0.4);
-    border-radius: 38px;
-    padding: 10px 20px;
+    margin-bottom: 16px;
+    background: $clrBg2;
+    border: 1px solid #606060;
+    border-radius: 4px;
+    padding: 15px 12px;
+
+    .price-value {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+  .liquidation-bar-wrap {
+    margin-bottom: 24px;
   }
 
   .price-text {
+    font-size: 14px;
+    line-height: 20px;
     text-align: left;
-    span {
-      padding-left: 10px;
-    }
   }
 
   .action-btn {
-    margin-left: auto;
+    color: #000000;
+    p::first-letter {
+      text-transform: capitalize;
+    }
   }
 
   .safe-status {
-    width: 50px;
-    height: 24px;
+    padding: 1px 8px;
     outline: none;
     border: none;
     background: $clrBlue4;
-    border-radius: 23px;
-    font-size: 12px;
+    border-radius: 100px;
+    font-size: 10px;
+    line-height: 14px;
     color: $clrText;
+
+    &.safe {
+      background: #05D864;
+    }
+
+    &.medium {
+      background: #FDD33F;
+    }
+
+    &.hight {
+      background: #FE3366;
+    }
   }
 
   .item-head {
@@ -112,6 +209,24 @@ export default {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
+
+    h2 {
+      font-size: 16px;
+      line-height: 24px;
+      &::first-letter {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .item-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      font-size: 14px;
+      line-height: 20px;
+    }
   }
 
   .status-item {
@@ -129,31 +244,35 @@ export default {
   }
 
   .valutes-row {
-    background: rgba(34, 27, 71, 0.4);
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
-    margin: 10px 0;
+    margin-bottom: 16px;
   }
 
   .valute-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: calc((100% / 2) - 10px);
+    width: calc((100% / 2) - 8px);
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    padding: 11px;
 
     .value-type {
+      font-size: 14px;
+      line-height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
+      p {
+        font-size: 14px;
+        line-height: 20px;
+      }
 
-      .type-icon {
-        width: 32px;
-        height: 32px;
-        object-fit: contain;
-        margin-right: 10px;
+      .token-icon-wrap {
+        width: 24px;
+        height: 24px;
       }
     }
   }

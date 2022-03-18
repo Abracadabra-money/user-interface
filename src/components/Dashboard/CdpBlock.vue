@@ -25,15 +25,22 @@ export default {
 
 <style lang="scss" scoped>
 .cdp-block {
-  background: #221b47;
-  border-radius: 20px;
-  padding: 20px 10px 15px;
-  min-height: 300px;
+  background: $clrBg1;
+  border-radius: 4px;
+  padding: 33px 24px;
+  min-height: 252px;
   position: relative;
 
   h2 {
-    margin-bottom: 25px;
-    text-align: center;
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 42px;
+    text-align: left;
+  }
+
+  p {
+    color: $clrDisableText;
+    text-align: left;
   }
 }
 

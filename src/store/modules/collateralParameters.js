@@ -110,9 +110,9 @@ export default {
           additional: "",
         },
         {
-          title: "NUSD borrowed",
+          title: "nUSD borrowed",
           value: `$ ${parseFloat(userBorrowPart).toFixed(4)}`,
-          tooltip: "NUSD Currently Borrowed in your Position",
+          tooltip: "nUSD Currently Borrowed in your Position",
           additional: "",
         },
         {
@@ -122,9 +122,9 @@ export default {
           additional: "",
         },
         {
-          title: "NUSD left to borrow",
+          title: "nUSD left to borrow",
           value: `${borrowLeftParsed}`,
-          tooltip: "NUSD Borrowable Given the Collateral Deposited",
+          tooltip: "nUSD Borrowable Given the Collateral Deposited",
           additional: "",
         },
       ];

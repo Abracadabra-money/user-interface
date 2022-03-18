@@ -111,7 +111,7 @@ export default {
       return this.$store.getters.getWalletIsConnected;
     },
     async walletBtnHandler() {
-      if (this.isWalletConnected) {
+      if (this.isConnected) {
         this.toDashboard();
         return false;
       }

@@ -349,9 +349,9 @@ export default {
         {
           title: "Borrow fee",
           value: `${borrowFee} %`,
-          tooltip: "This fee is added to your debt every time you borrow NUSD.",
+          tooltip: "This fee is added to your debt every time you borrow nUSD.",
           additional:
-            "This fee is added to your debt every time you borrow NUSD.",
+            "This fee is added to your debt every time you borrow nUSD.",
         },
         {
           title: "Interest",
@@ -394,7 +394,7 @@ export default {
           additional: "",
         },
         {
-          title: "NUSD borrowed",
+          title: "nUSD borrowed",
           value: `$${parseFloat(userBorrowPart).toFixed(4)}`,
           additional: "",
         },
@@ -404,7 +404,7 @@ export default {
           additional: "",
         },
         {
-          title: "NUSD left to borrow",
+          title: "nUSD left to borrow",
           value: `${borrowLeftParsed}`,
           additional: "",
         },

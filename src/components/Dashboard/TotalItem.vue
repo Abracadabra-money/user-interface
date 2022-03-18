@@ -1,23 +1,12 @@
 <template>
   <div class="total-item">
-    <h2 v-if="type === 'collateral'">Total {{ type.toUpperCase() }}ised</h2>
-    <h2 v-if="type === 'borrow'">Total {{ type.toUpperCase() }}ed</h2>
-    <div class="img-wrap">
-      <img class="type-icon" :src="icon" alt="" />
-    </div>
+    <h2 v-if="type === 'collateral'">Total {{ type }}ised</h2>
+    <h2 v-if="type === 'borrow'">Total {{ type }}ed</h2>
+<!--    <div class="img-wrap">-->
+<!--      <img class="type-icon" :src="icon" alt="" />-->
+<!--    </div>-->
     <p class="count-text">{{ amount }}</p>
     <p class="info-text" v-if="count">{{ type }}ed from {{ count }} pools</p>
-
-    <img
-      class="left-bg"
-      src="@/assets/images/dashboard/total-left-bg.svg"
-      alt=""
-    />
-    <img
-      src="@/assets/images/dashboard/total-right-bg.svg"
-      alt=""
-      class="right-bg"
-    />
   </div>
 </template>
 
@@ -43,10 +32,10 @@ export default {
 
 <style lang="scss" scoped>
 .total-item {
-  background: #221b47;
-  border-radius: 20px;
-  padding: 20px;
-  min-height: 300px;
+  background: $clrBg1;
+  border-radius: 4px;
+  padding: 24px;
+  min-height: 252px;
   position: relative;
 
   .left-bg {
@@ -66,8 +55,10 @@ export default {
   }
 
   h2 {
-    margin-bottom: 35px;
-    text-align: center;
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 40px;
+    text-align: left;
   }
 
   .img-wrap {
@@ -84,10 +75,17 @@ export default {
   }
 
   .count-text {
-    font-size: 40px;
-    line-height: 1;
+    text-align: left;
+    font-size: 32px;
+    line-height: 36px;
     text-transform: uppercase;
-    padding-bottom: 5px;
+    padding-bottom: 8px;
+  }
+  .info-text {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: left;
+    color: #8A8A8A;
   }
 }
 </style>
