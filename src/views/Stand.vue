@@ -43,7 +43,7 @@ export default {
       return this.$store.getters.getWalletIsConnected;
     },
     async walletBtnHandler() {
-      if (this.isWalletConnected || !window.ethereum) {
+      if (this.isConnected() || !window.ethereum) {
         return false;
       }
 
