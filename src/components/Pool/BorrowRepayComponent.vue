@@ -430,8 +430,8 @@ export default {
             this.multiplierHandle(payload, "addAndBorrowMultiple");
             return false;
           }
-
           this.$emit("addAndBorrow", payload);
+          this.clearData();
         }
 
         if (this.actionType === "repay") {
@@ -479,10 +479,12 @@ export default {
 
             console.log("its Max");
             this.$emit("removeAndRepayMax", payload);
+            this.clearData();
             return false;
           }
 
           this.$emit("removeAndRepay", payload);
+          this.clearData();
         }
         return false;
       }
@@ -498,7 +500,9 @@ export default {
             amount: parsedAmount,
             updatePrice: this.updatePrice,
           };
+
           this.$emit("addCollateral", payload);
+          this.clearData();
         }
         if (this.actionType === "repay") {
           const parsedAmount = this.$ethers.utils.parseUnits(
@@ -511,6 +515,7 @@ export default {
             updatePrice: this.updatePrice,
           };
           this.$emit("repay", payload);
+          this.clearData();
         }
         return false;
       }
@@ -534,6 +539,7 @@ export default {
           }
 
           this.$emit("borrow", payload);
+          this.clearData();
         }
         if (this.actionType === "repay") {
           const parsedPair = this.$ethers.utils.parseUnits(
@@ -547,6 +553,7 @@ export default {
           };
 
           this.$emit("removeCollateral", payload);
+          this.clearData();
         }
 
         return false;
