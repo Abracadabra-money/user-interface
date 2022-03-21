@@ -103,7 +103,7 @@ export default {
 .app-header {
   background: #4D4AEC;
   height: $headerHeight;
-  z-index: 200;
+  z-index: 2;
 
   &.transparent {
     position: absolute;
