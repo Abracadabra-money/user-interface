@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isConnected()">
+  <div v-if="isConnected">
     <button
       class="btn mini connected-btn"
       :class="{ load: connectLoader, connected: isConnected }"
@@ -25,7 +25,6 @@
       @click="walletBtnHandler"
     >
       <ButtonLoader v-if="connectLoader"/>
-      <template v-if="itsHover"> Dashboard </template>
       <template v-else>
         {{ connectBtnText }}
       </template>
@@ -105,11 +104,11 @@ export default {
     connectBtnText() {
       return this.btnText;
     },
-  },
-  methods: {
     isConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
+  },
+  methods: {
     async walletBtnHandler() {
       if (this.isConnected) {
         this.toDashboard();
