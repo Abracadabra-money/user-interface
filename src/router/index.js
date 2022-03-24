@@ -18,14 +18,14 @@ const routes = [
     },
     component: () => import("../views/Stand.vue"),
   },
-  {
-    path: "/farm-stand",
-    name: "FarmStand",
-    meta: {
-      needConnection: true,
-    },
-    component: () => import("../views/FarmStand.vue"),
-  },
+  // {
+  //   path: "/farm-stand",
+  //   name: "FarmStand",
+  //   meta: {
+  //     needConnection: true,
+  //   },
+  //   component: () => import("../views/FarmStand.vue"),
+  // },
   // {
   //   path: "/mim-3-pool",
   //   name: "Mim3Pool",

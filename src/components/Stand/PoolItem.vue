@@ -7,20 +7,16 @@
       </div>
     </div>
     <div class="table-col">
-      <p>{{ collateralInUsd | formatNumber }}</p>
+      <p>{{ totalBorrow | formatNumber }}</p>
     </div>
     <div class="table-col">
-      <div class="val-item">
-        <p>{{ pool.dynamicBorrowAmount | formatNumber }}</p>
-      </div>
+      <p>{{ pool.dynamicBorrowAmount | formatNumber }}</p>
     </div>
     <div class="table-col">
-      <div class="val-item">
-        <p>{{ pool.interest }}%</p>
-      </div>
+      <p>{{ pool.interest }} <span>%</span></p>
     </div>
     <div class="table-col">
-      <p>{{ pool.stabilityFee }}%</p>
+      <p>{{ pool.stabilityFee }} <span>%</span></p>
     </div>
   </div>
 </template>
@@ -37,8 +33,11 @@ export default {
   },
   computed: {
     totalBorrow() {
+      // return parseFloat(
+      //   this.$ethers.utils.formatEther(this.pool.totalBorrow)
+      // ).toFixed(0);
       return parseFloat(
-        this.$ethers.utils.formatEther(this.pool.totalBorrow)
+        this.$ethers.utils.formatEther(this.$store.getters.getTotalBorrow)
       ).toFixed(0);
     },
     mainTokenPrice() {
@@ -99,12 +98,18 @@ export default {
 .stand-table-item {
   display: flex;
   align-items: center;
-  padding: 13px 30px;
+  padding: 24px;
   background-color: $clrBlue2;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  min-height: 120px;
+  margin-bottom: 1px;
   cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 1px 0 0 $clrBlue6; /* Border bottom */
+    box-shadow: 0 -1px 0 0 $clrBlue6; /* Border top */
+    box-shadow: -1px 0 0 0 $clrBlue6; /* Border left */
+    box-shadow: 1px 0 0 0 $clrBlue6; /* Border right */
+    box-shadow: 0 0 0 1px $clrBlue6;
+  }
 
   &.hidden {
     filter: blur(2px);
@@ -131,7 +136,16 @@ export default {
 
   .table-col {
     width: calc((100% - 150px) / 4);
-    text-align: left;
+    text-align: right;
+    font-size: 16px;
+    line-height: 24px;
+
+    .val-item {
+      .token-icon-wrap{
+        width: 32px;
+        height: 32px;
+      }
+    }
 
     &.pool-name {
       p {
@@ -140,15 +154,22 @@ export default {
     }
 
     p {
-      text-transform: uppercase;
+      span {
+        color: #8A8A8A;
+      }
       font-size: 16px;
-      line-height: 1;
+      line-height: 24px;
     }
   }
 
   .val-item {
     display: flex;
     align-items: center;
+    .token-icon-wrap {
+      .token-icon {
+        max-width: none !important;
+      }
+    }
   }
 
   .val-icon {

@@ -27,19 +27,20 @@ export default {
   align-items: center;
   cursor: pointer;
   width: max-content;
+  background: #353535;
+  border-radius: 16px;
+  padding: 6px 16px;
 
   .arrow-icon {
-    width: 40px;
-    height: 40px;
+    width: 7px;
+    height: 12px;
     object-fit: contain;
-    margin-right: 10px;
+    margin-right: 12px;
   }
 
   p {
-    font-size: 16px;
-    line-height: 1.23;
-    letter-spacing: 0.045em;
-    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 20px;
   }
 }
 </style>

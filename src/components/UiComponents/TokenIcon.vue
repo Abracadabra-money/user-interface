@@ -3,7 +3,7 @@
     class="token-icon-wrap"
     :class="{ 'mim-wrap': token === 'MIM' || full, pair: itsGroup, mini }"
   >
-    <img :src="bgIcon" alt="" class="bg" />
+<!--    <img :src="bgIcon" alt="" class="bg" />-->
     <img :src="tokenIcon" alt="" class="token-icon" />
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   props: {
     token: {
       type: String,
-      default: "ETH",
+      default: "AVAX",
     },
     mini: {
       type: Boolean,
@@ -35,21 +35,13 @@ export default {
   computed: {
     tokenIcon() {
       try {
-        if (this.token === "xSUSHI") {
-          const tokenImage = require(`@/assets/images/tokens-icon/Token_${this.token}.png`);
-
-          return (
-            tokenImage || require("@/assets/images/tokens-icon/Token_ETH.svg")
-          );
-        }
-
         const tokenImage = require(`@/assets/images/tokens-icon/Token_${this.token}.svg`);
 
         return (
-          tokenImage || require("@/assets/images/tokens-icon/Token_ETH.svg")
+          tokenImage || require("@/assets/images/tokens-icon/Token_AVAX.svg")
         );
       } catch (e) {
-        return require("@/assets/images/tokens-icon/Token_ETH.svg");
+        return require("@/assets/images/tokens-icon/Token_AVAX.svg");
       }
     },
     bgIcon() {
@@ -68,17 +60,15 @@ export default {
 .token-icon-wrap {
   width: 32px;
   height: 32px;
-  min-width: 32px;
-  min-height: 32px;
-  margin-right: 10px;
+  min-width: 16px;
+  min-height: 16px;
+  margin-right: 16px;
   position: relative;
-
   &.mini {
     width: 16px;
     height: 16px;
     min-width: 16px;
     min-height: 16px;
-
     &.pair {
       width: 20px;
       height: 20px;
@@ -86,14 +76,12 @@ export default {
       min-height: 20px;
     }
   }
-
   &.pair {
     width: 46px;
     height: 40px;
     min-width: 46px;
     min-height: 40px;
   }
-
   &.mim-wrap {
     .token-icon {
       width: 32px;
@@ -101,20 +89,17 @@ export default {
       object-fit: contain;
       max-width: 100%;
     }
-
     .bg {
       opacity: 0;
     }
   }
-
   .bg {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
-
   .token-icon {
-    max-width: 70%;
+    max-width: 100%;
     height: auto;
     position: absolute;
     top: 50%;

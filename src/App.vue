@@ -105,7 +105,6 @@ h3 {
   font-size: 26px;
   line-height: 1.2;
   text-align: center;
-  text-transform: uppercase;
   color: $clrText;
   margin: 0;
 }
@@ -139,37 +138,34 @@ h3 {
 }
 
 .btn {
-  width: 176px;
-  height: 60px;
-  background: #7b79f7;
-  border-radius: 8px;
-  background-color: $clrBlue;
+  width: 200px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: $clrBg3;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
-  line-height: 1;
+  font-size: 14px;
+  line-height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  text-transform: uppercase;
+  //text-transform: uppercase;
   color: #ffffff;
   cursor: pointer;
   outline: none;
   border: none;
   transition: all 0.3s ease;
 
-  &:hover {
-    background-color: $clrBlue5;
-  }
-
   &.mini {
     height: 42px;
   }
 
   &:disabled {
+    color: $clrDisableText;
     pointer-events: none;
     background-color: $clrDisable;
+    border: 1px solid #414141;
   }
 
   &.load {
@@ -178,7 +174,7 @@ h3 {
 }
 
 #app {
-  font-family: "Sofia Pro", sans-serif;
+  font-family: "Work Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -193,16 +189,18 @@ h3 {
 .tooltip {
   display: block !important;
   z-index: 10000;
-  font-family: "Sofia Pro", sans-serif;
+  font-family: "Work Sans", sans-serif;
 
   .tooltip-inner {
     background: $clrBg2;
     color: white;
-    border-radius: 16px;
-    padding: 5px 10px 5px;
+    border-radius: 4px;
+    border: 1px solid #606060;
+    padding: 8px 12px;
     max-width: 300px;
-    text-align: center;
+    text-align: left;
     font-size: 14px;
+    line-height: 20px;
   }
 
   .tooltip-arrow {

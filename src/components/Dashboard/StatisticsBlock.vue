@@ -89,6 +89,14 @@ export default {
     this.updateBorrowStat();
     this.updateCollateralStat();
   },
+  computed: {
+    // collateralInfo() {
+    //   const collateralInfo =  this.$store.getters.getCollateralInfo;
+    //   const filter = collateralInfo.map((item) => {
+    //
+    //   })
+    // },
+  },
   components: {
     TotalItem,
     CdpBlock,
@@ -100,13 +108,13 @@ export default {
 .statistics-block {
   display: flex;
   justify-content: space-between;
-  padding: 25px;
-  background-color: rgba(24, 18, 53, 0.5);
-  border-radius: 20px;
-  margin-bottom: 80px;
+  padding: 24px;
+  border-radius: 4px;
+  background-color: $clrBg2;
+  margin-bottom: 40px;
 
   .item-wrap {
-    width: 32%;
+    width: 300px;
   }
 }
 

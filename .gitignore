@@ -23,5 +23,3 @@ pnpm-debug.log*
 *.sw?
 
 .gitlab-ci.yml
-Dockerfile
-nginx.conf
