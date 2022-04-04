@@ -1,5 +1,5 @@
 <template>
-  <div class="stand-table-disable" @click="toPool" v-if="!isWTXPool">
+  <div class="stand-table-disable" @click="toPool" v-if="isWTXPool">
     <div class="table-col pool-name">
       <div class="val-item">
         <TokenIcon :token="pool.token.name" />
@@ -8,9 +8,7 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="
-            'Some reason why it does not work'
-          "
+          v-tooltip="'Some reason why it does not work'"
         />
       </div>
     </div>
@@ -82,7 +80,7 @@ export default {
       return this.collateralParsed * this.mainTokenPrice;
     },
     isWTXPool() {
-      if (this.pool.token.name === "WTX") {
+      if (this.pool.token.name === "WXT") {
         return true;
       } else {
         return true;
@@ -91,6 +89,7 @@ export default {
   },
   methods: {
     toPool() {
+      console.log(this.pool.isEnabled);
       this.$router.push({ name: "Pool", params: { id: this.pool.id } });
     },
   },
@@ -150,7 +149,7 @@ export default {
     background-color: $clrBlue3;
   }
   .info-icon {
-    margin-left: 20px;
+    margin-left: 15px;
   }
   .action-col {
     width: 150px;
