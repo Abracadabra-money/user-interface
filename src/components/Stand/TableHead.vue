@@ -22,7 +22,6 @@ export default {
         "Components",
         "Total nUSD borrowed",
         "nUSD left to borrow",
-        "Interest",
         "Liquidation fee",
       ],
     };
@@ -39,6 +38,7 @@ export default {
 .stand-table-head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 15px 24px;
   background-color: $clrBg2;
   border-top-left-radius: 4px;
@@ -63,6 +63,7 @@ export default {
   }
   .table-col:first-child {
     text-align: left;
+    padding-right: 0;
   }
 }
 

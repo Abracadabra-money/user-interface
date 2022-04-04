@@ -1,5 +1,31 @@
 <template>
-  <div class="stand-table-item" @click="toPool">
+  <div class="stand-table-disable" @click="toPool" v-if="!isWTXPool">
+    <div class="table-col pool-name">
+      <div class="val-item">
+        <TokenIcon :token="pool.token.name" />
+        <p>{{ pool.name }}</p>
+        <img
+          src="@/assets/images/i-icon.svg"
+          alt=""
+          class="info-icon"
+          v-tooltip="
+            'Some reason why it does not work'
+          "
+        />
+      </div>
+    </div>
+    <div class="table-col">
+      <p>{{ totalBorrow | formatNumber }}</p>
+    </div>
+    <div class="table-col">
+      <p>{{ pool.dynamicBorrowAmount | formatNumber }}</p>
+    </div>
+    <div class="table-col">
+      <p>{{ pool.stabilityFee }} <span>%</span></p>
+    </div>
+  </div>
+
+  <div class="stand-table-item" @click="toPool" v-else>
     <div class="table-col pool-name">
       <div class="val-item">
         <TokenIcon :token="pool.token.name" />
@@ -11,9 +37,6 @@
     </div>
     <div class="table-col">
       <p>{{ pool.dynamicBorrowAmount | formatNumber }}</p>
-    </div>
-    <div class="table-col">
-      <p>{{ pool.interest }} <span>%</span></p>
     </div>
     <div class="table-col">
       <p>{{ pool.stabilityFee }} <span>%</span></p>
@@ -58,6 +81,13 @@ export default {
     collateralInUsd() {
       return this.collateralParsed * this.mainTokenPrice;
     },
+    isWTXPool() {
+      if (this.pool.token.name === "WTX") {
+        return true;
+      } else {
+        return true;
+      }
+    }
   },
   methods: {
     toPool() {
@@ -95,9 +125,96 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.stand-table-disable {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  background-color: $clrBlue2;
+  margin-bottom: 1px;
+
+  //&:hover {
+  //  box-shadow: 0 1px 0 0 $clrBlue6; /* Border bottom */
+  //  box-shadow: 0 -1px 0 0 $clrBlue6; /* Border top */
+  //  box-shadow: -1px 0 0 0 $clrBlue6; /* Border left */
+  //  box-shadow: 1px 0 0 0 $clrBlue6; /* Border right */
+  //  box-shadow: 0 0 0 1px $clrBlue6;
+  //}
+
+  &.hidden {
+    filter: blur(2px);
+    pointer-events: none;
+  }
+
+  &.lighter {
+    background-color: $clrBlue3;
+  }
+  .info-icon {
+    margin-left: 20px;
+  }
+  .action-col {
+    width: 150px;
+    padding-left: 30px;
+
+    .btn {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+
+      &:first-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .table-col {
+    width: calc((100% - 150px) / 4);
+    text-align: right;
+    font-size: 16px;
+    line-height: 24px;
+
+    .val-item {
+      .token-icon-wrap{
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    &.pool-name {
+      p {
+        text-transform: inherit;
+      }
+    }
+
+    p {
+      span {
+        color: #8A8A8A;
+      }
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  .val-item {
+    display: flex;
+    align-items: center;
+    .token-icon-wrap {
+      .token-icon {
+        max-width: none !important;
+      }
+    }
+  }
+
+  .val-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    margin-right: 10px;
+  }
+}
 .stand-table-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 24px;
   background-color: $clrBlue2;
   margin-bottom: 1px;
