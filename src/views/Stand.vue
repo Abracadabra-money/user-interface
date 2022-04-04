@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isConnected()" class="stand-view">
+  <div v-if="isConnected" class="stand-view">
     <div class="container mini">
       <div class="stand-group">
         <h1>nUSD Markets</h1>
@@ -37,26 +37,26 @@ export default {
     pools() {
       return this.$store.getters.getPools;
     },
-  },
-  methods: {
     isConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
+  },
+  methods: {
     async walletBtnHandler() {
-      if (this.isConnected() || !window.ethereum) {
-        return false;
+        if (this.isConnected || !window.ethereum) {
+          return false;
+        }
+
+        this.disabledStatus = true;
+
+        try {
+          await this.$store.dispatch("connectAccount", window.ethereum);
+        } catch (e) {
+          console.log("e:", e);
+        }
+
+        this.disabledStatus = false;
       }
-
-      this.disabledStatus = true;
-
-      try {
-        await this.$store.dispatch("connectAccount", window.ethereum);
-      } catch (e) {
-        console.log("e:", e);
-      }
-
-      this.disabledStatus = false;
-    },
   },
 };
 </script>
