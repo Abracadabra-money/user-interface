@@ -1,9 +1,20 @@
 <template>
-  <div class="stand-table-item" @click="toPool">
+  <div
+    class="stand-table-item"
+    :class="{ 'stand-table-disable': !pool.isEnabled }"
+    @click="toPool"
+  >
     <div class="table-col pool-name">
       <div class="val-item">
         <TokenIcon :token="pool.token.name" />
         <p>{{ pool.name }}</p>
+        <img
+          v-if="isWTXPool"
+          src="@/assets/images/i-icon.svg"
+          alt=""
+          class="info-icon"
+          v-tooltip="'Some reason why it does not work'"
+        />
       </div>
     </div>
     <div class="table-col">
@@ -11,9 +22,6 @@
     </div>
     <div class="table-col">
       <p>{{ pool.dynamicBorrowAmount | formatNumber }}</p>
-    </div>
-    <div class="table-col">
-      <p>{{ pool.interest }} <span>%</span></p>
     </div>
     <div class="table-col">
       <p>{{ pool.stabilityFee }} <span>%</span></p>
@@ -58,10 +66,19 @@ export default {
     collateralInUsd() {
       return this.collateralParsed * this.mainTokenPrice;
     },
+    isWTXPool() {
+      if (this.pool.token.name === "WXT") {
+        return true;
+      } else {
+        return true;
+      }
+    },
   },
   methods: {
     toPool() {
-      this.$router.push({ name: "Pool", params: { id: this.pool.id } });
+      if (this.pool.isEnabled) {
+        this.$router.push({ name: "Pool", params: { id: this.pool.id } });
+      }
     },
   },
   filters: {
@@ -98,10 +115,15 @@ export default {
 .stand-table-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 24px;
   background-color: $clrBlue2;
   margin-bottom: 1px;
   cursor: pointer;
+
+  .info-icon {
+    margin: 10px;
+  }
 
   &:hover {
     box-shadow: 0 1px 0 0 $clrBlue6; /* Border bottom */
@@ -141,7 +163,7 @@ export default {
     line-height: 24px;
 
     .val-item {
-      .token-icon-wrap{
+      .token-icon-wrap {
         width: 32px;
         height: 32px;
       }
@@ -155,7 +177,7 @@ export default {
 
     p {
       span {
-        color: #8A8A8A;
+        color: #8a8a8a;
       }
       font-size: 16px;
       line-height: 24px;
@@ -179,7 +201,12 @@ export default {
     margin-right: 10px;
   }
 }
-
+.stand-table-disable {
+  cursor: not-allowed;
+  &:hover {
+    box-shadow: none;
+  }
+}
 @media screen and(max-width: 780px) {
   .stand-table-item {
     flex-wrap: wrap;

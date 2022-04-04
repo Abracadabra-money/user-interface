@@ -1,6 +1,8 @@
 import poolsInfo from "@/utils/contracts/pools.js";
 import masterContractInfo from "@/utils/contracts/master.js";
 import oracleContractsInfo from "@/utils/contracts/oracle.js";
+import addressesByChainId from "@/utils/addressesByChainId";
+import whitelistContractInfo from "@/utils/contracts/whitelistManager";
 
 export default {
   computed: {
@@ -43,13 +45,28 @@ export default {
 
       this.$store.commit("setPools", pools);
     },
+    createWhitelistManager(address) {
+      const whitelistContract = new this.$ethers.Contract(
+        address,
+        JSON.stringify(whitelistContractInfo.abi),
+        this.signer
+      );
+      return whitelistContract;
+    },
     async createPool(pool, masterContract) {
       const poolContract = new this.$ethers.Contract(
         pool.contract.address,
         JSON.stringify(pool.contract.abi),
         this.signer
       );
-
+      pool.isEnabled = true;
+      if (pool.name === "WXT") {
+        const whitelistContract = this.createWhitelistManager(
+          addressesByChainId[pool.contractChain].WhitelistManager
+        );
+        console.log("whitelistContract", whitelistContract);
+        pool.isEnabled = (await whitelistContract.info(this.account)).isAllowed;
+      }
       const tokenContract = new this.$ethers.Contract(
         pool.token.address,
         JSON.stringify(pool.token.abi),
@@ -183,6 +200,7 @@ export default {
       return {
         name: pool.name,
         id: pool.id,
+        isEnabled: pool.isEnabled,
         userBorrowPart,
         userCollateralShare,
         contractInstance: poolContract,
@@ -349,9 +367,9 @@ export default {
         {
           title: "Borrow fee",
           value: `${borrowFee} %`,
-          tooltip: "This fee is added to your debt every time you borrow nUSD.",
+          tooltip: "This fee is added to your debt every time you borrow NXUSD.",
           additional:
-            "This fee is added to your debt every time you borrow nUSD.",
+            "This fee is added to your debt every time you borrow NXUSD.",
         },
         {
           title: "Interest",
@@ -394,7 +412,7 @@ export default {
           additional: "",
         },
         {
-          title: "nUSD borrowed",
+          title: "NXUSD borrowed",
           value: `$${parseFloat(userBorrowPart).toFixed(4)}`,
           additional: "",
         },
@@ -404,7 +422,7 @@ export default {
           additional: "",
         },
         {
-          title: "nUSD left to borrow",
+          title: "NXUSD left to borrow",
           value: `${borrowLeftParsed}`,
           additional: "",
         },
