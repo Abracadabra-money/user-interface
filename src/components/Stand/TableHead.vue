@@ -20,8 +20,8 @@ export default {
       colsGetTitles: ["Pool", "~Yield per $1000", "ROI Annually", "TVL"],
       colsLostTitles: [
         "Components",
-        "Total nUSD borrowed",
-        "nUSD left to borrow",
+        "Total NXUSD borrowed",
+        "NXUSD left to borrow",
         "Liquidation fee",
       ],
     };

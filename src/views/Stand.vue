@@ -2,7 +2,7 @@
   <div v-if="isConnected" class="stand-view">
     <div class="container mini">
       <div class="stand-group">
-        <h1>nUSD Markets</h1>
+        <h1>NXUSD Markets</h1>
         <StandTable :tableType="2" :items="pools" />
       </div>
     </div>

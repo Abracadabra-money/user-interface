@@ -51,7 +51,7 @@
     </div>
 
     <div class="item-foot">
-      <p>1 {{pool.token.name}} = {{tokenPrice.toFixed(4)}} nUSD</p>
+      <p>1 {{pool.token.name}} = {{tokenPrice.toFixed(4)}} NXUSD</p>
       <button class="btn action-btn" @click="toPool"><p>{{ actionType }}</p></button>
     </div>
   </div>

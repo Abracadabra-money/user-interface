@@ -6,8 +6,8 @@
       <CollParamItem v-for="(item, idx) in getInfoItems" :key="idx" :item="item" />
     </div>
 
-    <p class="btm-text">1 nUSD = 1 USD</p>
-    <p class="btm-text">1 {{ tokenName }} = {{ tokentToNUSD }} nUSD</p>
+    <p class="btm-text">1 NXUSD = 1 USD</p>
+    <p class="btm-text">1 {{ tokenName }} = {{ tokentToNUSD }} NXUSD</p>
   </div>
 </template>
 
@@ -30,7 +30,6 @@ export default {
   computed: {
     tokentToNUSD() {
       const tokenToNUSD = 1 / this.exchangeRate;
-
       // eslint-disable-next-line no-useless-escape
       let re = new RegExp(`^-?\\d+(?:\.\\d{0,` + (4 || -1) + `})?`);
       return tokenToNUSD.toString().match(re)[0];

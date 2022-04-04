@@ -61,9 +61,11 @@ export default {
       );
       pool.isEnabled = true;
       if (pool.name === "WXT") {
-        const whitelistContract = this.createWhitelistManager(addressesByChainId[pool.contractChain].WhitelistManager);
+        const whitelistContract = this.createWhitelistManager(
+          addressesByChainId[pool.contractChain].WhitelistManager
+        );
         console.log("whitelistContract", whitelistContract);
-        pool.isEnabled = await whitelistContract.info(this.account);
+        pool.isEnabled = (await whitelistContract.info(this.account)).isAllowed;
       }
       const tokenContract = new this.$ethers.Contract(
         pool.token.address,
@@ -198,6 +200,7 @@ export default {
       return {
         name: pool.name,
         id: pool.id,
+        isEnabled: pool.isEnabled,
         userBorrowPart,
         userCollateralShare,
         contractInstance: poolContract,
@@ -364,9 +367,9 @@ export default {
         {
           title: "Borrow fee",
           value: `${borrowFee} %`,
-          tooltip: "This fee is added to your debt every time you borrow nUSD.",
+          tooltip: "This fee is added to your debt every time you borrow NXUSD.",
           additional:
-            "This fee is added to your debt every time you borrow nUSD.",
+            "This fee is added to your debt every time you borrow NXUSD.",
         },
         {
           title: "Interest",
@@ -409,7 +412,7 @@ export default {
           additional: "",
         },
         {
-          title: "nUSD borrowed",
+          title: "NXUSD borrowed",
           value: `$${parseFloat(userBorrowPart).toFixed(4)}`,
           additional: "",
         },
@@ -419,7 +422,7 @@ export default {
           additional: "",
         },
         {
-          title: "nUSD left to borrow",
+          title: "NXUSD left to borrow",
           value: `${borrowLeftParsed}`,
           additional: "",
         },

@@ -1644,7 +1644,7 @@ export default [
       ],
     },
     pairToken: {
-      name: "nUSD",
+      name: "NXUSD",
       decimals: 18,
       address: "0x83A90d53dbc9a55888333224ca6C8210A3a7bDef",
       abi: [
