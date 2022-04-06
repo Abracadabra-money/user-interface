@@ -64,7 +64,7 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="'Will be implemented in the future'"
+          v-tooltip="'Allows users to leverage their position. Read more about this in the documents!'"
         />
       </div>
 
