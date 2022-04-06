@@ -2713,6 +2713,11 @@ export default {
       return false;
     }
 
+    if (!this.pool.isEnabled) {
+      this.$router.push({ name: "Stand" });
+      return false;
+    }
+
     const poolId = Number(this.$route.params.id);
     console.log("THIS IS - POOL ID: ", poolId);
     const poolItem = this.$store.getters.getPoolById(poolId);
