@@ -1,18 +1,13 @@
 <template>
   <div class="param-item">
-    <div class="item-main" @click="toggleInfo">
+    <div class="item-main">
       <div class="title">
-        <img src="@/assets/images/i-icon.svg" alt="" class="info-icon" />
-        <p>{{ item.title }}</p>
+        <img src="@/assets/images/i-icon.svg" alt="" class="info-icon" v-tooltip="itemProp.tooltip" />
+        <p>{{ itemProp.title }}</p>
       </div>
 
-      <p class="percent-text">{{ item.value }}</p>
+      <p class="percent-text">{{ itemProp.value }}</p>
     </div>
-    <transition name="fade">
-      <div class="item-info" v-if="showInfo && hasInfo">
-        <p>{{ item.additional }}</p>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -24,20 +19,9 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      showInfo: false,
-    };
-  },
   computed: {
-    hasInfo() {
-      return !!this.item.additional;
-    },
-  },
-  methods: {
-    toggleInfo() {
-      if (!this.hasInfo) return false;
-      this.showInfo = !this.showInfo;
+    itemProp() {
+      return this.item;
     },
   },
 };
@@ -46,19 +30,21 @@ export default {
 <style lang="scss" scoped>
 .param-item {
   .item-main {
-    height: 45px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    cursor: pointer;
+    padding: 0 24px;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 16px;
 
     .title {
       display: flex;
       align-items: center;
 
       .info-icon {
-        width: 16px;
-        height: 16px;
+        width: 13px;
+        height: 13px;
         margin-right: 10px;
       }
 
@@ -69,7 +55,11 @@ export default {
     }
 
     .percent-text {
+      font-weight: 700;
       margin-left: auto;
+    }
+    .percent-text:i {
+      font-weight: 400;
     }
   }
 

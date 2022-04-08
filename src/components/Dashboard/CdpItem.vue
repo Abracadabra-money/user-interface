@@ -32,7 +32,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 40px;
+  //min-height: 40px;
   margin: 5px 0;
 
   .value-type {
@@ -40,11 +40,14 @@ export default {
     align-items: center;
     justify-content: center;
 
-    .type-icon {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
-      margin-right: 10px;
+    .token-icon-wrap {
+      width: 24px;
+      height: 24px;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 20px;
     }
   }
 
@@ -55,11 +58,6 @@ export default {
     padding: 0 10px;
     display: flex;
     align-items: center;
-
-    p {
-      font-size: 10px;
-      text-transform: uppercase;
-    }
   }
 }
 </style>

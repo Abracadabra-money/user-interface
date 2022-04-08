@@ -57,16 +57,18 @@ export default {
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid transparent;
-    padding: 3px 7px;
-    border-radius: 30px;
+    padding: 6px 14px;
+    border-radius: 100px;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-right: 10px;
+    font-size: 14px;
+    line-height: 20px;
 
     &:hover,
     &.active {
-      border: 1px solid $clrBlue;
+      background: #E7FC6E;
+      color: #1C1C1C;
     }
   }
 }

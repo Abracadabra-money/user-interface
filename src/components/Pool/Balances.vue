@@ -2,7 +2,7 @@
   <div class="balances-block">
     <h2>Your Balances</h2>
 
-    <BalanceItem v-for="(item, idx) in filtredBalances" :item="item" :key="idx" />
+    <BalanceItem v-for="(item, idx) in balanceItems" :item="item" :key="idx" />
   </div>
 </template>
 
@@ -21,23 +21,29 @@ export default {
       filtredBalances: [],
     };
   },
-  mounted() {
-    this.filtredBalances = this.balances.filter((item) => item.balance !== "");
-  },
   components: {
     BalanceItem,
+  },
+  computed: {
+    balanceItems() {
+      return this.balances;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .balances-block {
-  padding: 30px 20px;
+  //padding: 16px 24px;
   background: $clrBg2;
-  border-radius: 20px;
+  border-radius: 4px;
 
   h2 {
-    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #1c1c1c;
   }
 }
 

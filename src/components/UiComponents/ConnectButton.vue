@@ -1,11 +1,14 @@
 <template>
-  <div v-if="isConnected()">
+  <div v-if="isConnected">
     <button
       class="btn mini connected-btn"
-      :class="{ load: connectLoader, connected: isWalletConnected }"
+      :class="{ load: connectLoader, connected: isConnected }"
       @click="walletBtnHandler"
+      @mouseenter="itsHover = true"
+      @mouseleave="itsHover = false"
     >
       <ButtonLoader v-if="connectLoader"/>
+      <template v-else-if="itsHover"> Dashboard </template>
       <template v-else>
         <div>
           {{ walletBtnText}}
@@ -18,11 +21,10 @@
   <div v-else>
     <button
       class="btn mini connect-btn"
-      :class="{ load: connectLoader, connected: isWalletConnected }"
+      :class="{ load: connectLoader, connected: isConnected }"
       @click="walletBtnHandler"
     >
       <ButtonLoader v-if="connectLoader"/>
-      <template v-if="itsHover"> Dashboard </template>
       <template v-else>
         {{ connectBtnText }}
       </template>
@@ -31,9 +33,9 @@
 </template>
 
 <script>
-import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
-import binanceIcon from "@/assets/images/networks/binance-icon.svg";
-import fantomIcon from "@/assets/images/networks/fantom-icon.svg";
+// import ethIcon from "@/assets/images/networks/ethereum-icon.svg";
+// import binanceIcon from "@/assets/images/networks/binance-icon.svg";
+// import fantomIcon from "@/assets/images/networks/fantom-icon.svg";
 import avaxIcon from "@/assets/images/networks/avalanche-avax-icon.svg";
 
 const ButtonLoader = () => import("@/components/UiComponents/ButtonLoader");
@@ -52,36 +54,36 @@ export default {
       btnText: "Connect",
 
       networks: [
+        // {
+        //   chainid: "0x1",
+        //   title: "ERC-20",
+        //   icon: ethIcon,
+        // },
+        // {
+        //   chainid: "0x38",
+        //   title: "BSC",
+        //   icon: binanceIcon,
+        // },
+        // {
+        //   chainid: "0xfa",
+        //   title: "FANTOM",
+        //   icon: fantomIcon,
+        // },
         {
           chainid: "0xa86a",
           title: "Avax Network",
           icon: avaxIcon,
         },
         {
-          chainid: "0x1",
-          title: "ERC-20",
-          icon: ethIcon,
-        },
-        {
-          chainid: "0x38",
-          title: "BSC",
-          icon: binanceIcon,
-        },
-        {
-          chainid: "0xfa",
-          title: "FANTOM",
-          icon: fantomIcon,
-        },
-        {
-          chainid: 43113,
+          chainid: "0xa869",
           title: "Avax Fuji",
           icon: avaxIcon,
         },
-        {
-          chainid: "0x539",
-          title: "AVAX local",
-          icon: avaxIcon,
-        },
+        // {
+        //   chainid: "0x539",
+        //   title: "Avax local",
+        //   icon: avaxIcon,
+        // },
       ],
     };
   },
@@ -102,19 +104,17 @@ export default {
     connectBtnText() {
       return this.btnText;
     },
-    isWalletConnected() {
+    isConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
   },
   methods: {
-    isConnected() {
-      if(this.isWalletConnected){
-        return true;
-      } else {
+    async walletBtnHandler() {
+      if (this.isConnected) {
+        this.toDashboard();
         return false;
       }
-    },
-    async walletBtnHandler() {
+
       if (!window.ethereum) return false;
 
       this.connectLoader = true;
@@ -127,6 +127,9 @@ export default {
 
       this.connectLoader = false;
     },
+    toDashboard() {
+      this.$router.push({ name: "Dashboard" });
+    },
   },
   components: {
     ButtonLoader,
@@ -137,7 +140,6 @@ export default {
 .slicedAddress {
   height: 16px;
   width: 65px;
-  padding-left: 5px;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;

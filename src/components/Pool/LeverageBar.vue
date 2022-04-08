@@ -13,14 +13,14 @@
         >
           <p>{{ multiplierItem }}x</p>
 
-          <transition name="fade">
-            <img
-              v-if="multiplierItem === 10 && multiplierItem === multiplier"
-              src="@/assets/images/dani-mac.svg"
-              alt=""
-              class="dani-mac"
-            />
-          </transition>
+<!--          <transition name="fade">-->
+<!--            <img-->
+<!--              v-if="multiplierItem === 10 && multiplierItem === multiplier"-->
+<!--              src="@/assets/images/dani-mac.svg"-->
+<!--              alt=""-->
+<!--              class="dani-mac"-->
+<!--            />-->
+<!--          </transition>-->
         </div>
       </div>
 
@@ -115,7 +115,7 @@ export default {
       &:hover,
       &.active {
         p {
-          color: #9695f8;
+          color: #E7FC6E;
         }
       }
 
@@ -127,11 +127,10 @@ export default {
   }
 
   .range-track {
-    background: #403b83;
-    border: 1px solid #403b83;
-    border-radius: 39px;
+    background: #606060;
+    border-radius: 4px;
     display: flex;
-    height: 9px;
+    height: 12px;
 
     .range {
       height: 100%;
@@ -140,15 +139,15 @@ export default {
       transition: all 0.3s ease;
 
       &.safe {
-        background: #75c9ee;
+        background: #FDD33F;
       }
 
       &.medium {
-        background: #f2994a;
+        background: #FDD33F;
       }
 
       &.hight {
-        background: #bb0145;
+        background: #FDD33F;
       }
     }
   }

@@ -23,9 +23,9 @@ export default {
 
 <style scoped lang="scss">
 .info-block {
-  padding: 30px 20px;
+  padding: 24px 0;
   background: $clrBg2;
-  border-radius: 20px;
+  border-radius: 4px;
 
   .items-wrap {
     max-height: 200px;

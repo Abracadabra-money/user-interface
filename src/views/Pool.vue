@@ -1,7 +1,7 @@
 <template>
   <div class="pool-view">
     <div class="container mini">
-      <BackButton :text="'Stand'" @click="toStand" />
+      <BackButton :text="'Back'" @click="toStand" />
 
       <h1>Magic happens here</h1>
 
@@ -56,30 +56,12 @@
         />
 
         <CollateralParameters
-          :infoItems="pool.collateralInfo"
+          :infoItems="collateralInfo"
           :exchangeRate="pool.tokenPrice"
           :tokenName="pool.token.name"
         />
 
-        <Balances
-          :balances="[
-            {
-              balance: pool.userBalanceNativeToken,
-              token: 'AVAX',
-              decimals: '18',
-            },
-            {
-              balance: pool.userBalance,
-              token: pool.token.name,
-              decimals: pool.token.decimals,
-            },
-            {
-              balance: pool.userPairBalance,
-              token: pool.pairToken.name,
-              decimals: pool.pairToken.decimals,
-            },
-          ]"
-        />
+        <Balances :balances="userBalancesProp" />
 
         <InfoBlock :infoItems="pool.mainInfo" />
       </div>
@@ -106,8 +88,46 @@ export default {
     };
   },
   computed: {
+    collateralInfo() {
+      return this.$store.getters.getCollateralInfo;
+    },
+    userBalancesProp() {
+      const pool = this.pool;
+      const balances = [
+        {
+          balance: this.userBalanceNativeToken,
+          token: "AVAX",
+          decimals: "18",
+        },
+        {
+          balance: this.userBalanceToken,
+          token: pool.token.name,
+          decimals: pool.token.decimals.toString(),
+        },
+        {
+          balance: this.userBalancePairToken,
+          token: pool.pairToken.name,
+          decimals: pool.pairToken.decimals.toString(),
+        },
+      ];
+      if (pool.name !== "AVAX") {
+        const filterBalances = balances.slice(1);
+        return filterBalances;
+      } else {
+        return balances;
+      }
+    },
+    userBalanceNativeToken() {
+      return this.$store.getters.getBalanceNativeToken;
+    },
+    userBalanceToken() {
+      return this.$store.getters.getBalanceToken;
+    },
+    userBalancePairToken() {
+      return this.$store.getters.getBalancePairToken;
+    },
     pool() {
-      const poolId = this.$route.params.id;
+      const poolId = Number(this.$route.params.id);
       return this.$store.getters.getPoolById(poolId);
     },
     signer() {
@@ -121,6 +141,42 @@ export default {
     },
   },
   methods: {
+    async wrapperStatusTx(result) {
+      const status = await result.wait();
+      if (status) {
+        await this.updateBalancesAndCollateralInfo();
+      }
+    },
+    async updateBalancesAndCollateralInfo() {
+      this.useAVAX
+        ? await this.$store.dispatch("checkBalanceNativeToken")
+        : await this.$store.dispatch(
+            "checkBalanceToken",
+            this.pool.token.contract
+          );
+      await this.$store.dispatch(
+        "checkBalancePairToken",
+        this.pool.pairTokenContract
+      );
+      await this.checkCollateralInfo();
+      await this.$store.dispatch(
+        "checkTotalBorrow",
+        this.pool.contractInstance
+      );
+    },
+    async checkCollateralInfo() {
+      this.$store.commit("setTokenPrice", this.pool.tokenPrice);
+      await this.$store.dispatch(
+        "setUserCollateralShare",
+        this.pool.contractInstance,
+        this.pool.token.decimals
+      );
+      await this.$store.dispatch(
+        "setUserBorrowPart",
+        this.pool.contractInstance
+      );
+      this.$store.dispatch("createCollateralInfo");
+    },
     getAVAXStatus() {
       return this.$store.getters.getUseAVAX;
     },
@@ -182,12 +238,12 @@ export default {
     },
     async addAndBorrowHandler(data) {
       console.log("ADD COLL & BORROW HANDLER", data);
-
       const useAVAXStatus = this.getAVAXStatus();
-
       const isApprowed = await this.isApprowed();
 
-      if (!useAVAXStatus) {
+      if (useAVAXStatus) {
+        this.cookAddAndBorrow(data, isApprowed);
+      } else {
         const isTokenApprove = await this.isTokenApprowed(
           this.pool.token.contract,
           this.pool.masterContractInstance.address
@@ -203,8 +259,6 @@ export default {
           this.pool.masterContractInstance.address
         );
         if (approveResult) this.cookAddAndBorrow(data, isApprowed);
-      } else {
-        this.cookAddAndBorrow(data, isApprowed)
       }
     },
     async addCollateralHandler(data) {
@@ -212,7 +266,9 @@ export default {
       const useAVAXStatus = this.getAVAXStatus();
       const isApprowed = await this.isApprowed();
 
-      if (!useAVAXStatus) {
+      if (useAVAXStatus) {
+        this.cookAddCollateral(data, isApprowed);
+      } else {
         const isTokenApprove = await this.isTokenApprowed(
           this.pool.token.contract,
           this.pool.masterContractInstance.address
@@ -228,30 +284,15 @@ export default {
           this.pool.masterContractInstance.address
         );
         if (approveResult) this.cookAddCollateral(data, isApprowed);
-      } else {
-        this.cookAddCollateral(data, isApprowed);
       }
     },
     async borrowHandler(data) {
       console.log("BORROW HANDLER", data);
-
-      const isTokenApprove = await this.isTokenApprowed(
-        this.pool.token.contract,
-        this.pool.masterContractInstance.address
-      );
-
       const isApprowed = await this.isApprowed();
 
-      if (isTokenApprove) {
+      if (isApprowed) {
         this.cookBorrow(data, isApprowed);
-        return false;
       }
-
-      const approveResult = await this.approveToken(
-        this.pool.token.contract,
-        this.pool.masterContractInstance.address
-      );
-      if (approveResult) this.cookBorrow(data, isApprowed);
     },
     async removeAndRepayHandler(data) {
       console.log("REMOVE & REPAY HANDLER", data);
@@ -693,6 +734,7 @@ export default {
               gasLimit,
             }
           );
+          await this.wrapperStatusTx(result);
 
           console.log(result);
           return false;
@@ -723,6 +765,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
       } else {
@@ -768,6 +812,8 @@ export default {
               }
             );
 
+            await this.wrapperStatusTx(result);
+
             console.log(result);
             return false;
           }
@@ -797,6 +843,8 @@ export default {
               gasLimit,
             }
           );
+
+          await this.wrapperStatusTx(result);
 
           console.log(result);
           return false;
@@ -843,6 +891,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -872,6 +922,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
       }
@@ -925,6 +977,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -954,6 +1008,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
       } else {
@@ -999,6 +1055,8 @@ export default {
               }
             );
 
+            await this.wrapperStatusTx(result);
+
             console.log(result);
             return false;
           }
@@ -1028,6 +1086,8 @@ export default {
               gasLimit,
             }
           );
+
+          await this.wrapperStatusTx(result);
 
           console.log(result);
 
@@ -1073,6 +1133,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1102,6 +1164,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
       }
@@ -1196,6 +1260,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1237,6 +1303,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
       } else {
@@ -1294,6 +1362,8 @@ export default {
               }
             );
 
+            await this.wrapperStatusTx(result);
+
             console.log(result);
             return false;
           }
@@ -1335,6 +1405,8 @@ export default {
               gasLimit,
             }
           );
+
+          await this.wrapperStatusTx(result);
 
           console.log(result);
 
@@ -1386,6 +1458,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1429,6 +1503,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
       }
@@ -1472,6 +1548,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1501,6 +1579,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
         return false;
@@ -1545,6 +1625,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1574,6 +1656,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
 
@@ -1609,6 +1693,8 @@ export default {
           }
         );
 
+        await this.wrapperStatusTx(result);
+
         console.log(result);
         return false;
       }
@@ -1638,6 +1724,8 @@ export default {
           gasLimit,
         }
       );
+
+      await this.wrapperStatusTx(result);
 
       console.log(result);
     },
@@ -1683,6 +1771,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1712,6 +1802,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
         return false;
@@ -1758,6 +1850,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1787,6 +1881,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
 
@@ -1822,6 +1918,8 @@ export default {
           }
         );
 
+        await this.wrapperStatusTx(result);
+
         console.log(result);
         return false;
       }
@@ -1851,6 +1949,8 @@ export default {
           gasLimit,
         }
       );
+
+      await this.wrapperStatusTx(result);
 
       console.log(result);
     },
@@ -1917,6 +2017,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -1946,6 +2048,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
         return false;
@@ -2004,6 +2108,8 @@ export default {
             }
           );
 
+          await this.wrapperStatusTx(result);
+
           console.log(result);
           return false;
         }
@@ -2033,6 +2139,8 @@ export default {
             gasLimit,
           }
         );
+
+        await this.wrapperStatusTx(result);
 
         console.log(result);
 
@@ -2082,6 +2190,8 @@ export default {
           }
         );
 
+        await this.wrapperStatusTx(result);
+
         console.log(result);
         return false;
       }
@@ -2123,6 +2233,8 @@ export default {
           gasLimit,
         }
       );
+
+      await this.wrapperStatusTx(result);
 
       console.log(result);
     },
@@ -2601,7 +2713,12 @@ export default {
       return false;
     }
 
-    const poolId = this.$route.params.id;
+    if (!this.pool.isEnabled) {
+      this.$router.push({ name: "Stand" });
+      return false;
+    }
+
+    const poolId = Number(this.$route.params.id);
     console.log("THIS IS - POOL ID: ", poolId);
     const poolItem = this.$store.getters.getPoolById(poolId);
 
@@ -2610,6 +2727,8 @@ export default {
       console.log("POOL IS UNDEFINED");
       return false;
     }
+
+    await this.$store.dispatch("checkBalanceNativeToken");
 
     console.log("POOL:", poolId);
 
@@ -2633,50 +2752,59 @@ export default {
 
 <style lang="scss" scoped>
 .pool-view {
-  padding-top: 60px;
-  padding-bottom: 155px;
+  padding: 40px 0;
   flex: 1;
 
   h1 {
-    margin: 60px 0;
+    font-size: 32px;
+    line-height: 36px;
+    text-align: left;
+    margin: 40px 0 56px;
   }
 
   .pool-head-bar {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
     display: grid;
-    grid-template-columns: 62.5% 37.5%;
+    grid-template-columns: 600px 375px;
     column-gap: 20px;
   }
 
   .btns-group {
     display: flex;
     align-items: center;
+    width: 146px;
+    height: 32px;
+    background: #262626;
+    border-radius: 100px;
+    padding: 2px;
 
     .btn {
-      width: 127px;
-      font-size: 16px;
-      line-height: 1;
-      background: rgba(123, 121, 247, 0.3);
+      width: 73px;
+      height: 28px;
+      font-size: 14px;
+      line-height: 20px;
+      background: #262626;
 
       &:hover {
-        background-color: $clrBlue5;
+        //background-color: $clrBlue5;
       }
 
       &.borrow-btn {
-        margin-right: 20px;
+        //margin-right: 20px;
       }
 
       &.active {
-        background-color: $clrBlue;
+        color: black;
+        background-color: $clrBg3;
       }
     }
   }
 
   .pool-content {
     display: grid;
-    grid-template-columns: 62.5% 37.5%;
+    grid-template-columns: 600px 375px;
     column-gap: 20px;
-    row-gap: 20px;
+    row-gap: 16px;
   }
 }
 
@@ -2690,18 +2818,18 @@ export default {
     grid-template-columns: 100%;
   }
 
-  .pool-view .btns-group .btn.borrow-btn {
-    margin: 0 10px;
-  }
-
-  .pool-view .btns-group .btn {
-    margin: 0 10px;
-  }
+  //.pool-view .btns-group .btn.borrow-btn {
+  //  margin: 0 10px;
+  //}
+  //
+  //.pool-view .btns-group .btn {
+  //  margin: 0 10px;
+  //}
 }
 
 @media screen and(max-width: 780px) {
   .pool-view {
-    padding-top: 50px;
+    padding-top: 40px;
   }
 }
 

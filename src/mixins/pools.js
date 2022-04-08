@@ -1,6 +1,8 @@
 import poolsInfo from "@/utils/contracts/pools.js";
 import masterContractInfo from "@/utils/contracts/master.js";
 import oracleContractsInfo from "@/utils/contracts/oracle.js";
+import addressesByChainId from "@/utils/addressesByChainId";
+import whitelistContractInfo from "@/utils/contracts/whitelistManager";
 
 export default {
   computed: {
@@ -43,13 +45,28 @@ export default {
 
       this.$store.commit("setPools", pools);
     },
+    createWhitelistManager(address) {
+      const whitelistContract = new this.$ethers.Contract(
+        address,
+        JSON.stringify(whitelistContractInfo.abi),
+        this.signer
+      );
+      return whitelistContract;
+    },
     async createPool(pool, masterContract) {
       const poolContract = new this.$ethers.Contract(
         pool.contract.address,
         JSON.stringify(pool.contract.abi),
         this.signer
       );
-
+      pool.isEnabled = true;
+      if (pool.name === "WXT") {
+        const whitelistContract = this.createWhitelistManager(
+          addressesByChainId[pool.contractChain].WhitelistManager
+        );
+        console.log("whitelistContract", whitelistContract);
+        pool.isEnabled = (await whitelistContract.info(this.account)).isAllowed;
+      }
       const tokenContract = new this.$ethers.Contract(
         pool.token.address,
         JSON.stringify(pool.token.abi),
@@ -109,6 +126,7 @@ export default {
       try {
         const totalBorrowResp = await poolContract.totalBorrow();
         totalBorrow = totalBorrowResp.base;
+        this.$store.dispatch("checkTotalBorrow", poolContract);
       } catch (e) {
         console.log("totalBorrow Err:", e);
       }
@@ -123,9 +141,11 @@ export default {
       let userBalanceNativeToken = "";
       try {
         if (pool.name === "AVAX") {
+          await this.$store.dispatch("checkBalanceNativeToken");
           userBalanceNativeToken =
             await this.$store.getters.getProvider.getBalance(this.account);
         }
+        await this.$store.dispatch("checkBalanceToken", tokenContract);
         userBalance = await tokenContract.balanceOf(this.account, {
           gasLimit: 600000,
         });
@@ -135,6 +155,7 @@ export default {
 
       let userPairBalance;
       try {
+        await this.$store.dispatch("checkBalancePairToken", pairTokenContract);
         userPairBalance = await pairTokenContract.balanceOf(this.account, {
           gasLimit: 600000,
         });
@@ -159,6 +180,16 @@ export default {
         this.$ethers.utils.formatUnits(tokenPairRate, pool.token.decimals)
       );
 
+      this.$store.commit("setTokenPrice", tokenPrice);
+      this.$store.commit("setPoolLtv", pool.ltv);
+      await this.$store.dispatch(
+        "setUserCollateralShare",
+        poolContract,
+        pool.token.decimals
+      );
+      await this.$store.dispatch("setUserBorrowPart", poolContract);
+      await this.$store.dispatch("createCollateralInfo");
+
       const collateralInfo = this.createCollateralInfo(
         userCollateralShare,
         userBorrowPart,
@@ -169,6 +200,7 @@ export default {
       return {
         name: pool.name,
         id: pool.id,
+        isEnabled: pool.isEnabled,
         userBorrowPart,
         userCollateralShare,
         contractInstance: poolContract,
@@ -296,6 +328,10 @@ export default {
         if (oracleId === 3) {
           reqObj = [multiply, divide, parsedDecimals];
         }
+
+        if (oracleId === 4) {
+          reqObj = [multiply, divide, parsedDecimals];
+        }
         // const bytesData = await oracleContract.getDataParameter(...reqObj, {
         //   gasLimit: 300000,
         // });
@@ -317,24 +353,32 @@ export default {
       return [
         {
           title: "Maximum collateral ratio",
-          value: `${ltv}%`,
+          value: `${ltv} %`,
+          tooltip:
+            "Maximum collateral ratio (MCR) - MCR represents the maximum amount of debt a user can borrow with a selected collateral token.",
           additional: `Maximum collateral ratio (MCR) - MCR represents the maximum amount of debt a user can borrow with a selected collateral token.`,
         },
         {
           title: "Liquidation fee",
-          value: `${stabilityFee}%`,
+          value: `${stabilityFee} %`,
+          tooltip:
+            "This is the discount a liquidator gets when buying collateral flagged for liquidation.",
           additional:
             "This is the discount a liquidator gets when buying collateral flagged for liquidation.",
         },
         {
           title: "Borrow fee",
-          value: `${borrowFee}%`,
+          value: `${borrowFee} %`,
+          tooltip:
+            "This fee is added to your debt every time you borrow NXUSD.",
           additional:
-            "This fee is added to your debt every time you borrow NUSD.",
+            "This fee is added to your debt every time you borrow NXUSD.",
         },
         {
           title: "Interest",
-          value: `${interest}%`,
+          value: `${interest} %`,
+          tooltip:
+            "This is the annualized percent that your debt will increase each year.",
           additional:
             "This is the annualized percent that your debt will increase each year.",
         },
@@ -343,9 +387,9 @@ export default {
     createCollateralInfo(userCollateralShare, userBorrowPart, tokenPrice, ltv) {
       const tokenInUsd = userCollateralShare / tokenPrice;
 
-      const maxMimBorrow = (tokenInUsd / 100) * (ltv - 1);
+      const maxNUSDBorrow = (tokenInUsd / 100) * (ltv - 1);
 
-      const borrowLeft = parseFloat(maxMimBorrow - userBorrowPart).toFixed(20);
+      const borrowLeft = parseFloat(maxNUSDBorrow - userBorrowPart).toFixed(20);
       let re = new RegExp(
         // eslint-disable-next-line no-useless-escape
         `^-?\\d+(?:\.\\d{0,` + (4 || -1) + `})?`
@@ -372,7 +416,7 @@ export default {
           additional: "",
         },
         {
-          title: "NUSD borrowed",
+          title: "NXUSD borrowed",
           value: `$${parseFloat(userBorrowPart).toFixed(4)}`,
           additional: "",
         },
@@ -382,7 +426,7 @@ export default {
           additional: "",
         },
         {
-          title: "NUSD left to borrow",
+          title: "NXUSD left to borrow",
           value: `${borrowLeftParsed}`,
           additional: "",
         },

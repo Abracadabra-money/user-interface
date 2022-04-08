@@ -3,7 +3,6 @@
     <div
       class="val-input"
       :class="{
-        'no-max': parseFloat(max) == 0 || !showMax,
         focus: isFocus,
         error,
       }"
@@ -35,7 +34,7 @@
       />
 
       <div class="max-btn" v-if="parseFloat(max) && showMax" @click="setMax">
-        <p>max</p>
+        <p>MAX</p>
       </div>
 
       <transition name="fade">
@@ -151,7 +150,7 @@ export default {
 }
 
 .values-select {
-  background: $clrBg1;
+  background: $clrBg2;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   position: absolute;
@@ -193,25 +192,20 @@ export default {
 }
 
 .val-input {
-  background: $clrBg1;
-  border-radius: 12px;
-  padding: 5px;
+  background: $clrBg2;
+  border-radius: 4px;
+  border: 1px solid #FFFFFF;
   display: flex;
   align-items: center;
-  height: 70px;
-  border: 1px solid transparent;
+  justify-content: center;
+  height: 48px;
   position: relative;
   width: 100%;
-  border: 1px solid transparent;
   transition: border 0.3s ease;
 
-  &.focus {
-    border: 1px solid #605ee8;
-  }
-
-  &.no-max {
-    padding-right: 135px;
-  }
+  //&.focus {
+  //  border: 1px solid #605ee8;
+  //}
 
   &.error {
     border: 1px solid $clrInputError;
@@ -219,12 +213,13 @@ export default {
 
   .value-type {
     border-radius: 12px;
-    width: 130px;
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
+    position: absolute;
+    font-size: 14px;
+    line-height: 20px;
+    left: 12px;
 
     &.values-choose {
       background: rgba(255, 255, 255, 0.02);
@@ -241,24 +236,14 @@ export default {
     }
 
     .token-icon-wrap {
-      width: 32px;
-      height: 32px;
-      margin-right: 10px;
+      width: 24px;
+      height: 24px;
       position: relative;
 
       .bg {
         width: 100%;
         height: 100%;
         object-fit: contain;
-      }
-
-      .token-icon {
-        max-width: 70%;
-        height: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
       }
     }
 
@@ -270,12 +255,12 @@ export default {
   input {
     flex: 1;
     display: block;
-    margin: 0 20px;
     text-align: center;
     background-color: transparent;
     border: none;
     outline: none;
-    font-size: 20px;
+    font-size: 14px;
+    height: 100%;
     color: $clrText;
 
     &::placeholder {
@@ -284,15 +269,13 @@ export default {
   }
 
   .max-btn {
-    width: 80px;
-    margin-left: 50px;
-    height: 100%;
+    position: absolute;
+    right: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.02);
     border-radius: 12px;
+    font-size: 14px;
   }
 }
 
@@ -318,10 +301,6 @@ export default {
 
   .val-input .max-btn {
     margin-left: 0;
-  }
-
-  .val-input.no-max {
-    padding-right: 80px;
   }
 
   .val-input .value-type .arrow-icon {

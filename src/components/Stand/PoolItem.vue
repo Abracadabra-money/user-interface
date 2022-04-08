@@ -1,26 +1,30 @@
 <template>
-  <div class="stand-table-item" @click="toPool">
+  <div
+    class="stand-table-item"
+    :class="{ 'stand-table-disable': !pool.isEnabled }"
+    @click="toPool"
+  >
     <div class="table-col pool-name">
       <div class="val-item">
         <TokenIcon :token="pool.token.name" />
         <p>{{ pool.name }}</p>
+        <img
+          v-if="isWTXPool"
+          src="@/assets/images/i-icon.svg"
+          alt=""
+          class="info-icon"
+          v-tooltip="'Some reason why it does not work'"
+        />
       </div>
     </div>
     <div class="table-col">
-      <p>{{ collateralInUsd | formatNumber }}</p>
+      <p>{{ totalBorrow | formatNumber }}</p>
     </div>
     <div class="table-col">
-      <div class="val-item">
-        <p>{{ pool.dynamicBorrowAmount | formatNumber }}</p>
-      </div>
+      <p>{{ pool.dynamicBorrowAmount | formatNumber }}</p>
     </div>
     <div class="table-col">
-      <div class="val-item">
-        <p>{{ pool.interest }}%</p>
-      </div>
-    </div>
-    <div class="table-col">
-      <p>{{ pool.stabilityFee }}%</p>
+      <p>{{ pool.stabilityFee }} <span>%</span></p>
     </div>
   </div>
 </template>
@@ -37,8 +41,11 @@ export default {
   },
   computed: {
     totalBorrow() {
+      // return parseFloat(
+      //   this.$ethers.utils.formatEther(this.pool.totalBorrow)
+      // ).toFixed(0);
       return parseFloat(
-        this.$ethers.utils.formatEther(this.pool.totalBorrow)
+        this.$ethers.utils.formatEther(this.$store.getters.getTotalBorrow)
       ).toFixed(0);
     },
     mainTokenPrice() {
@@ -59,10 +66,19 @@ export default {
     collateralInUsd() {
       return this.collateralParsed * this.mainTokenPrice;
     },
+    isWTXPool() {
+      if (this.pool.token.name === "WXT") {
+        return true;
+      } else {
+        return true;
+      }
+    },
   },
   methods: {
     toPool() {
-      this.$router.push({ name: "Pool", params: { id: this.pool.id } });
+      if (this.pool.isEnabled) {
+        this.$router.push({ name: "Pool", params: { id: this.pool.id } });
+      }
     },
   },
   filters: {
@@ -99,12 +115,23 @@ export default {
 .stand-table-item {
   display: flex;
   align-items: center;
-  padding: 13px 30px;
+  justify-content: space-between;
+  padding: 24px;
   background-color: $clrBlue2;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  min-height: 120px;
+  margin-bottom: 1px;
   cursor: pointer;
+
+  .info-icon {
+    margin: 10px;
+  }
+
+  &:hover {
+    box-shadow: 0 1px 0 0 $clrBlue6; /* Border bottom */
+    box-shadow: 0 -1px 0 0 $clrBlue6; /* Border top */
+    box-shadow: -1px 0 0 0 $clrBlue6; /* Border left */
+    box-shadow: 1px 0 0 0 $clrBlue6; /* Border right */
+    box-shadow: 0 0 0 1px $clrBlue6;
+  }
 
   &.hidden {
     filter: blur(2px);
@@ -131,7 +158,16 @@ export default {
 
   .table-col {
     width: calc((100% - 150px) / 4);
-    text-align: left;
+    text-align: right;
+    font-size: 16px;
+    line-height: 24px;
+
+    .val-item {
+      .token-icon-wrap {
+        width: 32px;
+        height: 32px;
+      }
+    }
 
     &.pool-name {
       p {
@@ -140,15 +176,22 @@ export default {
     }
 
     p {
-      text-transform: uppercase;
+      span {
+        color: #8a8a8a;
+      }
       font-size: 16px;
-      line-height: 1;
+      line-height: 24px;
     }
   }
 
   .val-item {
     display: flex;
     align-items: center;
+    .token-icon-wrap {
+      .token-icon {
+        max-width: none !important;
+      }
+    }
   }
 
   .val-icon {
@@ -158,7 +201,12 @@ export default {
     margin-right: 10px;
   }
 }
-
+.stand-table-disable {
+  cursor: not-allowed;
+  &:hover {
+    box-shadow: none;
+  }
+}
 @media screen and(max-width: 780px) {
   .stand-table-item {
     flex-wrap: wrap;

@@ -2,11 +2,8 @@
   <div class="empty-borrow">
     <p class="title">No {{ blockType }}</p>
     <p class="subtitle">
-      Your {{ blockType }} will be <br />
-      displayed here
+      Your {{ blockType }} will be displayed here
     </p>
-
-    <img class="main-img" src="@/assets/images/open-chest.svg" alt="" />
   </div>
 </template>
 
@@ -23,25 +20,17 @@ export default {
 
 <style lang="scss" scoped>
 .empty-borrow {
-  border-radius: 20px;
-  padding: 80px;
+  padding: 16px 0px;
 
   .title {
-    font-size: 24px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 12px;
   }
 
   .subtitle {
-    font-size: 18px;
-  }
-
-  .main-img {
-    width: 400px;
-    height: auto;
-    object-fit: contain;
-    margin-top: 40px;
-    margin-left: 160px;
+    font-size: 14px;
+    line-height: 20px;
   }
 }
 
