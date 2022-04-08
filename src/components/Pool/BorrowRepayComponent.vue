@@ -48,6 +48,18 @@
       />
     </div>
 
+    <div class="estimate-box" v-if="actionType === 'borrow'">
+      <EstimationBlock
+        :liquidityPrice="liquidationPrice"
+        :nxusdAmount="nxusdAmount"
+        @onchange="updatePercentValue"
+        :maxValue="ltv"
+        :value="percentValue"
+        :pool="pool"
+        :tokentToNUSD="tokentToNUSD"
+      />
+    </div>
+
     <div class="config-box" v-if="actionType === 'borrow'">
       <div class="checkbox-wrap">
         <div
@@ -113,6 +125,7 @@
 const ValueInput = () => import("@/components/UiComponents/ValueInput");
 const LiquidationRules = () => import("@/components/Pool/LiquidatonRules");
 const LeverageBar = () => import("@/components/Pool/LeverageBar");
+const EstimationBlock = () => import("@/components/Pool/EstimationBlock");
 const SlipageBlock = () => import("@/components/Pool/SlipageBlock");
 
 export default {
@@ -167,9 +180,13 @@ export default {
     isUpdatePrice: {
       type: Boolean,
     },
+    exchangeRate: {
+      required: true,
+    },
   },
   data() {
     return {
+      inputData: false,
       userBalance: null,
       userBalanceNativeToken: null,
 
@@ -194,6 +211,10 @@ export default {
     },
   },
   computed: {
+    pool() {
+      const poolId = Number(this.$route.params.id);
+      return this.$store.getters.getPoolById(poolId);
+    },
     maxValueAmount() {
       const borrowedInDolarts = this.$store.getters.getUserBorrowPart / this.tokenPairToUsd;
       const collateralInDolarts = this.$store.getters.getUserCollateralShare / this.tokenToUsd;
@@ -228,12 +249,12 @@ export default {
     maxMainValue() {
       const balance = this.getAVAXStatus()
         ? this.$ethers.utils.formatEther(
-            this.$store.getters.getBalanceNativeToken.toString()
-          )
+          this.$store.getters.getBalanceNativeToken.toString()
+        )
         : this.$ethers.utils.formatUnits(
-            this.$store.getters.getBalanceToken.toString(),
-            this.tokenDecimals
-          );
+          this.$store.getters.getBalanceToken.toString(),
+          this.tokenDecimals
+        );
 
       if (this.actionType === "borrow") return balance;
       if (this.actionType === "repay") {
@@ -279,6 +300,20 @@ export default {
         this.$store.getters.getBalancePairToken.toString(),
         this.tokenPairDecimals
       );
+    },
+    tokentToNUSD() {
+      const tokenToNUSD = 1 / this.exchangeRate;
+      // eslint-disable-next-line no-useless-escape
+      let re = new RegExp(`^-?\\d+(?:\.\\d{0,` + (4 || -1) + `})?`);
+      return tokenToNUSD.toString().match(re)[0];
+    },
+    nxusdAmount() {
+      // console.log("pair value: " + this.pairValue);
+      // console.log("token to nusd: " + this.tokentToNUSD);
+      let dollarValueNXUSD = this.pairValue * (1 / this.tokentToNUSD);
+
+
+      return dollarValueNXUSD;
     },
     maxPairValue() {
       if (this.actionType === "borrow") {
@@ -342,12 +377,13 @@ export default {
 
       return "Nothing to do";
     },
+
     liquidationPrice() {
       // if (this.pairValue) {
       //   let percent = parseFloat(
       //     (this.pairValue / this.maxPairValue) * 100
       //   ).toFixed(4);
-
+      //
       //   return ((1 / this.tokenToUsd / 100) * percent).toFixed(2);
       // }
 
@@ -366,8 +402,8 @@ export default {
       if (this.mainValue && this.pairValue) {
         const liquidationPrice =
           ((+this.pairValue * this.tokenToUsd) / +this.mainValue) *
-            (1 / this.tokenToUsd) *
-            this.liquidationMultiplier || 0;
+          (1 / this.tokenToUsd) *
+          this.liquidationMultiplier || 0;
 
         return liquidationPrice.toFixed(2);
       }
@@ -745,6 +781,7 @@ export default {
     ValueInput,
     LiquidationRules,
     LeverageBar,
+    EstimationBlock,
     SlipageBlock,
   },
 };
@@ -757,6 +794,13 @@ export default {
   border-radius: 4px;
   width: 100%;
 
+  .estimate-box {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    border: 1px solid #606060;
+    padding: 20px 20px 8px 20px;
+    margin-bottom: 8px;
+  }
   .config-box {
     background: rgba(255, 255, 255, 0.02);
     border-radius: 4px;

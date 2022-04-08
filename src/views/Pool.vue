@@ -53,6 +53,7 @@
           :userTotalCollateral="pool.userCollateralShare"
           :userTotalBorrowed="pool.userBorrowPart"
           :ltv="pool.ltv"
+          :exchangeRate="pool.tokenPrice"
         />
 
         <CollateralParameters
@@ -127,7 +128,7 @@ export default {
       return this.$store.getters.getBalancePairToken;
     },
     pool() {
-      const poolId = this.$route.params.id;
+      const poolId = Number(this.$route.params.id);
       return this.$store.getters.getPoolById(poolId);
     },
     signer() {
@@ -2713,7 +2714,7 @@ export default {
       return false;
     }
 
-    const poolId = this.$route.params.id;
+    const poolId = Number(this.$route.params.id);
     console.log("THIS IS - POOL ID: ", poolId);
     const poolItem = this.$store.getters.getPoolById(poolId);
 
