@@ -78,6 +78,12 @@ export default {
       }
       return 1;
     },
+    stableCoinMultiplayer() {
+      if (this.maxValue === 90) {
+        return 10;
+      }
+      return 1;
+    },
     liquidationPrice() {
       const liquidationMultiplier = (200 - this.$store.getters.getPoolLtv) / 100;
 
@@ -99,21 +105,9 @@ export default {
       if (+this.nxusdAmount === 0 || isNaN(this.liquidityPrice))
         return this.liquidationRisk;
 
-      let priceDifference = this.tokentToNUSD - this.liquidityPrice;
-      let stableCoinMultiplyer;
+      const riskPercent =  this.liquidityPrice / (this.liquidationPrice / (this.liquidationRisk / 100));
 
-      if (this.maxValue === 90) {
-        stableCoinMultiplyer = 10;
-      } else
-        stableCoinMultiplyer = 1;
-
-      const riskPersent = ((priceDifference * stableCoinMultiplyer) /  this.tokentToNUSD) * 100;
-
-      if (riskPersent > 100) {
-        return 100;
-      }
-
-      return parseFloat(riskPersent).toFixed(2);
+      return riskPercent.toFixed(2);
     },
 
     liquidationRisk() {

@@ -48,10 +48,10 @@
       />
     </div>
 
-    <div class="estimate-box" v-if="actionType === 'borrow'">
+    <div class="estimate-box">
       <EstimationBlock
         :liquidityPrice="liquidationPrice"
-        :nxusdAmount="nxusdAmount"
+        :nxusdAmount="this.pairValue"
         @onchange="updatePercentValue"
         :maxValue="ltv"
         :value="percentValue"
@@ -306,14 +306,6 @@ export default {
       // eslint-disable-next-line no-useless-escape
       let re = new RegExp(`^-?\\d+(?:\.\\d{0,` + (4 || -1) + `})?`);
       return tokenToNUSD.toString().match(re)[0];
-    },
-    nxusdAmount() {
-      // console.log("pair value: " + this.pairValue);
-      // console.log("token to nusd: " + this.tokentToNUSD);
-      let dollarValueNXUSD = this.pairValue * (1 / this.tokentToNUSD);
-
-
-      return dollarValueNXUSD;
     },
     maxPairValue() {
       if (this.actionType === "borrow") {
