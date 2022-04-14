@@ -287,12 +287,12 @@ export default {
 
         if (this.mainValue) {
           valueInDolars = this.mainValue / this.tokenToUsd;
-          maxPairValue = (valueInDolars / 100) * (this.ltv - 1);
+          maxPairValue = (valueInDolars / 100) * (this.ltv);
         } else {
           valueInDolars =
             this.$store.getters.getUserCollateralShare / this.tokenToUsd;
           maxPairValue =
-            (valueInDolars / 100) * (this.ltv - 1) -
+            (valueInDolars / 100) * (this.ltv) -
             this.$store.getters.getUserBorrowPart;
         }
 
@@ -360,7 +360,7 @@ export default {
           (1 / this.tokenToUsd) *
           this.liquidationMultiplier;
 
-        return liquidationPrice.toFixed(2);
+        return liquidationPrice.toFixed(8);
       }
 
       if (this.mainValue && this.pairValue) {
@@ -369,7 +369,7 @@ export default {
             (1 / this.tokenToUsd) *
             this.liquidationMultiplier || 0;
 
-        return liquidationPrice.toFixed(2);
+        return liquidationPrice.toFixed(8);
       }
 
       // return ((1 / this.tokenToUsd / 100) * this.percentValue).toFixed(2);
@@ -715,6 +715,10 @@ export default {
 
       if (this.mainValue && value) {
         this.pairValue = (this.maxPairValue * value) / this.ltv;
+        console.log('this.pairValue', this.pairValue);
+        console.log('this.maxPairValue', this.maxPairValue);
+        console.log('value', value);
+        console.log('this.ltv', this.ltv);
       }
     },
     async getUserBalance() {

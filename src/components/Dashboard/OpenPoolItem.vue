@@ -37,7 +37,7 @@
 
     <div class="liquidation-info" v-if="true">
       <p class="price-text">Liquidation price</p>
-      <p class="price-value">{{ liquidationPrice.toFixed(4) || $xxx.xx }}</p>
+      <p class="price-value">{{ liquidationPrice.toFixed(6) || $xxx.xx }}</p>
       <button
         class="safe-status"
         :class="{
