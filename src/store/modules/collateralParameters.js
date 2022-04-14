@@ -117,7 +117,7 @@ export default {
         },
         {
           title: "Liquidation price",
-          value: `$ ${parseFloat(liquidationPrice).toFixed(4)}`,
+          value: `$ ${parseFloat(liquidationPrice).toFixed(6)}`,
           tooltip: "Collateral Price at which your Position will be Liquidated",
           additional: "",
         },
