@@ -7,7 +7,6 @@
         <router-view></router-view>
       </transition>
       <Footer></Footer>
-
       <PopupsWrapper v-if="showPopup" />
     </template>
 
@@ -29,7 +28,6 @@ const NotificationContainer = () =>
   import("@/components/Notifications/NotificationContainer");
 const MetamaskChecker = () =>
   import("@/components/MetamaskChecker/MetamaskChecker");
-
 import poolsMixin from "@/mixins/pools.js";
 import farmPoolsMixin from "@/mixins/farmPools.js";
 import swapMixin from "@/mixins/swap.js";
@@ -48,6 +46,9 @@ export default {
     // },
     showPopup() {
       return this.$store.getters.getPopupState;
+    },
+    isConnected() {
+      return this.$store.getters.getWalletIsConnected;
     },
   },
   methods: {
@@ -81,7 +82,7 @@ export default {
     // Banner,
     PopupsWrapper,
     MetamaskChecker,
-    NotificationContainer,
+    NotificationContainer
   },
 };
 </script>

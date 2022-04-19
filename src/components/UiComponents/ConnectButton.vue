@@ -11,7 +11,7 @@
       <template v-else-if="itsHover"> Dashboard </template>
       <template v-else>
         <div>
-          {{ walletBtnText}}
+          {{walletBtnText}}
           <p class="slicedAddress">{{slicedAccountAddress}} </p>
         </div>
       </template>
@@ -114,18 +114,22 @@ export default {
         this.toDashboard();
         return false;
       }
-
-      if (!window.ethereum) return false;
-
-      this.connectLoader = true;
-
-      try {
-        await this.$store.dispatch("connectAccount", window.ethereum);
-      } catch (e) {
-        console.log("e:", e);
-      }
-
-      this.connectLoader = false;
+      this.$store.commit("setPopupState", {
+        type: "connectWallet",
+        isShow: true,
+      });
+      //
+      // if (!window.ethereum) return false;
+      //
+      // this.connectLoader = true;
+      // console.log(0)
+      // try {
+      //   await this.$store.dispatch("connectAccount", window.ethereum);
+      // } catch (e) {
+      //   console.log("e:", e);
+      // }
+      //
+      // this.connectLoader = false;
     },
     toDashboard() {
       this.$router.push({ name: "Dashboard" });

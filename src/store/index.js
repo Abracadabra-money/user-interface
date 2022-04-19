@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import popups from "@/store/modules/popups";
-import metamaskProvider from "@/store/modules/metamaskProvider";
+import connectionProvider from "@/store/modules/connectProvider";
 import networks from "@/store/modules/networks";
 import pools from "@/store/modules/pools";
 import tokens from "@/store/modules/tokens";
@@ -30,7 +30,7 @@ export default new Vuex.Store({
   },
   modules: {
     popups,
-    metamaskProvider,
+    connectionProvider,
     networks,
     pools,
     tokens,

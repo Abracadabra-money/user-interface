@@ -50,7 +50,7 @@ export default {
         this.disabledStatus = true;
 
         try {
-          await this.$store.dispatch("connectAccount", window.ethereum);
+          await this.$store.dispatch("connectMetamask", window.ethereum);
         } catch (e) {
           console.log("e:", e);
         }
