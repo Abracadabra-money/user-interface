@@ -4,13 +4,17 @@
     <h3 v-if="actionType === 'repay'">Repay {{ tokenPairName }}</h3>
 
     <div class="checkbox-wrap" v-if="this.tokenName === 'WAVAX'">
-      <div
-        class="box-wrap"
-        @click="toggleUseAVAX"
-        :class="{ active: useAVAX }"
-      >
-        <div class="checkbox" v-if="useAVAX"><img class="checkbox-checked" src="@/assets/images/checkboxChecked.svg" alt=""></div>
-        <div class="checkbox" v-else><img src="@/assets/images/checkbox.svg" alt=""></div>
+      <div class="box-wrap" @click="toggleUseAVAX" :class="{ active: useAVAX }">
+        <div class="checkbox" v-if="useAVAX">
+          <img
+            class="checkbox-checked"
+            src="@/assets/images/checkboxChecked.svg"
+            alt=""
+          />
+        </div>
+        <div class="checkbox" v-else>
+          <img src="@/assets/images/checkbox.svg" alt="" />
+        </div>
       </div>
       <p class="label-text" @click="toggleUseAVAX">Use AVAX</p>
     </div>
@@ -55,8 +59,16 @@
           @click="toggleShowLeverage"
           :class="{ active: showLeverage, disabled: !showLeverage }"
         >
-          <div class="checkbox" v-if="showLeverage"><img class="checkbox-checked" src="@/assets/images/checkboxChecked.svg" alt=""></div>
-          <div class="checkbox" v-else><img src="@/assets/images/checkbox.svg" alt=""></div>
+          <div class="checkbox" v-if="showLeverage">
+            <img
+              class="checkbox-checked"
+              src="@/assets/images/checkboxChecked.svg"
+              alt=""
+            />
+          </div>
+          <div class="checkbox" v-else>
+            <img src="@/assets/images/checkbox.svg" alt="" />
+          </div>
         </div>
         <p class="label-text" @click="toggleShowLeverage">Change leverage</p>
 
@@ -64,7 +76,9 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="'Allows users to leverage their position. Read more about this in the documents!'"
+          v-tooltip="
+            'Allows users to leverage their position. Read more about this in the documents!'
+          "
         />
       </div>
 
@@ -85,8 +99,16 @@
           @click="toggleUpdatePrice"
           :class="{ active: updatePrice }"
         >
-          <div class="checkbox" v-if="updatePrice"><img class="checkbox-checked" src="@/assets/images/checkboxChecked.svg" alt=""></div>
-          <div class="checkbox" v-else><img src="@/assets/images/checkbox.svg" alt=""></div>
+          <div class="checkbox" v-if="updatePrice">
+            <img
+              class="checkbox-checked"
+              src="@/assets/images/checkboxChecked.svg"
+              alt=""
+            />
+          </div>
+          <div class="checkbox" v-else>
+            <img src="@/assets/images/checkbox.svg" alt="" />
+          </div>
         </div>
         <p class="label-text" @click="toggleUpdatePrice">Update price</p>
 
@@ -94,7 +116,9 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="'Update Collateral price from the oracle, for a small gas fee!'"
+          v-tooltip="
+            'Update Collateral price from the oracle, for a small gas fee!'
+          "
         />
       </div>
 
@@ -117,6 +141,9 @@ const SlipageBlock = () => import("@/components/Pool/SlipageBlock");
 
 export default {
   props: {
+    poolId: {
+      required: true,
+    },
     balance: {
       required: true,
     },
@@ -195,15 +222,21 @@ export default {
   },
   computed: {
     maxValueAmount() {
-      const borrowedInDolarts = this.$store.getters.getUserBorrowPart / this.tokenPairToUsd;
-      const collateralInDolarts = this.$store.getters.getUserCollateralShare / this.tokenToUsd;
+      const borrowedInDolarts =
+        this.$store.getters.getUserBorrowPart(this.poolId) /
+        this.tokenPairToUsd;
+      const collateralInDolarts =
+        this.$store.getters.getUserCollateralShare(this.poolId) /
+        this.tokenToUsd;
       const userHasDolars = collateralInDolarts - borrowedInDolarts;
 
       let calcAmount;
 
       if (this.mainValue) {
         const borrowPercent =
-          (this.mainValue / this.$store.getters.getUserBorrowPart) * 100;
+          (this.mainValue /
+            this.$store.getters.getUserBorrowPart(this.poolId)) *
+          100;
 
         calcAmount = (this.maxPairValue * borrowPercent) / 100;
       } else {
@@ -228,35 +261,35 @@ export default {
     maxMainValue() {
       const balance = this.getAVAXStatus()
         ? this.$ethers.utils.formatEther(
-            this.$store.getters.getBalanceNativeToken.toString()
+            this.$store.getters.getBalanceNativeToken(this.poolId).toString()
           )
         : this.$ethers.utils.formatUnits(
-            this.$store.getters.getBalanceToken.toString(),
+            this.$store.getters.getBalanceToken(this.poolId).toString(),
             this.tokenDecimals
           );
 
       if (this.actionType === "borrow") return balance;
       if (this.actionType === "repay") {
         if (
-          parseFloat(this.$store.getters.getUserBorrowPart) >
+          parseFloat(this.$store.getters.getUserBorrowPart(this.poolId)) >
           parseFloat(this.parsedPairBalance)
         )
           return this.parsedPairBalance;
 
-        return this.$store.getters.getUserBorrowPart;
+        return this.$store.getters.getUserBorrowPart(this.poolId);
       }
 
       return 0;
     },
     mainValueTokenName() {
-      const tokenSymbol = this.getAVAXStatus() ? 'AVAX' : this.tokenName
+      const tokenSymbol = this.getAVAXStatus() ? "AVAX" : this.tokenName;
       if (this.actionType === "borrow") return tokenSymbol;
       if (this.actionType === "repay") return this.tokenPairName;
 
       return "XX";
     },
     pairValueTokenName() {
-      const tokenSymbol = this.getAVAXStatus() ? 'AVAX' : this.tokenName
+      const tokenSymbol = this.getAVAXStatus() ? "AVAX" : this.tokenName;
       if (this.actionType === "borrow") return this.tokenPairName;
       if (this.actionType === "repay") return tokenSymbol;
 
@@ -276,7 +309,7 @@ export default {
     },
     parsedPairBalance() {
       return this.$ethers.utils.formatUnits(
-        this.$store.getters.getBalancePairToken.toString(),
+        this.$store.getters.getBalancePairToken(this.poolId).toString(),
         this.tokenPairDecimals
       );
     },
@@ -287,20 +320,23 @@ export default {
 
         if (this.mainValue) {
           valueInDolars = this.mainValue / this.tokenToUsd;
-          maxPairValue = (valueInDolars / 100) * (this.ltv);
+          maxPairValue = (valueInDolars / 100) * this.ltv;
         } else {
           valueInDolars =
-            this.$store.getters.getUserCollateralShare / this.tokenToUsd;
+            this.$store.getters.getUserCollateralShare(this.poolId) /
+            this.tokenToUsd;
           maxPairValue =
-            (valueInDolars / 100) * (this.ltv) -
-            this.$store.getters.getUserBorrowPart;
+            (valueInDolars / 100) * this.ltv -
+            this.$store.getters.getUserBorrowPart(this.poolId);
         }
 
         return maxPairValue;
       }
 
       if (this.actionType === "repay") {
-        const maxAmount = parseFloat(+this.$store.getters.getUserCollateralShare).toFixed(20);
+        const maxAmount = parseFloat(
+          +this.$store.getters.getUserCollateralShare(this.poolId)
+        ).toFixed(20);
         // .toLocaleString(
         //   "fullwide",
         //   {
@@ -355,8 +391,10 @@ export default {
 
       if (!this.mainValue && this.pairValue) {
         const liquidationPrice =
-          (((+this.$store.getters.getUserBorrowPart + +this.pairValue) * this.tokenToUsd) /
-            +this.$store.getters.getUserCollateralShare) *
+          (((+this.$store.getters.getUserBorrowPart(this.poolId) +
+            +this.pairValue) *
+            this.tokenToUsd) /
+            +this.$store.getters.getUserCollateralShare(this.poolId)) *
           (1 / this.tokenToUsd) *
           this.liquidationMultiplier;
 
@@ -626,10 +664,15 @@ export default {
 
       if (this.actionType === "repay") {
         const collateralPercent = (this.pairValue / this.maxPairValue) * 100;
-        const borrowPercent = (value / this.$store.getters.getUserBorrowPart) * 100; //this.userTotalBorrowed
+        const borrowPercent =
+          (value / this.$store.getters.getUserBorrowPart(this.poolId)) * 100; //this.userTotalBorrowed
 
-        const borrowedInDolarts = this.$store.getters.getUserBorrowPart/ this.tokenPairToUsd; //this.userTotalBorrowed
-        const collateralInDolarts = this.$store.getters.getUserCollateralShare / this.tokenToUsd; //this.userTotalCollateral
+        const borrowedInDolarts =
+          this.$store.getters.getUserBorrowPart(this.poolId) /
+          this.tokenPairToUsd; //this.userTotalBorrowed
+        const collateralInDolarts =
+          this.$store.getters.getUserCollateralShare(this.poolId) /
+          this.tokenToUsd; //this.userTotalCollateral
         const userHasDolars = collateralInDolarts - borrowedInDolarts;
         const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
 
@@ -665,8 +708,12 @@ export default {
           this.pairValue = value;
         }
 
-        const borrowedInDolarts = this.$store.getters.getUserBorrowPart / this.tokenPairToUsd;
-        const collateralInDolarts = this.$store.getters.getUserCollateralShare / this.tokenToUsd;
+        const borrowedInDolarts =
+          this.$store.getters.getUserBorrowPart(this.poolId) /
+          this.tokenPairToUsd;
+        const collateralInDolarts =
+          this.$store.getters.getUserCollateralShare(this.poolId) /
+          this.tokenToUsd;
         const userHasDolars = collateralInDolarts - borrowedInDolarts;
         const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
 
@@ -678,7 +725,10 @@ export default {
         // );
 
         const collateralPercent = (value / this.maxPairValue) * 100;
-        const borrowPercent = (this.mainValue / this.$store.getters.getUserBorrowPart) * 100;
+        const borrowPercent =
+          (this.mainValue /
+            this.$store.getters.getUserBorrowPart(this.poolId)) *
+          100;
         if (
           acceptedPercent < collateralPercent &&
           collateralPercent > borrowPercent
@@ -715,10 +765,6 @@ export default {
 
       if (this.mainValue && value) {
         this.pairValue = (this.maxPairValue * value) / this.ltv;
-        console.log('this.pairValue', this.pairValue);
-        console.log('this.maxPairValue', this.maxPairValue);
-        console.log('value', value);
-        console.log('this.ltv', this.ltv);
       }
     },
     async getUserBalance() {
@@ -731,15 +777,22 @@ export default {
         this.tokenDecimals
       );
 
-      const parsedBalanceNativeToken = this.$ethers.utils.formatEther(
-        this.balanceNativeToken.toString()
-      );
-
       this.userBalance = parsedBalance;
-      this.userBalanceNativeToken = parsedBalanceNativeToken;
 
       console.log("FORMAT BALANCE:", this.userBalance);
-      console.log("FORMAT BALANCE NATIVE TOKEN:", this.userBalanceNativeToken);
+
+      if (this.balanceNativeToken) {
+        const parsedBalanceNativeToken = this.$ethers.utils.formatEther(
+          this.balanceNativeToken.toString()
+        );
+
+        this.userBalanceNativeToken = parsedBalanceNativeToken;
+
+        console.log(
+          "FORMAT BALANCE NATIVE TOKEN:",
+          this.userBalanceNativeToken
+        );
+      }
     },
   },
   async created() {
@@ -808,7 +861,8 @@ export default {
 
       &.disabled .checkbox {
         cursor: not-allowed;
-        filter: brightness(0) saturate(100%) invert(61%) sepia(1%) saturate(2362%) hue-rotate(40deg) brightness(90%) contrast(83%);
+        filter: brightness(0) saturate(100%) invert(61%) sepia(1%)
+          saturate(2362%) hue-rotate(40deg) brightness(90%) contrast(83%);
       }
 
       .checkbox {
@@ -817,7 +871,8 @@ export default {
       }
 
       .checkbox-checked {
-        filter: brightness(0) saturate(100%) invert(81%) sepia(54%) saturate(404%) hue-rotate(18deg) brightness(108%) contrast(98%);
+        filter: brightness(0) saturate(100%) invert(81%) sepia(54%)
+          saturate(404%) hue-rotate(18deg) brightness(108%) contrast(98%);
       }
 
       .box {

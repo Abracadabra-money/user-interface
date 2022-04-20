@@ -30,6 +30,7 @@
 
       <div class="pool-content" v-if="pool">
         <BorrowRepayComponent
+          :poolId="pool.id"
           :actionType="actionType"
           :balance="pool.userBalance"
           :balanceNativeToken="pool.userBalanceNativeToken"
@@ -57,7 +58,7 @@
 
         <CollateralParameters
           :infoItems="collateralInfo"
-          :exchangeRate="pool.tokenPrice"
+          :exchangeRate="tokenPrice"
           :tokenName="pool.token.name"
         />
 
@@ -88,8 +89,11 @@ export default {
     };
   },
   computed: {
+    tokenPrice() {
+      return this.$store.getters.getTokenPrice(this.pool.id);
+    },
     collateralInfo() {
-      return this.$store.getters.getCollateralInfo;
+      return this.$store.getters.getCollateralInfo(this.pool.id);
     },
     userBalancesProp() {
       const pool = this.pool;
@@ -118,13 +122,13 @@ export default {
       }
     },
     userBalanceNativeToken() {
-      return this.$store.getters.getBalanceNativeToken;
+      return this.$store.getters.getBalanceNativeToken(this.pool.id);
     },
     userBalanceToken() {
-      return this.$store.getters.getBalanceToken;
+      return this.$store.getters.getBalanceToken(this.pool.id);
     },
     userBalancePairToken() {
-      return this.$store.getters.getBalancePairToken;
+      return this.$store.getters.getBalancePairToken(this.pool.id);
     },
     pool() {
       const poolId = Number(this.$route.params.id);
@@ -149,33 +153,40 @@ export default {
     },
     async updateBalancesAndCollateralInfo() {
       this.useAVAX
-        ? await this.$store.dispatch("checkBalanceNativeToken")
-        : await this.$store.dispatch(
-            "checkBalanceToken",
-            this.pool.token.contract
-          );
-      await this.$store.dispatch(
-        "checkBalancePairToken",
-        this.pool.pairTokenContract
-      );
+        ? await this.$store.dispatch("checkBalanceNativeToken", this.pool.id)
+        : await this.$store.dispatch("checkBalanceToken", {
+            contract: this.pool.token.contract,
+            id: this.pool.id,
+          });
+      await this.$store.dispatch("checkBalancePairToken", {
+        contract: this.pool.pairTokenContract,
+        id: this.pool.id,
+      });
       await this.checkCollateralInfo();
-      await this.$store.dispatch(
-        "checkTotalBorrow",
-        this.pool.contractInstance
-      );
     },
     async checkCollateralInfo() {
-      this.$store.commit("setTokenPrice", this.pool.tokenPrice);
-      await this.$store.dispatch(
-        "setUserCollateralShare",
-        this.pool.contractInstance,
-        this.pool.token.decimals
-      );
-      await this.$store.dispatch(
-        "setUserBorrowPart",
-        this.pool.contractInstance
-      );
-      this.$store.dispatch("createCollateralInfo");
+      // await this.$store.commit("setTokenPrice", this.pool.tokenPrice);
+      await this.$store.dispatch("checkUserCollateralShare", {
+        contract: this.pool.contractInstance,
+        decimals: this.pool.token.decimals,
+        id: this.pool.id,
+      });
+      await this.$store.dispatch("checkUserBorrowPart", {
+        contract: this.pool.contractInstance,
+        id: this.pool.id,
+      });
+      await this.$store.dispatch("checkTotalBorrow", {
+        contract: this.pool.contractInstance,
+        id: this.pool.id,
+      });
+      await this.$store.dispatch("checkTokenPairRateAndPrice", {
+        contract: this.pool.contractInstance,
+        oracleId: this.pool.token.oracleId,
+        oracleDatas: this.pool.token.oracleDatas,
+        decimals: this.pool.token.decimals,
+        id: this.pool.id,
+      });
+      await this.$store.dispatch("createCollateralInfo", this.pool.id);
     },
     getAVAXStatus() {
       return this.$store.getters.getUseAVAX;
@@ -2727,8 +2738,6 @@ export default {
       console.log("POOL IS UNDEFINED");
       return false;
     }
-
-    await this.$store.dispatch("checkBalanceNativeToken");
 
     console.log("POOL:", poolId);
 
