@@ -8,7 +8,6 @@
       @mouseleave="itsHover = false"
     >
       <ButtonLoader v-if="connectLoader"/>
-      <template v-else-if="itsHover"> Dashboard </template>
       <template v-else>
         <div>
           {{ walletBtnText}}
@@ -110,12 +109,9 @@ export default {
   },
   methods: {
     async walletBtnHandler() {
-      if (this.isConnected) {
-        this.toDashboard();
+      if (this.isConnected || !window.ethereum) {
         return false;
       }
-
-      if (!window.ethereum) return false;
 
       this.connectLoader = true;
 
@@ -126,9 +122,6 @@ export default {
       }
 
       this.connectLoader = false;
-    },
-    toDashboard() {
-      this.$router.push({ name: "Dashboard" });
     },
   },
   components: {

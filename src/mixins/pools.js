@@ -374,14 +374,6 @@ export default {
           additional:
             "This fee is added to your debt every time you borrow NXUSD.",
         },
-        {
-          title: "Interest",
-          value: `${interest} %`,
-          tooltip:
-            "This is the annualized percent that your debt will increase each year.",
-          additional:
-            "This is the annualized percent that your debt will increase each year.",
-        },
       ];
     },
     createCollateralInfo(userCollateralShare, userBorrowPart, tokenPrice, ltv) {
