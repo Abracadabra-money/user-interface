@@ -7,12 +7,12 @@
             <img src="@/assets/images/text-logo.svg" alt="" class="logo" />
           </router-link>
         </div>
-        <router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link>
+        <a href="https://app.nereus.finance/#/markets" class="nereus-btn">Nereus Markets</a>
       </div>
 
       <nav>
         <div>
-          <router-link :to="{ name: 'Stand' }" class="markets-btn"> Markets </router-link>
+          <router-link :to="{ name: 'Stand' }" class="markets-btn">Markets</router-link>
           <router-link :to="{name: 'Dashboard'}" class="dashboard-btn">My Dashboard</router-link>
         </div>
         <div class="btn-margin">
