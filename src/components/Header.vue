@@ -3,7 +3,7 @@
     <div class="container">
       <div class="containerS">
         <div>
-          <router-link :to="{ name: 'Home' }" class="logo-wrap">
+          <router-link :to="{ name: 'Stand' }" class="logo-wrap">
             <img src="@/assets/images/text-logo.svg" alt="" class="logo" />
           </router-link>
         </div>
