@@ -7,7 +7,7 @@
     />
     <DepositPopup @close="closePopup" v-if="popupActiveType === 'deposit'" />
     <BrowserPopup @close="closePopup" v-if="popupActiveType === 'browser'" />
-    <ConnectWalletModal v-if="popupActiveType === 'connectWallet'"/>
+    <ConnectWalletModal v-if="popupActiveType === 'connectWallet'" />
     <DevicePopup
       @close="closePopup"
       v-if="popupActiveType === 'device-error'"
@@ -36,7 +36,8 @@ const DepositPopup = () => import("@/components/Popups/DepositPopup");
 const BrowserPopup = () => import("@/components/Popups/BrowserPopup");
 const DevicePopup = () => import("@/components/Popups/DeviceError");
 const WrongNetworkPopup = () => import("@/components/Popups/WrongNetworkPopup");
-const ConnectWalletModal = () => import("@/components/UiComponents/ConnectWalletModal");
+const ConnectWalletModal = () =>
+  import("@/components/UiComponents/ConnectWalletModal");
 const TransactionSuccessPopup = () =>
   import("@/components/Popups/TransactionSuccess");
 const NetworkPopup = () => import("@/components/Popups/NetworkPopup");
@@ -52,10 +53,6 @@ export default {
     popupActiveType() {
       return this.$store.getters.getPopupType;
     },
-    isModalVisible() {
-      console.log(this.$store.getters.getIsModalVisible)
-      return this.$store.getters.getIsModalVisible;
-    },
   },
   components: {
     SwapPopup,
@@ -69,7 +66,7 @@ export default {
     StakePopup,
     UnstakePopup,
     DevicePopup,
-    ConnectWalletModal
+    ConnectWalletModal,
   },
 };
 </script>

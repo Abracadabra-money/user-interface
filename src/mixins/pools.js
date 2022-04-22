@@ -18,10 +18,11 @@ export default {
   },
   methods: {
     async createPools() {
+      console.log("this.chainid", this.chainId);
       const chainMasterContract = masterContractInfo.find(
         (contract) => contract.contractChain === this.chainId
       );
-
+      console.log("chainMasterContract", chainMasterContract);
       if (!chainMasterContract) {
         console.log("No master Contract");
         return false;

@@ -19,7 +19,8 @@
 
 <script>
 const StandTable = () => import("@/components/Stand/Table");
-const ActionComponent = () => import("@/components/UiComponents/ActionComponent");
+const ActionComponent = () =>
+  import("@/components/UiComponents/ActionComponent");
 
 export default {
   data() {
@@ -27,7 +28,7 @@ export default {
       text: "Please connect your wallet",
       name: "Connect",
       disabledStatus: false,
-    }
+    };
   },
   components: {
     StandTable,
@@ -43,20 +44,20 @@ export default {
   },
   methods: {
     async walletBtnHandler() {
-        if (this.isConnected || !window.ethereum) {
-          return false;
-        }
-
-        this.disabledStatus = true;
-
-        try {
-          await this.$store.dispatch("connectMetamask", window.ethereum);
-        } catch (e) {
-          console.log("e:", e);
-        }
-
-        this.disabledStatus = false;
+      if (this.isConnected || !window.ethereum) {
+        return false;
       }
+
+      this.disabledStatus = true;
+
+      try {
+        await this.$store.dispatch("connectMetamask", window.ethereum);
+      } catch (e) {
+        console.log("e:", e);
+      }
+
+      this.disabledStatus = false;
+    },
   },
 };
 </script>
@@ -82,10 +83,9 @@ export default {
 .stand-action-view {
   position: relative;
   flex: 1;
-  background: #1C1C1C;
+  background: #1c1c1c;
 }
 @media screen and(max-width: 980px) {
-
   .stand-view .stand-group:first-child {
     padding-top: 30px;
   }

@@ -53,7 +53,7 @@ export default {
   .table-col {
     width: calc((100% - 150px) / 4);
     text-align: right;
-    color: #8A8A8A;
+    color: #8a8a8a;
 
     p {
       font-size: 12px;

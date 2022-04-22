@@ -3,20 +3,20 @@
     <div class="container">
       <div class="leftLinks">
         <SocialLink
-            v-for="(item, index) in filteredLeftIcons"
-            :key="index"
-            :data="item.data"
-            :link="item.link"
-            :type="item.type"
+          v-for="(item, index) in filteredLeftIcons"
+          :key="index"
+          :data="item.data"
+          :link="item.link"
+          :type="item.type"
         />
       </div>
       <div class="rightLinks">
         <SocialLink
-            v-for="(item, index) in filteredRightIcons"
-            :key="index"
-            :data="item.data"
-            :link="item.link"
-            :type="item.type"
+          v-for="(item, index) in filteredRightIcons"
+          :key="index"
+          :data="item.data"
+          :link="item.link"
+          :type="item.type"
         />
       </div>
     </div>
@@ -30,32 +30,32 @@ import Twitter from "@/assets/images/Twitter.svg";
 import Medium from "@/assets/images/Medium.svg";
 
 export default {
-  data(){
+  data() {
     return {
       socialLink: [
         {
           data: "GitBook",
-          link: 'https://gitbook.com',
-          position: 'left',
-          type: 'text',
+          link: "https://gitbook.com",
+          position: "left",
+          type: "text",
         },
         {
           data: Discord,
-          link: 'https://discord.com',
-          position: 'right',
-          type: 'image',
+          link: "https://discord.com",
+          position: "right",
+          type: "image",
         },
         {
           data: Twitter,
-          link: 'https://twitter.com',
-          position: 'right',
-          type: 'image',
+          link: "https://twitter.com",
+          position: "right",
+          type: "image",
         },
         {
           data: Medium,
-          link: 'https://medium.com',
-          position: 'right',
-          type: 'image',
+          link: "https://medium.com",
+          position: "right",
+          type: "image",
         },
       ],
       filteredRightIcons: [],

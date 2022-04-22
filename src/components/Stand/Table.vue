@@ -37,6 +37,5 @@ export default {
 <style scoped lang="scss">
 .items-wrap {
   position: relative;
-
 }
 </style>

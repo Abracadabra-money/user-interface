@@ -1,9 +1,7 @@
 <template>
   <div class="pool-item">
     <div class="item-head">
-      <h2 v-if="actionType === 'borrow'">
-        {{ actionType }} more
-      </h2>
+      <h2 v-if="actionType === 'borrow'">{{ actionType }} more</h2>
       <h2 v-if="actionType === 'repay'">{{ actionType }}</h2>
       <div class="status-item" v-if="false">
         <p>liquidation possibility</p>
@@ -51,8 +49,10 @@
     </div>
 
     <div class="item-foot">
-      <p>1 {{pool.token.name}} = {{tokenPrice.toFixed(4)}} NXUSD</p>
-      <button class="btn action-btn" @click="toPool"><p>{{ actionType }}</p></button>
+      <p>1 {{ pool.token.name }} = {{ tokenPrice.toFixed(4) }} NXUSD</p>
+      <button class="btn action-btn" @click="toPool">
+        <p>{{ actionType }}</p>
+      </button>
     </div>
   </div>
 </template>
@@ -93,10 +93,12 @@ export default {
       return 1;
     },
     liquidationPrice() {
-      const liquidationMultiplier = (200 - this.$store.getters.getPoolLtv) / 100;
+      const liquidationMultiplier =
+        (200 - this.$store.getters.getPoolLtv) / 100;
 
       const liquidationPrice =
-        ((this.$store.getters.getUserBorrowPart * this.$store.getters.getTokenPrice) /
+        ((this.$store.getters.getUserBorrowPart *
+          this.$store.getters.getTokenPrice) /
           this.$store.getters.getUserCollateralShare) *
         (1 / this.$store.getters.getTokenPrice) *
         liquidationMultiplier;
@@ -109,7 +111,10 @@ export default {
       return priceDifferens;
     },
     liquidationRisk() {
-      if (+this.$store.getters.getUserBorrowPart === 0 || isNaN(this.liquidationPrice))
+      if (
+        +this.$store.getters.getUserBorrowPart === 0 ||
+        isNaN(this.liquidationPrice)
+      )
         return 0;
 
       const riskPersent =
@@ -192,15 +197,15 @@ export default {
     color: $clrText;
 
     &.safe {
-      background: #05D864;
+      background: #05d864;
     }
 
     &.medium {
-      background: #FDD33F;
+      background: #fdd33f;
     }
 
     &.hight {
-      background: #FE3366;
+      background: #fe3366;
     }
   }
 
@@ -255,7 +260,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: calc((100% / 2) - 8px);
-    border: 1px solid #FFFFFF;
+    border: 1px solid #ffffff;
     border-radius: 4px;
     padding: 11px;
 

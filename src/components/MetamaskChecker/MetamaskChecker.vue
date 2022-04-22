@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import detectEthereumProvider from "@metamask/detect-provider";
+import WalletConnectProvider from "@walletconnect/client";
 export default {
   data() {
     return {
@@ -32,55 +32,50 @@ export default {
   },
   methods: {
     async checkProvider() {
-      const provider = await detectEthereumProvider();
+      const provider = await this.$store.dispatch("connectProvider");
       if (!provider) {
-        this.$store.commit("setPopupState", {
-          type: "browser",
-          isShow: true,
-        });
-        this.$emit("checkError", "Please install MetaMask!");
+        this.$emit("checkError", "");
         return false;
       }
-
-      if (provider !== window.ethereum) {
-        this.$emit("checkError", "Do you have multiple wallets installed?");
-        return false;
-      }
-
-      const userProvider = new this.$ethers.providers.Web3Provider(
-        window.ethereum
-      );
-
-      const userSigner = userProvider.getSigner();
-
-      this.$store.commit("setMetamaskActive", true);
-      this.$store.commit("setProvider", userProvider);
-      this.$store.commit("setSigner", userSigner);
-
       await this.checkConnection();
+      // console.log( 'metamaskCheckError',chainId)
+      // await this.$store.commit("detectProvider");
+      // if (!provider) {
+      //   return false;
+      // }
+      //
+      // const userProvider = new this.$ethers.providers.Web3Provider(
+      //   window.ethereum
+      // );
+      //
+      // const userSigner = userProvider.getSigner();
+      //
+      // this.$store.commit("setMetamaskActive", true);
+      // this.$store.commit("setProvider", userProvider);
+      // this.$store.commit("setSigner", userSigner);
+      //
+      // await this.checkConnection();
     },
     async checkConnection() {
-      const address = await this.$store.dispatch(
-        "fetchAccount",
-        window.ethereum
-      );
-
+      const address = await this.$store.getters.getAccount;
+      console.log("address", address);
       if (!address) {
         this.$emit("checkError", "");
         this.checkInProgress = false;
         return false;
       }
-
-      this.$store.commit("setWalletConnection", true);
-      const chainId = await this.$store.dispatch(
-        "fetchChainId",
-        window.ethereum
-      );
+      const chainId = await this.$store.getters.getChainId;
       this.compareNetworkSupport(chainId);
+      console.log("chain", chainId);
       this.setAccountListeners();
-
       this.checkInProgress = false;
       this.$emit("checkSuccess");
+      //
+      // this.$store.commit("setWalletConnection", true);
+      // const chainId = await this.$store.dispatch(
+      //   "fetchChainId",
+      //   window.ethereum
+      // );
     },
     compareNetworkSupport(chainId) {
       const networkObject = this.availableNetworks.find(
@@ -100,9 +95,20 @@ export default {
       if (networkObject) this.$store.commit("setActiveNetwork", chainId);
     },
     setAccountListeners() {
+      const walletConnectProvider = new WalletConnectProvider({
+        bridge: "https://bridge.walletconnect.org",
+        rpc: {
+          43113: "https://api.avax-test.network/ext/bc/C/rpc",
+          43114: "https://api.avax.network/ext/bc/C/rpc",
+        },
+      });
+      walletConnectProvider.on("disconnect", this.reload);
+      walletConnectProvider.on("session_update", this.reload);
       console.log("SET METAMASK ACCOUNT LISTENERS FUNC");
-      window.ethereum.on("chainChanged", this.onChainIdChange);
-      window.ethereum.on("accountsChanged", this.onAccountChange);
+      if(window.ethereum){
+        window.ethereum.on("chainChanged", this.reload);
+        window.ethereum.on("accountsChanged", this.onAccountChange);
+      }
     },
     onAccountChange(accounts) {
       if (accounts.length === 0) {
@@ -114,7 +120,7 @@ export default {
         this.$store.commit("setAccount", accounts[0]);
       }
     },
-    onChainIdChange() {
+    reload() {
       window.location.reload();
     },
     disconnectHandler() {

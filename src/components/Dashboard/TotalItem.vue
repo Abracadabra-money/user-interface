@@ -2,9 +2,9 @@
   <div class="total-item">
     <h2 v-if="type === 'collateral'">Total {{ type }}ised</h2>
     <h2 v-if="type === 'borrow'">Total {{ type }}ed</h2>
-<!--    <div class="img-wrap">-->
-<!--      <img class="type-icon" :src="icon" alt="" />-->
-<!--    </div>-->
+    <!--    <div class="img-wrap">-->
+    <!--      <img class="type-icon" :src="icon" alt="" />-->
+    <!--    </div>-->
     <p class="count-text">{{ amount }}</p>
     <p class="info-text" v-if="count">{{ type }}ed from {{ count }} pools</p>
   </div>
@@ -85,7 +85,7 @@ export default {
     font-size: 16px;
     line-height: 24px;
     text-align: left;
-    color: #8A8A8A;
+    color: #8a8a8a;
   }
 }
 </style>

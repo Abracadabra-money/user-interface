@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     isConnected() {
-      if(this.isWalletConnected){
+      if (this.isWalletConnected) {
         return true;
       } else {
         return false;

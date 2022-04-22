@@ -1,14 +1,10 @@
 <template>
   <div class="action-group">
     <p class="connect-wallet-text">
-      {{text}}
+      {{ text }}
     </p>
-    <button
-      class="connect-btn"
-      @click="onClick"
-      :disabled="disabledStatus"
-    >
-        {{name}}
+    <button class="connect-btn" @click="onClick" :disabled="disabledStatus">
+      {{ name }}
     </button>
   </div>
 </template>
@@ -27,7 +23,7 @@ export default {
     },
     disabledStatus: {
       type: Boolean,
-    }
+    },
   },
 };
 </script>
@@ -40,11 +36,11 @@ export default {
   flex: 1;
 }
 .connect-wallet-text {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-size: 24px;
   line-height: 28px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .connect-btn {
   font-size: 14px;
@@ -52,7 +48,7 @@ export default {
   align-items: center;
   padding: 8px 31px;
   width: 120px;
-  background: #E7FC6E;
+  background: #e7fc6e;
   border-radius: 21px;
   cursor: pointer;
   border: none;

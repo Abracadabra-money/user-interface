@@ -2,34 +2,36 @@
   <div class="modal-backdrop">
     <div class="modal">
       <header class="modal-header">
-        <slot name="header">
-          Choose provider
-        </slot>
+        <slot name="header"> Choose provider </slot>
         <img
-            class="btn-close"
-            src="@/assets/images/cross.svg"
-            alt="cross"
-            @click="closeModal"
+          class="btn-close"
+          src="@/assets/images/cross.svg"
+          alt="cross"
+          @click="closeModal"
         />
       </header>
-        <slot name="body">
-          <div v-for="(connector) in connectors" :key="connector.name" class="modal-body">
-            <div class="provider-btn" @click="connector.onClick()">
-              <div>{{ connector.name }}</div>
-              <img
-                  :src="require(`@/assets/images/${connector.iconName}.svg`)"
-                  class="connector-img"
-                  :alt="connector.name"
-              />
-            </div>
+      <slot name="body">
+        <div
+          v-for="connector in connectors"
+          :key="connector.name"
+          class="modal-body"
+        >
+          <div class="provider-btn" @click="connector.onClick()">
+            <div>{{ connector.name }}</div>
+            <img
+              :src="require(`@/assets/images/${connector.iconName}.svg`)"
+              class="connector-img"
+              :alt="connector.name"
+            />
           </div>
-        </slot>
+        </div>
+      </slot>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'Modal',
+  name: "Modal",
   data() {
     return {
       itsHover: false,
@@ -37,14 +39,14 @@ export default {
       btnText: "Connect",
       connectors: [
         {
-          iconName: 'MetaMask_Fox',
-          name: 'Metamask',
-          onClick: ()=>this.useConnector("connectMetamask", window.ethereum)
+          iconName: "MetaMask_Fox",
+          name: "Metamask",
+          onClick: () => this.useConnector("connectMetamask", window.ethereum),
         },
         {
-          iconName: 'WalletConnect-icon',
-          name: 'WalletConnect',
-          onClick: ()=>this.useConnector("connectWalletConnect")
+          iconName: "WalletConnect-icon",
+          name: "WalletConnect",
+          onClick: () => this.useConnector("connectWalletConnect"),
         },
       ],
     };
@@ -53,14 +55,14 @@ export default {
     closeModal() {
       this.$store.commit("closePopups");
     },
-    async useConnector(connector, provider){
+    async useConnector(connector, provider) {
       try {
         await this.$store.dispatch(connector, provider);
         this.closeModal();
       } catch (e) {
         console.log("e:", e);
       }
-    }
+    },
   },
 };
 </script>
@@ -71,7 +73,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,7 +81,7 @@ export default {
 
 .modal {
   padding: 32px;
-  background-color:#262626;
+  background-color: #262626;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   //width: 30vw;
@@ -103,21 +105,21 @@ export default {
 .modal-body {
   display: flex;
   flex-direction: column;
-  color: #4AAE9B;
+  color: #4aae9b;
   position: relative;
   padding: 8px 40px;
 }
 
 .btn-close {
   width: 15px;
-  position:absolute;
-  top:2px;
+  position: absolute;
+  top: 2px;
   right: 10px;
   cursor: pointer;
 }
 
-.provider-btn{
-  top:6px;
+.provider-btn {
+  top: 6px;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -134,8 +136,7 @@ export default {
   }
 }
 
-.provider-btn:hover{
+.provider-btn:hover {
   filter: brightness(90%);
 }
-
 </style>
