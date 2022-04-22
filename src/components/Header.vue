@@ -40,12 +40,12 @@ export default {
       return !!this.$store.getters.getSwapObject;
     },
     showLogoBg() {
-      const pages = ["Home"];
+      const pages = ["Stand"];
 
       return pages.indexOf(this.$route.name) !== -1;
     },
     itsTransparent() {
-      const pages = ["Home", "Docs", "Tech", "Liquidations"];
+      const pages = ["Docs", "Tech", "Liquidations"];
 
       return pages.indexOf(this.$route.name) !== -1;
     },

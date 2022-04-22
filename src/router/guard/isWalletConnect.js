@@ -7,7 +7,7 @@ export default function (to, from, next) {
     if (!store.getters.getWalletIsConnected) {
       alert("Connect wallet first");
       next({
-        name: "Home",
+        name: "Stand",
       });
     } else {
       next();
