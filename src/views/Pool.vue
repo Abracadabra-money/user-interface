@@ -3,8 +3,6 @@
     <div class="container mini">
       <BackButton :text="'Back'" @click="toStand" />
 
-      <h1>Magic happens here</h1>
-
       <div class="pool-head-bar">
         <div class="btns-group">
           <button
@@ -2755,18 +2753,12 @@ export default {
   padding: 40px 0;
   flex: 1;
 
-  h1 {
-    font-size: 32px;
-    line-height: 36px;
-    text-align: left;
-    margin: 40px 0 56px;
-  }
-
   .pool-head-bar {
     margin-bottom: 24px;
     display: grid;
     grid-template-columns: 600px 375px;
     column-gap: 20px;
+    margin-top: 50px;
   }
 
   .btns-group {

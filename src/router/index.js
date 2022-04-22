@@ -6,12 +6,12 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     component: () => import("../views/Home.vue"),
   },
   {
-    path: "/stand",
+    path: "/",
     name: "Stand",
     meta: {
       needConnection: true,

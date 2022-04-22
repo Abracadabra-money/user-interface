@@ -35,25 +35,25 @@ export default {
       socialLink: [
         {
           data: "GitBook",
-          link: 'https://gitbook.com',
+          link: 'https://docs.nereus.finance/',
           position: 'left',
           type: 'text',
         },
         {
           data: Discord,
-          link: 'https://discord.com',
+          link: 'https://discord.gg/4tw3VsuTf9',
           position: 'right',
           type: 'image',
         },
         {
           data: Twitter,
-          link: 'https://twitter.com',
+          link: 'https://twitter.com/nereusfinance',
           position: 'right',
           type: 'image',
         },
         {
           data: Medium,
-          link: 'https://medium.com',
+          link: 'https://medium.com/nereus-protocol',
           position: 'right',
           type: 'image',
         },

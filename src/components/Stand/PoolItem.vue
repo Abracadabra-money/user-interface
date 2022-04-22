@@ -13,7 +13,7 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="'This is a private market. Please see details here [Link]'"
+          v-tooltip="'This is a private market.'"
         />
       </div>
     </div>
