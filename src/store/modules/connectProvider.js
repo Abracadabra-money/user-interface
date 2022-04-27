@@ -48,6 +48,7 @@ export default {
           commit("setWalletProviderName", "Metamask");
           commit("setChainId", chainId);
           commit("setAccount", accounts[0]);
+          commit("setProvider", provider);
           commit("setSigner", signer);
           commit("setWalletConnection", true);
           return signer;
@@ -60,26 +61,19 @@ export default {
         },
       });
       const connector = walletConnectProvider.connector;
-      console.log('alletConnectProvider.connected', connector.chainId)
       if (connector.accounts>0) {
         const accounts = await walletConnectProvider.enable()
-        console.log('accounts22222', accounts[0])
         provider = new providers.Web3Provider(walletConnectProvider);
-        console.log(0);
         const chainId = utils.hexlify(connector.chainId);
-        console.log('chainId222',chainId)
-        console.log(1);
         const signer = provider.getSigner();
-        console.log(2)
         commit("setWalletProviderName", "WalletConnect");
         commit("setChainId", chainId);
+        commit("setProvider", provider);
         commit("setAccount", accounts[0]);
         commit("setSigner", signer);
         commit("setWalletConnection", true);
         return signer;
       }
-
-      commit("setProvider", provider);
       return provider;
     },
 
@@ -95,7 +89,6 @@ export default {
     },
 
     async connectMetamask({ commit }, provider) {
-      console.log(1);
       try {
         const accounts = await provider.request({
           method: "eth_requestAccounts",
@@ -112,9 +105,9 @@ export default {
         if (chainId) {
           commit("setChainId", chainId);
           commit("setWalletProviderName", "Metamask");
+          commit("setProvider", window.ethereum);
           commit("setAccount", accounts[0]);
           commit("setWalletConnection", true);
-          console.log("finito");
           return true;
         }
         return false;
@@ -130,7 +123,6 @@ export default {
       }
     },
     async connectWalletConnect({ commit }) {
-      console.log(1);
       try {
         const walletConnectProvider = new WalletConnectProvider({
           rpc: {
@@ -148,9 +140,7 @@ export default {
           commit("setChainId", chainId);
           commit("setWalletProviderName", "WalletConnect");
           commit("setWalletConnection", true);
-          console.log("connectAccount", accounts[0], chainId);
           commit("setAccount", accounts[0]);
-          console.log("finito");
           return true;
         }
         return false;
@@ -164,24 +154,6 @@ export default {
         }
         return false;
       }
-    },
-    async detectProvider() {
-      let provider;
-      console.log(1);
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      console.log("accounts", accounts);
-      if (!provider) {
-        const walletConnectProvider = new WalletConnectProvider({
-          rpc: {
-            43113: "https://api.avax-test.network/ext/bc/C/rpc",
-            43114: "https://api.avax.network/ext/bc/C/rpc",
-          },
-        });
-        provider = new providers.Web3Provider(walletConnectProvider);
-      }
-      return provider;
     },
   },
   getters: {
