@@ -2,30 +2,35 @@
   <div class="estimation-block">
     <div class="item-main">
       <p>NXUSD Amount</p>
-      <p class="percent-text" v-if="value"><span>~$ </span>{{nxusdAmount.toFixed(2)}}</p>
-      <p class="percent-text" v-if="!value"><span>~$ </span>{{borrowPart}}</p>
+      <p class="percent-text" v-if="value">
+        <span>~$ </span>{{ nxusdAmount.toFixed(2) }}
+      </p>
+      <p class="percent-text" v-if="!value"><span>~$ </span>{{ borrowPart }}</p>
     </div>
 
     <div class="item-main">
       <p>Expected Liquidation Price</p>
-      <p class="percent-text" v-if="value"><span>~$ </span>{{liquidityPrice}}</p>
-      <p class="percent-text" v-if="!value"><span>~$ </span>{{liquidationPrice.toFixed(2)}}</p>
+      <p class="percent-text" v-if="value">
+        <span>~$ </span>{{ liquidityPriceFormatted }}
+      </p>
+      <p class="percent-text" v-if="!value">
+        <span>~$ </span>{{ liquidityPriceFormatted }}
+      </p>
     </div>
 
     <div class="item-main">
       <p>Position Health</p>
-      <p class="position-health-text" >~ {{liquidityRisk}} %</p>
+      <p class="position-health-text">~ {{ liquidationRisk }} %</p>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       //inputStatus: true,
-    }
+    };
   },
   props: {
     liquidityPrice: {
@@ -35,7 +40,7 @@ export default {
     reset: {
       type: Boolean,
     },
-    nxusdAmount:{
+    nxusdAmount: {
       required: true,
     },
     maxValue: {
@@ -49,7 +54,7 @@ export default {
     },
     tokentToNUSD: {
       required: true,
-    }
+    },
   },
   watch: {
     reset(value) {
@@ -85,34 +90,36 @@ export default {
       return 1;
     },
     liquidationPrice() {
-      const liquidationMultiplier = (200 - this.$store.getters.getPoolLtv) / 100;
+      const liquidationMultiplier =
+        (200 - this.$store.getters.getPoolLtv) / 100;
 
       const liquidationPrice =
-        ((this.$store.getters.getUserBorrowPart * this.$store.getters.getTokenPrice) /
+        ((this.$store.getters.getUserBorrowPart *
+          this.$store.getters.getTokenPrice) /
           this.$store.getters.getUserCollateralShare) *
         (1 / this.$store.getters.getTokenPrice) *
         liquidationMultiplier;
 
       return liquidationPrice;
     },
+    liquidityPriceFormatted() {
+      return this.liquidityPrice === "xxx.xx" ||
+        this.liquidityPrice === undefined
+        ? "xxx.xx"
+        : parseFloat(this.liquidityPrice).toFixed(2);
+    },
     priceDifference() {
-      const priceDifference = this.tokenPrice - this.liquidationPrice;
+      const priceDifference = this.tokenPrice - this.liquidityPrice;
 
       return priceDifference;
     },
 
-    liquidityRisk() {
-      if (+this.nxusdAmount === 0 || isNaN(this.liquidityPrice))
-        return this.liquidationRisk;
-
-      const riskPercent =  this.liquidityPrice / (this.liquidationPrice / (this.liquidationRisk / 100));
-
-      return riskPercent.toFixed(2);
-    },
-
     liquidationRisk() {
-      if (+this.$store.getters.getUserBorrowPart === 0 || isNaN(this.liquidationPrice))
-        return 0;
+      if (
+        +this.$store.getters.getUserBorrowPart === 0 ||
+        isNaN(this.liquidityPrice)
+      )
+        return parseFloat("0").toFixed(2);
 
       const riskPersent =
         ((this.priceDifference * this.stableCoinMultiplyer) / this.tokenPrice) *
@@ -125,7 +132,7 @@ export default {
       return parseFloat(riskPersent).toFixed(2);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -140,6 +147,10 @@ export default {
     font-size: 14px;
     line-height: 20px;
     margin-bottom: 12px;
+
+    &:last-of-type {
+      margin-bottom: 0px;
+    }
   }
   .title {
     display: flex;
@@ -150,7 +161,8 @@ export default {
     }
   }
   .position-health-text {
-    color: #FDD33F;
+    color: #fdd33f;
+    font-weight: 600;
   }
   .percent-text {
     font-weight: 600;
