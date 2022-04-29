@@ -163,12 +163,12 @@ export default {
   border: 1px solid #8A8A8A;
   box-sizing: border-box;
   border-radius: 4px;
-  padding-left: 8px;
+  padding: 8px;
   margin-bottom: 24px;
   font-size: 12px;
   cursor: pointer;
 
-  :active {
+  &:focus {
     background: #1C1C1C;
   }
 }
