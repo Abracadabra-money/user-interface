@@ -1,6 +1,6 @@
 <template>
   <div class="statistics-block">
-    <div class="item-wrap" v-for="(item, idx) in statisticsTemplate" :key="idx">
+    <div class="item-wrap" v-for="(item, idx) in userStats" :key="idx">
       <TotalItem
         :type="item.type"
         :icon="item.icon"
@@ -24,13 +24,8 @@ export default {
       type: Array,
     },
   },
-  data() {
-    return {
-      statisticsTemplate: [],
-    };
-  },
   methods: {
-    updateBorrowStat() {
+    updatedBorrowStat() {
       const userBorrowPools = this.pools.filter(
         (pool) => +pool.userBorrowPart > 0
       );
@@ -43,26 +38,20 @@ export default {
       },
       0);
 
-      const statisticObject = {
+      return {
         type: "borrow",
         icon: require("@/assets/images/coin.svg"),
         amount: parseFloat(borrowAmount).toFixed(4),
         count: userBorrowPools.length,
       };
-
-      this.statisticsTemplate.push(statisticObject);
     },
-    updateCollateralStat() {
+    updatedCollateralStat() {
       const userCollateralPools = this.pools.filter(
         (pool) => +pool.userCollateralShare > 0
       );
 
       const collateralAmount = userCollateralPools.reduce(
         (accumulator, currentValue) => {
-          // const tokenToUsd = this.$ethers.utils.formatEther(
-          //   currentValue.token.oracleExchangeRate
-          // );
-
           const parsedExchangeRate = this.$ethers.utils.formatUnits(
             currentValue.token.oracleExchangeRate.toString(),
             currentValue.token.decimals
@@ -76,26 +65,17 @@ export default {
         0
       );
 
-      const statisticObject = {
+      return {
         type: "collateral",
         icon: require("@/assets/images/bottle.svg"),
         amount: `$${parseFloat(collateralAmount).toFixed(4)}`,
       };
-
-      this.statisticsTemplate.push(statisticObject);
     },
   },
-  created() {
-    this.updateBorrowStat();
-    this.updateCollateralStat();
-  },
   computed: {
-    // collateralInfo() {
-    //   const collateralInfo =  this.$store.getters.getCollateralInfo;
-    //   const filter = collateralInfo.map((item) => {
-    //
-    //   })
-    // },
+    userStats() {
+      return [this.updatedBorrowStat(), this.updatedCollateralStat()];
+    },
   },
   components: {
     TotalItem,
