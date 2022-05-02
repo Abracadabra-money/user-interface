@@ -76,7 +76,7 @@ export default {
     liquidationPriceFormatted() {
       return this.liquidationPrice === "xxx.xx"
         ? this.liquidationPrice
-        : parseFloat(this.liquidationPrice).toFixed(2);
+        : parseFloat(this.liquidationPrice).toFixed(8);
     },
   },
   watch: {

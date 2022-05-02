@@ -92,7 +92,7 @@ export default {
       return this.liquidityPrice === "xxx.xx" ||
         this.liquidityPrice === undefined
         ? "xxx.xx"
-        : parseFloat(this.liquidityPrice).toFixed(2);
+        : parseFloat(this.liquidityPrice).toFixed(8);
     },
     priceDifference() {
       const priceDifference = this.tokenPrice - this.liquidityPrice;
