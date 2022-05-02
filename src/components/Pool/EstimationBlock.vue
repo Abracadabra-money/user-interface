@@ -3,7 +3,7 @@
     <div class="item-main">
       <p>NXUSD Amount</p>
       <p class="percent-text" v-if="value">
-        <span>~$ </span>{{ nxusdAmount.toFixed(2) }}
+        <span>~$ </span>{{ this.nxusdAmountDisplay }}
       </p>
       <p class="percent-text" v-if="!value"><span>~$ </span>{{ borrowPart }}</p>
     </div>
@@ -36,7 +36,6 @@ export default {
     liquidityPrice: {
       required: true,
     },
-
     reset: {
       type: Boolean,
     },
@@ -55,6 +54,9 @@ export default {
     tokentToNUSD: {
       required: true,
     },
+    mainAmount: {
+      required: true,
+    },
   },
   watch: {
     reset(value) {
@@ -69,6 +71,12 @@ export default {
     },
   },
   computed: {
+    nxusdAmountDisplay() {
+      return (
+        parseFloat(this.$store.getters.getUserBorrowPart) +
+        parseFloat(this.nxusdAmount)
+      ).toFixed(2);
+    },
     borrowPart() {
       const borrowPart = this.$store.getters.getUserBorrowPart;
       return borrowPart.slice(0, 4);
@@ -90,6 +98,7 @@ export default {
       return 1;
     },
     liquidationPrice() {
+      // TODO: for price calculation fix: use "this.$store.getters.getUserBorrowPart + parseFloat(this.nxusdAmount)" instead of just "this.$store.getters.getUserBorrowPart"
       const liquidationMultiplier =
         (200 - this.$store.getters.getPoolLtv) / 100;
 
@@ -109,15 +118,16 @@ export default {
         : parseFloat(this.liquidityPrice).toFixed(2);
     },
     priceDifference() {
-      const priceDifference = this.tokenPrice - this.liquidityPrice;
-
+      const priceDifference = this.tokenPrice - this.liquidationPrice;
       return priceDifference;
     },
 
     liquidationRisk() {
       if (
-        +this.$store.getters.getUserBorrowPart === 0 ||
-        isNaN(this.liquidityPrice)
+        +this.$store.getters.getUserBorrowPart +
+          parseFloat(this.nxusdAmount) ===
+          0 ||
+        isNaN(this.liquidationPrice)
       )
         return parseFloat("0").toFixed(2);
 

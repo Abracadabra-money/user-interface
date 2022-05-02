@@ -61,6 +61,7 @@
         :value="percentValue"
         :pool="pool"
         :tokentToNUSD="tokentToNUSD"
+        :mainAmount="mainValue"
       />
     </div>
 
@@ -660,7 +661,6 @@ export default {
       this.percentValue = "";
     },
     updateMainValue(value) {
-      console.log("updateMain", value);
       this.mainValue = value;
 
       if (parseFloat(value) > parseFloat(this.maxMainValue)) {
