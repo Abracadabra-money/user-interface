@@ -52,7 +52,7 @@
       />
     </div>
 
-    <div class="config-box" v-if="actionType === 'borrow'">
+    <!-- <div class="config-box" v-if="actionType === 'borrow'">
       <div class="checkbox-wrap">
         <div
           class="box-wrap"
@@ -90,7 +90,7 @@
           <LeverageBar :multiplier="multiplier" @update="updateMultiplier" />
         </transition>
       </template>
-    </div>
+    </div> -->
 
     <div class="action-wrap">
       <div class="checkbox-wrap">
@@ -136,8 +136,8 @@
 <script>
 const ValueInput = () => import("@/components/UiComponents/ValueInput");
 const LiquidationRules = () => import("@/components/Pool/LiquidatonRules");
-const LeverageBar = () => import("@/components/Pool/LeverageBar");
-const SlipageBlock = () => import("@/components/Pool/SlipageBlock");
+// const LeverageBar = () => import("@/components/Pool/LeverageBar");
+// const SlipageBlock = () => import("@/components/Pool/SlipageBlock");
 
 export default {
   props: {
@@ -801,8 +801,8 @@ export default {
   components: {
     ValueInput,
     LiquidationRules,
-    LeverageBar,
-    SlipageBlock,
+    // LeverageBar,
+    // SlipageBlock,
   },
 };
 </script>

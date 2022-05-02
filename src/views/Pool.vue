@@ -2031,6 +2031,7 @@ export default {
           await this.wrapperStatusTx(result);
 
           console.log(result);
+          await this.updatePrices();
           return false;
         }
 
@@ -2703,7 +2704,8 @@ export default {
       return price.USD;
     },
     async updatePrices() {
-      this.pool.tokenPrice = await this.getTokenPrice(this.pool.token.name);
+      this.pool.tokenPrice =
+        1 / (await this.getTokenPrice(this.pool.token.name));
       this.pool.tokenPairPrice = await this.getTokenPrice(
         this.pool.pairToken.name
       );
