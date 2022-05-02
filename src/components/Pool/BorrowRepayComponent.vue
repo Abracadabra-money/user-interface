@@ -61,7 +61,6 @@
         :value="percentValue"
         :pool="pool"
         :tokentToNUSD="tokentToNUSD"
-        :mainAmount="mainValue"
       />
     </div>
 
@@ -405,7 +404,6 @@ export default {
       //
       //   return ((1 / this.tokenToUsd / 100) * percent).toFixed(2);
       // }
-
       if (!this.percentValue) return "xxx.xx";
 
       if (!this.mainValue && this.pairValue) {
@@ -416,14 +414,17 @@ export default {
           (1 / this.tokenToUsd) *
           this.liquidationMultiplier;
 
-        return liquidationPrice.toFixed(2);
+        return liquidationPrice;
       }
 
       if (this.mainValue && this.pairValue) {
         const liquidationPrice =
-          ((+this.pairValue * this.tokenToUsd) / +this.mainValue) *
-            (1 / this.tokenToUsd) *
-            this.liquidationMultiplier || 0;
+          (((+this.$store.getters.getUserBorrowPart + +this.pairValue) *
+            this.tokenToUsd) /
+            (+this.$store.getters.getUserCollateralShare +
+              (parseFloat(this.mainValue) || 0))) *
+          (1 / this.tokenToUsd) *
+          this.liquidationMultiplier;
 
         return liquidationPrice;
       }

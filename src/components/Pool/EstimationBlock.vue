@@ -54,9 +54,6 @@ export default {
     tokentToNUSD: {
       required: true,
     },
-    mainAmount: {
-      required: true,
-    },
   },
   watch: {
     reset(value) {
@@ -91,26 +88,6 @@ export default {
       }
       return 1;
     },
-    stableCoinMultiplayer() {
-      if (this.maxValue === 90) {
-        return 10;
-      }
-      return 1;
-    },
-    liquidationPrice() {
-      // TODO: for price calculation fix: use "this.$store.getters.getUserBorrowPart + parseFloat(this.nxusdAmount)" instead of just "this.$store.getters.getUserBorrowPart"
-      const liquidationMultiplier =
-        (200 - this.$store.getters.getPoolLtv) / 100;
-
-      const liquidationPrice =
-        ((this.$store.getters.getUserBorrowPart *
-          this.$store.getters.getTokenPrice) /
-          this.$store.getters.getUserCollateralShare) *
-        (1 / this.$store.getters.getTokenPrice) *
-        liquidationMultiplier;
-
-      return liquidationPrice;
-    },
     liquidityPriceFormatted() {
       return this.liquidityPrice === "xxx.xx" ||
         this.liquidityPrice === undefined
@@ -118,16 +95,15 @@ export default {
         : parseFloat(this.liquidityPrice).toFixed(2);
     },
     priceDifference() {
-      const priceDifference = this.tokenPrice - this.liquidationPrice;
+      const priceDifference = this.tokenPrice - this.liquidityPrice;
       return priceDifference;
     },
-
     liquidationRisk() {
       if (
         +this.$store.getters.getUserBorrowPart +
           parseFloat(this.nxusdAmount) ===
           0 ||
-        isNaN(this.liquidationPrice)
+        isNaN(this.liquidityPrice)
       )
         return parseFloat("0").toFixed(2);
 
