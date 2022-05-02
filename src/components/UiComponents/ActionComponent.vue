@@ -1,14 +1,14 @@
 <template>
   <div class="action-group">
     <p class="connect-wallet-text">
-      {{text}}
+      {{ text }}
     </p>
     <button
       class="connect-btn"
       @click="onClick"
       :disabled="disabledStatus"
     >
-        {{name}}
+      {{ name }}
     </button>
   </div>
 </template>

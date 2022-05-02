@@ -70,20 +70,20 @@ export default {
   computed: {
     nxusdAmountDisplay() {
       return (
-        parseFloat(this.$store.getters.getUserBorrowPart) +
+        parseFloat(this.$store.getters.getUserBorrowPart(this.pool.id)) +
         parseFloat(this.nxusdAmount)
-      ).toFixed(2);
+      ).toFixed(8);
     },
     borrowPart() {
-      const borrowPart = this.$store.getters.getUserBorrowPart;
+      const borrowPart = this.$store.getters.getUserBorrowPart(this.pool.id);
       return borrowPart.slice(0, 4);
     },
     tokenPrice() {
-      const tokenToNUSD = 1 / this.$store.getters.getTokenPrice;
+      const tokenToNUSD = 1 / this.$store.getters.getTokenPrice(this.pool.id);
       return tokenToNUSD;
     },
     stableCoinMultiplyer() {
-      if (this.$store.getters.getPoolLtv === 90) {
+      if (this.$store.getters.getPoolLtv(this.pool.id) === 90) {
         return 10;
       }
       return 1;
@@ -100,7 +100,7 @@ export default {
     },
     liquidationRisk() {
       if (
-        +this.$store.getters.getUserBorrowPart +
+        +this.$store.getters.getUserBorrowPart(this.pool.id) +
           parseFloat(this.nxusdAmount) ===
           0 ||
         isNaN(this.liquidityPrice)
