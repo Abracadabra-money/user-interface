@@ -35,6 +35,7 @@ export default {
       const provider = await this.$store.dispatch("connectProvider");
       if (!provider) {
         this.$emit("checkError", "");
+        this.checkInProgress = false;
         return false;
       }
       await this.checkConnection();
@@ -48,7 +49,7 @@ export default {
       }
       const chainId = await this.$store.getters.getChainId;
       this.compareNetworkSupport(chainId);
-      this.setAccountListeners();
+      await this.setAccountListeners();
       this.checkInProgress = false;
       this.$emit("checkSuccess");
     },
@@ -69,12 +70,15 @@ export default {
 
       if (networkObject) this.$store.commit("setActiveNetwork", chainId);
     },
-    setAccountListeners() {
+    async setAccountListeners() {
+      let accounts;
       if(window.ethereum){
+        accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      }
+      if(accounts && accounts.length>0){
         window.ethereum.on("chainChanged", this.reload);
         window.ethereum.on("accountsChanged", this.onAccountChange);
         window.ethereum.on("block",()=>{
-          console.log('adsdasdasdasdaas')
           this.updatePoolData()
         })
         console.log("SET METAMASK ACCOUNT LISTENERS FUNC");

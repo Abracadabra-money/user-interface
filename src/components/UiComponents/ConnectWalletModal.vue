@@ -41,7 +41,7 @@ export default {
         {
           iconName: "MetaMask_Fox",
           name: "Metamask",
-          onClick: () => this.useConnector("connectMetamask", window.ethereum),
+          onClick: () => this.useConnector("connectMetamask"),
         },
         {
           iconName: "WalletConnect-icon",
@@ -55,9 +55,9 @@ export default {
     closeModal() {
       this.$store.commit("closePopups");
     },
-    async useConnector(connector, provider) {
+    async useConnector(connector) {
       try {
-        await this.$store.dispatch(connector, provider);
+        await this.$store.dispatch(connector);
         this.closeModal();
       } catch (e) {
         console.log("e:", e);
