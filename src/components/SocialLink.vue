@@ -1,14 +1,10 @@
 <template>
-  <a
-    target="_blank"
-    :href="link"
-    class="icons"
-  >
+  <a target="_blank" :href="link" class="icons">
     <div v-if="type === 'image'">
-      <img :src="data" alt=""/>
+      <img :src="data" alt="" />
     </div>
     <div v-else-if="type === 'text'">
-      {{data}}
+      {{ data }}
     </div>
   </a>
 </template>
@@ -27,7 +23,7 @@ export default {
     },
     type: {
       type: String,
-    }
+    },
   },
 };
 </script>
@@ -37,7 +33,7 @@ export default {
   font-family: Work Sans, sans-serif;
   font-size: 12px;
   line-height: 16px;
-  color: #55BCC0;
+  color: #55bcc0;
   letter-spacing: 0.05em;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -49,5 +45,4 @@ export default {
 .icons:last-child {
   padding-right: 0px;
 }
-
 </style>

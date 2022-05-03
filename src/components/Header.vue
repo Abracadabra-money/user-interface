@@ -3,26 +3,26 @@
     <div class="container">
       <div class="containerS">
         <div>
-          <router-link :to="{ name: 'Home' }" class="logo-wrap">
+          <router-link :to="{ name: 'Stand' }" class="logo-wrap">
             <img src="@/assets/images/text-logo.svg" alt="" class="logo" />
           </router-link>
         </div>
-        <router-link :to="{ name: 'Stand' }" class="nereus-btn"> Nereus Markets </router-link>
+        <a href="https://app.nereus.finance/#/markets" class="nereus-btn"
+          >Nereus Markets</a
+        >
       </div>
 
       <nav>
         <div>
-          <router-link :to="{ name: 'Borrow' }" class="borrow-btn"> Borrow </router-link>
+          <router-link :to="{ name: 'Stand' }" class="markets-btn"
+            >Markets</router-link
+          >
+          <router-link :to="{ name: 'Dashboard' }" class="dashboard-btn"
+            >My Dashboard</router-link
+          >
         </div>
-
-        <div class="btns-wrap">
-          <NetworkButton
-            @click="networkClickHandler"
-            :networkType="activeNetwork"/>
-
-          <div class="btn-margin">
-            <ConnectButton />
-          </div>
+        <div class="btn-margin">
+          <ConnectButton />
         </div>
       </nav>
 
@@ -37,7 +37,6 @@
 </template>
 
 <script>
-const NetworkButton = () => import("@/components/UiComponents/NetworkButton");
 const ConnectButton = () => import("@/components/UiComponents/ConnectButton");
 //const TokenButton = () => import("@/components/UiComponents/AddTokenBtn");
 
@@ -47,21 +46,21 @@ export default {
       return !!this.$store.getters.getSwapObject;
     },
     showLogoBg() {
-      const pages = ["Home"];
+      const pages = ["Stand"];
 
       return pages.indexOf(this.$route.name) !== -1;
     },
     itsTransparent() {
-      const pages = ["Home", "Docs", "Tech", "Liquidations"];
+      const pages = ["Docs", "Tech", "Liquidations"];
 
       return pages.indexOf(this.$route.name) !== -1;
     },
-    activeNetwork() {
-      return this.$store.getters.getActiveNetwork;
-    },
-    itsDashboard() {
-      return this.$route.name === "Dashboard";
-    },
+    // activeNetwork() {
+    //   return this.$store.getters.getActiveNetwork;
+    // },
+    // itsDashboard() {
+    //   return this.$route.name === "Dashboard";
+    // },
   },
   methods: {
     showSwapPopup() {
@@ -70,12 +69,12 @@ export default {
         isShow: true,
       });
     },
-    networkClickHandler() {
-      this.$store.commit("setPopupState", {
-        type: "network",
-        isShow: true,
-      });
-    },
+    // networkClickHandler() {
+    //   this.$store.commit("setPopupState", {
+    //     type: "network",
+    //     isShow: true,
+    //   });
+    // },
     menuClickHandler() {
       const isAlreadyOpen = this.$store.getters.getPopupState;
       const openPopupType = this.$store.getters.getPopupType;
@@ -92,7 +91,6 @@ export default {
     },
   },
   components: {
-    NetworkButton,
     ConnectButton,
     //TokenButton,
   },
@@ -101,7 +99,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-header {
-  background: #4D4AEC;
+  background: #4d4aec;
   height: $headerHeight;
   z-index: 2;
 
@@ -167,19 +165,12 @@ export default {
     flex-direction: row;
     z-index: 2;
 
-    .btns-wrap {
+    .btn-margin {
       margin-left: 12px;
-      display: flex;
-      align-items: center;
-
-      .btn-margin {
-        margin-left: 12px;
-      }
     }
   }
-
-  .borrow-btn {
-    color: #FFFFFF;
+  .dashboard-btn {
+    color: #ffffff;
     font-size: 16px;
     font-style: normal;
     text-align: center;
@@ -188,9 +179,28 @@ export default {
     cursor: pointer;
     background: rgba(28, 28, 28, 0.16);
     padding: 8px 15px;
-    width: 80px;
+    width: auto;
     height: 32px;
     border-radius: 21px;
+
+    &:hover {
+      color: $clrNavHover;
+    }
+  }
+  .markets-btn {
+    color: #ffffff;
+    font-size: 16px;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: rgba(28, 28, 28, 0.16);
+    padding: 8px 15px;
+    width: auto;
+    height: 32px;
+    border-radius: 21px;
+    margin-right: 12px;
 
     &:hover {
       color: $clrNavHover;
@@ -205,7 +215,7 @@ export default {
 
     margin-left: 40px;
     top: 24px;
-    background: #55BCC0;
+    background: #55bcc0;
     font-family: "Work Sans", sans-serif;
     text-align: center;
     font-size: 14px;
@@ -213,20 +223,17 @@ export default {
     font-weight: 400;
     line-height: 20px;
 
-    color: #FFFFFF;
+    color: #ffffff;
     flex: none;
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
 
-
     &:hover {
       color: black;
-      background: #E7FC6E;
+      background: #e7fc6e;
     }
   }
-
-
 
   .mobile-btn {
     width: 24px;
@@ -242,7 +249,7 @@ export default {
     width: 146px;
   }
 
-  .app-header nav .borrow-btn {
+  .app-header nav .markets-btn .dashboard-btn {
     font-size: 16px;
   }
 }
@@ -252,12 +259,12 @@ export default {
     width: 170px;
   }
 
-  .app-header nav .borrow-btn {
+  .app-header nav .markets-btn .dashboard-btn {
     font-size: 16px;
   }
 
-  .app-header nav .btns-wrap,
-  .app-header nav .btns-wrap .btn-margin {
+  .app-header nav,
+  .app-header nav .btn-margin {
     margin-left: 15px;
   }
 }

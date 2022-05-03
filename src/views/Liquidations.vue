@@ -14,9 +14,9 @@
 
       <div class="text-block">
         <p>
-          In Abracadabra Money, every NUSD is backed by a certain ibTOKEN. Unlike
-          most protocols where all an individual's collateral is at risk of
-          liquidation to a liquidation event, here in Abracadabra each
+          In Abracadabra Money, every NUSD is backed by a certain ibTOKEN.
+          Unlike most protocols where all an individual's collateral is at risk
+          of liquidation to a liquidation event, here in Abracadabra each
           Collateralized Debt Position(CDP) is isolated and only at risk of its
           own individual liquidation.
         </p>
@@ -93,9 +93,9 @@
           more collateral value than his debt. So, Zoltac the Dark’s golem can
           go to work on this CDP and liquidate it. Zoltac the Dark pays off the
           owed NUSD, takes those magical yvWETH tokens into his possession.
-          However, Merlin is not terribly off, as he still has those NUSD tokens,
-          well the ones he didn’t spend on magic ink, and he no longer has to
-          pay off his debt.
+          However, Merlin is not terribly off, as he still has those NUSD
+          tokens, well the ones he didn’t spend on magic ink, and he no longer
+          has to pay off his debt.
         </p>
       </div>
 

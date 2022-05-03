@@ -25,7 +25,8 @@
 <script>
 
 const StandTable = () => import("@/components/Stand/Table");
-const ActionComponent = () => import("@/components/UiComponents/ActionComponent");
+const ActionComponent = () =>
+  import("@/components/UiComponents/ActionComponent");
 
 export default {
   data() {
@@ -149,7 +150,7 @@ export default {
 .stand-action-view {
   position: relative;
   flex: 1;
-  background: #1C1C1C;
+  background: #1c1c1c;
 }
 
 .stand-sort select {
@@ -183,7 +184,6 @@ export default {
   }
 }
 @media screen and(max-width: 980px) {
-
   .stand-view .stand-group:first-child {
     padding-top: 30px;
   }
