@@ -77,9 +77,6 @@ export default {
     isConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
-    sortList() {
-      return this.sortedArray;
-    }
   },
   methods: {
     sortByFee(d1, d2) {
