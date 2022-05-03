@@ -8,7 +8,6 @@
       @mouseleave="itsHover = false"
     >
       <ButtonLoader v-if="connectLoader" />
-      <template v-else-if="itsHover"> Dashboard </template>
       <template v-else>
         <div>
           {{ walletBtnText }}
@@ -93,7 +92,7 @@ export default {
       let networkName = this.networks.find(
         (item) => item.chainid == networkType
       );
-      console.log("networkName", networkName);
+
       return `${networkName.title}`;
     },
     slicedAccountAddress() {

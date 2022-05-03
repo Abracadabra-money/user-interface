@@ -13,7 +13,7 @@
           src="@/assets/images/i-icon.svg"
           alt=""
           class="info-icon"
-          v-tooltip="'Some reason why it does not work'"
+          v-tooltip="'This is a private market.'"
         />
       </div>
     </div>
@@ -45,7 +45,9 @@ export default {
       //   this.$ethers.utils.formatEther(this.pool.totalBorrow)
       // ).toFixed(0);
       return parseFloat(
-        this.$ethers.utils.formatEther(this.$store.getters.getTotalBorrow)
+        this.$ethers.utils.formatEther(
+          this.$store.getters.getTotalBorrow(this.pool.id)
+        )
       ).toFixed(0);
     },
     mainTokenPrice() {
@@ -70,7 +72,7 @@ export default {
       if (this.pool.token.name === "WXT") {
         return true;
       } else {
-        return true;
+        return false;
       }
     },
   },

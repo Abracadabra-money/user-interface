@@ -35,7 +35,7 @@ export default {
     tokentToNUSD() {
       const tokenToNUSD = 1 / this.exchangeRate;
       // eslint-disable-next-line no-useless-escape
-      let re = new RegExp(`^-?\\d+(?:\.\\d{0,` + (4 || -1) + `})?`);
+      let re = new RegExp(`^-?\\d+(?:\.\\d{0,` + (6 || -1) + `})?`);
       return tokenToNUSD.toString().match(re)[0];
     },
     getInfoItems() {

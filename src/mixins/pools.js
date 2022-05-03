@@ -1,7 +1,6 @@
 import poolsInfo from "@/utils/contracts/pools.js";
 import masterContractInfo from "@/utils/contracts/master.js";
 import oracleContractsInfo from "@/utils/contracts/oracle.js";
-import addressesByChainId from "@/utils/addressesByChainId";
 import whitelistContractInfo from "@/utils/contracts/whitelistManager";
 
 export default {
@@ -68,9 +67,8 @@ export default {
       pool.isEnabled = true;
       if (pool.name === "WXT") {
         const whitelistContract = this.createWhitelistManager(
-          addressesByChainId[pool.contractChain].WhitelistManager
+          pool.whitelistManager
         );
-        console.log("whitelistContract", whitelistContract);
         pool.isEnabled = (await whitelistContract.info(this.account)).isAllowed;
       }
       const tokenContract = new this.$ethers.Contract(
@@ -93,8 +91,7 @@ export default {
 
       const oracleExchangeRate = await this.getOracleExchangeRate(
         pool.token.oracleId,
-        pool.token.oracleDatas,
-        pool.token.address
+        pool.token.oracleDatas
       );
 
       const contractExchangeRate = await this.getContractExchangeRate(
@@ -115,15 +112,37 @@ export default {
         tokenPairRate = oracleExchangeRate;
       }
 
+      await this.$store.dispatch("checkTokenPairRateAndPrice", {
+        contract: poolContract,
+        oracleId: pool.token.oracleId,
+        oracleDatas: pool.token.oracleDatas,
+        decimals: pool.token.decimals,
+        id: pool.id,
+      });
+
       const userBorrowPart = await this.getUserBorrowPart(poolContract);
       const userCollateralShare = await this.getUserCollateralShare(
         poolContract,
         pool.token.decimals
       );
 
+      await this.$store.dispatch("checkUserBorrowPart", {
+        contract: poolContract,
+        id: pool.id,
+      });
+      await this.$store.dispatch("checkUserCollateralShare", {
+        contract: poolContract,
+        decimals: pool.token.decimals,
+        id: pool.id,
+      });
+
       let totalCollateralShare;
       try {
         totalCollateralShare = await poolContract.totalCollateralShare();
+        await this.$store.dispatch("checkTotalCollateralShare", {
+          contract: poolContract,
+          id: pool.id,
+        });
       } catch (e) {
         console.log("totalCollateralShare Err:", e);
       }
@@ -132,7 +151,10 @@ export default {
       try {
         const totalBorrowResp = await poolContract.totalBorrow();
         totalBorrow = totalBorrowResp.base;
-        this.$store.dispatch("checkTotalBorrow", poolContract);
+        await this.$store.dispatch("checkTotalBorrow", {
+          contract: poolContract,
+          id: pool.id,
+        });
       } catch (e) {
         console.log("totalBorrow Err:", e);
       }
@@ -147,11 +169,14 @@ export default {
       let userBalanceNativeToken = "";
       try {
         if (pool.name === "AVAX") {
-          await this.$store.dispatch("checkBalanceNativeToken");
+          await this.$store.dispatch("checkBalanceNativeToken", pool.id);
           userBalanceNativeToken =
             await this.$store.getters.getProvider.getBalance(this.account);
         }
-        await this.$store.dispatch("checkBalanceToken", tokenContract);
+        await this.$store.dispatch("checkBalanceToken", {
+          contract: tokenContract,
+          id: pool.id,
+        });
         userBalance = await tokenContract.balanceOf(this.account, {
           gasLimit: 600000,
         });
@@ -161,7 +186,10 @@ export default {
 
       let userPairBalance;
       try {
-        await this.$store.dispatch("checkBalancePairToken", pairTokenContract);
+        await this.$store.dispatch("checkBalancePairToken", {
+          contract: pairTokenContract,
+          id: pool.id,
+        });
         userPairBalance = await pairTokenContract.balanceOf(this.account, {
           gasLimit: 600000,
         });
@@ -171,7 +199,7 @@ export default {
 
       const borrowFee =
         (await poolContract.BORROW_OPENING_FEE()).toNumber() / 1000;
-      console.log("borrowFee", borrowFee);
+      this.$store.commit("setBorrowFee", { fee: borrowFee, id: pool.id });
 
       const mainInfo = this.getMainInfo(
         pool.ltv,
@@ -186,15 +214,9 @@ export default {
         this.$ethers.utils.formatUnits(tokenPairRate, pool.token.decimals)
       );
 
-      this.$store.commit("setTokenPrice", tokenPrice);
-      this.$store.commit("setPoolLtv", pool.ltv);
-      await this.$store.dispatch(
-        "setUserCollateralShare",
-        poolContract,
-        pool.token.decimals
-      );
-      await this.$store.dispatch("setUserBorrowPart", poolContract);
-      await this.$store.dispatch("createCollateralInfo");
+      this.$store.commit("setPoolLtv", { ltv: pool.ltv, id: pool.id });
+
+      await this.$store.dispatch("createCollateralInfo", pool.id);
 
       const collateralInfo = this.createCollateralInfo(
         userCollateralShare,
@@ -233,6 +255,8 @@ export default {
           name: pool.token.name,
           address: pool.token.address,
           decimals: pool.token.decimals,
+          oracleId: pool.token.oracleId,
+          oracleDatas: pool.token.oracleDatas,
           oracleExchangeRate: tokenPairRate,
         },
         // swapContract: swapContract,
@@ -299,11 +323,7 @@ export default {
         return false;
       }
     },
-    async getOracleExchangeRate(
-      oracleId,
-      { multiply, divide, decimals },
-      tokenAddr
-    ) {
+    async getOracleExchangeRate(oracleId, { multiply, divide, decimals }) {
       const oracleContractInfo = oracleContractsInfo.find(
         (item) => item.id === oracleId
       );
@@ -323,19 +343,7 @@ export default {
 
         let reqObj;
 
-        if (oracleId === 1) {
-          reqObj = [multiply, divide, parsedDecimals, tokenAddr];
-        }
-
-        if (oracleId === 2) {
-          reqObj = [multiply, divide, parsedDecimals]; //xSUSHI pool
-        }
-
-        if (oracleId === 3) {
-          reqObj = [multiply, divide, parsedDecimals];
-        }
-
-        if (oracleId === 4) {
+        if (oracleId) {
           reqObj = [multiply, divide, parsedDecimals];
         }
         // const bytesData = await oracleContract.getDataParameter(...reqObj, {
@@ -379,14 +387,6 @@ export default {
             "This fee is added to your debt every time you borrow NXUSD.",
           additional:
             "This fee is added to your debt every time you borrow NXUSD.",
-        },
-        {
-          title: "Interest",
-          value: `${interest} %`,
-          tooltip:
-            "This is the annualized percent that your debt will increase each year.",
-          additional:
-            "This is the annualized percent that your debt will increase each year.",
         },
       ];
     },

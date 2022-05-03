@@ -65,7 +65,7 @@ export default {
         });
 
         const routeName = this.$route.name;
-        if (routeName !== "Home") this.$router.push({ name: "Home" });
+        if (routeName !== "Stand") this.$router.push({ name: "Stand" });
       }
 
       if (networkObject) this.$store.commit("setActiveNetwork", chainId);
@@ -128,7 +128,7 @@ export default {
       this.$store.commit("setSwapObject", null);
 
       const routeName = this.$route.name;
-      if (routeName !== "Home") this.$router.push({ name: "Home" });
+      if (routeName !== "Stand") this.$router.push({ name: "Stand" });
 
       this.$emit("checkError", "Please connect to MetaMask.");
     },

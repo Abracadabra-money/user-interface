@@ -96,7 +96,7 @@ export default {
   async created() {
     const isConnected = this.$store.getters.getWalletIsConnected;
     if (!isConnected) {
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "Stand" });
       return false;
     }
     this.createStakePool();

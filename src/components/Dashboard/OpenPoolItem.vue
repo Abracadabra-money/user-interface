@@ -1,7 +1,9 @@
 <template>
   <div class="pool-item">
     <div class="item-head">
-      <h2 v-if="actionType === 'borrow'">{{ actionType }} more</h2>
+      <h2 v-if="actionType === 'borrow'">
+        {{ actionType }}
+      </h2>
       <h2 v-if="actionType === 'repay'">{{ actionType }}</h2>
       <div class="status-item" v-if="false">
         <p>liquidation possibility</p>
@@ -35,7 +37,7 @@
 
     <div class="liquidation-info" v-if="true">
       <p class="price-text">Liquidation price</p>
-      <p class="price-value">{{ liquidationPrice.toFixed(4) || $xxx.xx }}</p>
+      <p class="price-value">{{ liquidationPrice.toFixed(6) || $xxx.xx }}</p>
       <button
         class="safe-status"
         :class="{

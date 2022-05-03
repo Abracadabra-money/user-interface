@@ -6,7 +6,7 @@ export default function (to, from, next) {
   if (to.matched.some((record) => record.meta.needConnection)) {
     if (!store.getters.getWalletIsConnected) {
       next({
-        name: "Home",
+        name: "Stand",
       });
     } else {
       next();

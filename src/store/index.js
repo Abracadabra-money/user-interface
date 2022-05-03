@@ -10,7 +10,7 @@ import swap from "@/store/modules/swap";
 import notification from "@/store/modules/notification";
 import avaxStatus from "@/store/modules/avaxStatus";
 import balances from "@/store/modules/balances";
-import collateralParameters from "@/store/modules/collateralParameters";
+import parameters from "@/store/modules/parameters";
 
 Vue.use(Vuex);
 
@@ -38,6 +38,6 @@ export default new Vuex.Store({
     notification,
     avaxStatus,
     balances,
-    collateralParameters,
+    parameters,
   },
 });

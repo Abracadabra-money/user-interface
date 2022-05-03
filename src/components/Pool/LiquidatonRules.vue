@@ -2,7 +2,7 @@
   <div class="liquid-rules-block">
     <div class="block-head">
       <p class="price-text">
-        Liquidation price <span>${{ liquidationPrice }}</span>
+        Liquidation price <span>${{ liquidationPriceFormatted }}</span>
       </p>
       <button class="safe-status" :class="{ medium: statusText === 'Medium' }">
         {{ statusText }}
@@ -67,11 +67,16 @@ export default {
   },
   computed: {
     statusText() {
-      if (this.value == this.maxValue) {
+      if (this.value == this.maxValue || this.customValue > this.maxValue) {
         return "Medium";
       } else {
         return "Safe";
       }
+    },
+    liquidationPriceFormatted() {
+      return this.liquidationPrice === "xxx.xx"
+        ? this.liquidationPrice
+        : parseFloat(this.liquidationPrice).toFixed(8);
     },
   },
   watch: {

@@ -52,7 +52,7 @@
 export default {
   computed: {
     isHeaderAbsolute() {
-      const pages = ["Home", "Docs", "Tech", "Liquidations"];
+      const pages = ["Docs", "Tech", "Liquidations"];
 
       return pages.indexOf(this.$route.name) !== -1;
     },
