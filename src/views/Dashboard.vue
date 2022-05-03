@@ -97,7 +97,6 @@ export default {
     const isConnected = this.$store.getters.getWalletIsConnected;
     if (!isConnected) {
       this.$router.push({ name: "Home" });
-      alert("Connect wallet first");
       return false;
     }
     this.createStakePool();

@@ -5,7 +5,6 @@ export default function (to, from, next) {
 
   if (to.matched.some((record) => record.meta.needConnection)) {
     if (!store.getters.getWalletIsConnected) {
-      alert("Connect wallet first");
       next({
         name: "Home",
       });

@@ -16,7 +16,7 @@
           :key="connector.name"
           class="modal-body"
         >
-          <div class="provider-btn" @click="connector.onClick()">
+          <div class="provider-btn" @click="connector.onClick()" v-if="!connector.disabled">
             <div>{{ connector.name }}</div>
             <img
               :src="require(`@/assets/images/${connector.iconName}.svg`)"
@@ -42,11 +42,13 @@ export default {
           iconName: "MetaMask_Fox",
           name: "Metamask",
           onClick: () => this.useConnector("connectMetamask"),
+          disabled: !window.ethereum,
         },
         {
           iconName: "WalletConnect-icon",
           name: "WalletConnect",
           onClick: () => this.useConnector("connectWalletConnect"),
+          disabled: false,
         },
       ],
     };

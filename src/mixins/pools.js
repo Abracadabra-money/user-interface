@@ -18,7 +18,6 @@ export default {
   },
   methods: {
     async createContracts(){
-      console.log("this.chainid", this.chainId);
       const chainMasterContract = masterContractInfo.find(
           (contract) => contract.contractChain === this.chainId
       );
@@ -41,7 +40,6 @@ export default {
       const chainPools = poolsInfo.filter(
         (pool) => pool.contractChain === this.chainId
       );
-
       const pools = await Promise.all(
         chainPools.map((pool) => this.createPool(pool, masterContract))
       );
@@ -51,7 +49,6 @@ export default {
       const provider = await this.$store.getters.getProvider;
       provider.once('block',()=>{
         this.createPools(masterContract);
-        console.log(1)
       })
     },
     createWhitelistManager(address) {

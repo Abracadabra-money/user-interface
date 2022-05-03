@@ -30,7 +30,6 @@ export default {
   methods: {
     async addToken() {
       if (!this.account) {
-        alert("Connect wallet first:(");
         return false;
       }
 

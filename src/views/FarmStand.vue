@@ -39,7 +39,6 @@ export default {
 
     if (!isConnected) {
       this.$router.push({ name: "Home" });
-      alert("Connect wallet first");
       return false;
     }
   },
