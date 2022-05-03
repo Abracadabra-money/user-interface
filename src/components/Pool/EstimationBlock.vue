@@ -71,7 +71,7 @@ export default {
     nxusdAmountDisplay() {
       return (
         parseFloat(this.$store.getters.getUserBorrowPart(this.pool.id)) +
-        parseFloat(this.nxusdAmount)
+        parseFloat(this.nxusdAmount || 0)
       ).toFixed(8);
     },
     borrowPart() {
