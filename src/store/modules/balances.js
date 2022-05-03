@@ -1,37 +1,48 @@
 export default {
   state: {
-    balanceNativeToken: "",
-    balanceToken: "0",
-    balancePairToken: "0",
+    balanceNativeToken: {},
+    balanceToken: {},
+    balancePairToken: {},
   },
   mutations: {
     setBalanceNativeToken(state, payload) {
-      state.balanceNativeToken = payload;
+      // state.balanceNativeToken[payload.id] = payload.balance;
+      state.balanceNativeToken = {
+        ...state.balanceNativeToken,
+        [payload.id]: payload.balance,
+      };
     },
     setBalanceToken(state, payload) {
-      state.balanceToken = payload;
+      // state.balanceToken[payload.id] = payload.balance;
+      state.balanceToken = {
+        ...state.balanceToken,
+        [payload.id]: payload.balance,
+      };
     },
     setBalancePairToken(state, payload) {
-      state.balancePairToken = payload;
+      state.balancePairToken = {
+        ...state.balancePairToken,
+        [payload.id]: payload.balance,
+      };
     },
   },
   actions: {
-    async checkBalanceNativeToken({ getters, commit }) {
+    async checkBalanceNativeToken({ getters, commit }, id) {
       const balance = await getters.getProvider.getBalance(getters.getAccount);
-      commit("setBalanceNativeToken", balance);
+      commit("setBalanceNativeToken", { balance, id });
     },
-    async checkBalanceToken({ getters, commit }, contract) {
+    async checkBalanceToken({ getters, commit }, { contract, id }) {
       const balance = await contract.balanceOf(getters.getAccount);
-      commit("setBalanceToken", balance);
+      commit("setBalanceToken", { balance, id });
     },
-    async checkBalancePairToken({ getters, commit }, contract) {
+    async checkBalancePairToken({ getters, commit }, { contract, id }) {
       const balance = await contract.balanceOf(getters.getAccount);
-      commit("setBalancePairToken", balance);
+      commit("setBalancePairToken", { balance, id });
     },
   },
   getters: {
-    getBalanceNativeToken: (state) => state.balanceNativeToken,
-    getBalanceToken: (state) => state.balanceToken,
-    getBalancePairToken: (state) => state.balancePairToken,
+    getBalanceNativeToken: (state) => (id) => state.balanceNativeToken[id],
+    getBalanceToken: (state) => (id) => state.balanceToken[id],
+    getBalancePairToken: (state) => (id) => state.balancePairToken[id],
   },
 };

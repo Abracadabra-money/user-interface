@@ -3,17 +3,19 @@
     <div class="container mini">
       <div class="stand-group">
         <h1>NXUSD Markets</h1>
-         <div class="stand-container">
-            <div class="search-container">
-              <input class="search-input" type="text" v-model="search" placeholder="Search" />
-            </div>
-            <div class="stand-sort">
-              <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
-                <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
-              </select>
-            </div>
-         </div>
+
+        <div class="stand-container">
+          <div class="search-container">
+            <input class="search-input" type="text" v-model="search" placeholder="Search" />
+          </div>
+          <div class="stand-sort">
+            <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
+              <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
+            </select>
+          </div>
+        </div>
         <StandTable :tableType="2" :items="filteredList" />
+
       </div>
     </div>
   </div>
@@ -75,6 +77,9 @@ export default {
     isConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
+    sortList() {
+      return this.sortedArray;
+    }
   },
   methods: {
     sortByFee(d1, d2) {

@@ -2,7 +2,7 @@
   <div class="liquid-rules-block">
     <div class="block-head">
       <p class="price-text">
-        Liquidation price <span>${{ liquidationPrice }}</span>
+        Liquidation price <span>${{ liquidationPriceFormatted }}</span>
       </p>
       <button class="safe-status" :class="{ medium: statusText === 'Medium' }">
         {{ statusText }}
@@ -67,11 +67,16 @@ export default {
   },
   computed: {
     statusText() {
-      if (this.value == this.maxValue) {
+      if (this.value == this.maxValue || this.customValue > this.maxValue) {
         return "Medium";
       } else {
         return "Safe";
       }
+    },
+    liquidationPriceFormatted() {
+      return this.liquidationPrice === "xxx.xx"
+        ? this.liquidationPrice
+        : parseFloat(this.liquidationPrice).toFixed(8);
     },
   },
   watch: {
@@ -170,7 +175,7 @@ input::-webkit-inner-spin-button {
       border: none;
       //height: 100%;
       text-align: center;
-      color: #1C1C1C;
+      color: #1c1c1c;
       outline: none;
       max-width: 82px;
       //padding-left: 20px;
@@ -185,7 +190,7 @@ input::-webkit-inner-spin-button {
     &.active,
     &:hover {
       //border: 1px solid #7b79f7;
-      color: #1C1C1C;
+      color: #1c1c1c;
       background-color: $clrBg3;
     }
 

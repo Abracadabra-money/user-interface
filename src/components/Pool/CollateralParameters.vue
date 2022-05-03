@@ -3,7 +3,11 @@
     <h2>My Open Position</h2>
 
     <div class="items-wrap">
-      <CollParamItem v-for="(item, idx) in getInfoItems" :key="idx" :item="item" />
+      <CollParamItem
+        v-for="(item, idx) in getInfoItems"
+        :key="idx"
+        :item="item"
+      />
     </div>
 
     <p class="btm-text">1 NXUSD = 1 USD</p>
@@ -60,7 +64,7 @@ export default {
 
   h2 {
     padding: 16px 24px;
-    border-bottom: 1px solid #1C1C1C;
+    border-bottom: 1px solid #1c1c1c;
   }
 
   .items-wrap {
