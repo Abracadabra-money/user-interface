@@ -54,6 +54,7 @@
           :userTotalCollateral="pool.userCollateralShare"
           :userTotalBorrowed="pool.userBorrowPart"
           :ltv="pool.ltv"
+          :exchangeRate="pool.tokenPrice"
         />
 
         <CollateralParameters
