@@ -97,7 +97,7 @@ export default {
     const isConnected = this.$store.getters.getWalletIsConnected;
 
     if (!isConnected) {
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "Stand" });
       alert("Connect wallet first");
       return false;
     }

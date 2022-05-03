@@ -2,7 +2,7 @@
   <div class="pool-item">
     <div class="item-head">
       <h2 v-if="actionType === 'borrow'">
-        {{ actionType }} more
+        {{ actionType }}
       </h2>
       <h2 v-if="actionType === 'repay'">{{ actionType }}</h2>
       <div class="status-item" v-if="false">
