@@ -3,7 +3,12 @@
     <div class="container mini">
       <div class="stand-group">
         <h1>NXUSD Markets</h1>
-        <StandTable :tableType="2" :items="pools" />
+        <div class="stand-sort">
+          <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
+            <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
+          </select>
+        </div>
+        <StandTable :tableType="2" :items="sortList" />
       </div>
     </div>
   </div>
@@ -18,6 +23,7 @@
 </template>
 
 <script>
+
 const StandTable = () => import("@/components/Stand/Table");
 const ActionComponent = () =>
   import("@/components/UiComponents/ActionComponent");
@@ -28,7 +34,20 @@ export default {
       text: "Please connect your wallet",
       name: "Connect",
       disabledStatus: false,
-    };
+
+      sortParam: 'Sorted by Title',
+      sortedBy: ['Sorted by Title', 'TVL', 'Fee', 'NXUSD left'],
+      sortedArray: [],
+      disabledSort: false,
+    }
+  },
+  mounted() {
+    this.sortedArray = this.pools.sort(this.sortByTitle);
+
+    if(!this.pools.length) {
+      this.disabledSort = true;
+    } else
+      this.disabledSort = false;
   },
   components: {
     StandTable,
@@ -41,8 +60,55 @@ export default {
     isConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
+    sortList() {
+      return this.sortedArray;
+    }
   },
   methods: {
+    sortByFee(d1, d2) {
+      return (d1.stabilityFee < d2.stabilityFee) ? 1 : -1;
+    },
+    sortByNXUSDleft(d1, d2) {
+      return (Number(d1.dynamicBorrowAmount) < Number(d2.dynamicBorrowAmount)) ? 1 : -1;
+    },
+    sortByTitle(d1, d2) {
+      return (d1.name > d2.name) ? 1 : -1;
+    },
+    sortByTVL(d1, d2) {
+      let borrowD1 = parseFloat(
+        this.$ethers.utils.formatEther(
+          this.$store.getters.getTotalBorrow(d1.id)
+        )
+      )
+
+      let borrowD2 = parseFloat(
+        this.$ethers.utils.formatEther(
+          this.$store.getters.getTotalBorrow(d2.id)
+        )
+      )
+      return (Number(borrowD1) < Number(borrowD2)) ? 1 : -1;
+    },
+
+    sorting() {
+      if(this.sortParam === 'Fee') {
+        this.sortedArray = this.pools.sort(this.sortByFee);
+        return this.sortedArray;
+      } else if(this.sortParam === 'TVL') {
+        this.sortedArray = this.pools.sort(this.sortByTVL);
+        console.log("this sorted array", this.sortedArray);
+        return this.sortedArray;
+      } else if(this.sortParam === 'NXUSD left') {
+        this.sortedArray = this.pools.sort(this.sortByNXUSDleft);
+        return this.sortedArray;
+      }
+      else {
+        this.sortedArray = this.pools.sort(this.sortByTitle);
+        return this.sortedArray;
+      }
+    },
+    setSortParam(sortParam) {
+      this.sortParam = sortParam;
+    },
     async walletBtnHandler() {
       if (this.isConnected || !window.ethereum) {
         return false;
@@ -57,12 +123,13 @@ export default {
       }
 
       this.disabledStatus = false;
-    },
+    }
   },
 };
+
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .stand-view {
   padding: 40px 0;
   position: relative;
@@ -84,6 +151,37 @@ export default {
   position: relative;
   flex: 1;
   background: #1c1c1c;
+}
+
+.stand-sort select {
+  background: #353535 url(../assets/images/arrow-list.svg) 98% center no-repeat;
+  appearance: none;
+  color: #8A8A8A;
+  display: flex;
+  flex-direction: row;
+  height: 32px;
+  width: 160px;
+  border: 1px solid #8A8A8A;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 24px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:focus {
+    background: #1C1C1C;
+  }
+}
+
+.select-item {
+  color: white;
+  font-size: 12px;
+  background: #262626;
+  cursor: pointer;
+  :hover {
+    background-color: #1C1C1C;
+  }
 }
 @media screen and(max-width: 980px) {
   .stand-view .stand-group:first-child {
