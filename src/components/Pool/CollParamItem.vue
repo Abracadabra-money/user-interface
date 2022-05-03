@@ -2,7 +2,12 @@
   <div class="param-item">
     <div class="item-main">
       <div class="title">
-        <img src="@/assets/images/i-icon.svg" alt="" class="info-icon" v-tooltip="itemProp.tooltip" />
+        <img
+          src="@/assets/images/i-icon.svg"
+          alt=""
+          class="info-icon"
+          v-tooltip="itemProp.tooltip"
+        />
         <p>{{ itemProp.title }}</p>
       </div>
 

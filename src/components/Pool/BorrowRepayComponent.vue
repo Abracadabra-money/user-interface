@@ -45,13 +45,13 @@
 
     <div class="estimate-box">
       <EstimationBlock
-          :liquidityPrice="liquidationPrice"
-          :nxusdAmount="this.pairValue"
-          @onchange="updatePercentValue"
-          :maxValue="ltv"
-          :value="percentValue"
-          :pool="pool"
-          :tokentToNUSD="tokentToNUSD"
+        :liquidityPrice="liquidationPrice"
+        :nxusdAmount="this.pairValue"
+        @onchange="updatePercentValue"
+        :maxValue="ltv"
+        :value="percentValue"
+        :pool="pool"
+        :tokentToNUSD="tokentToNUSD"
       />
     </div>
 
@@ -64,45 +64,45 @@
       />
     </div>
 
-<!--    <div class="config-box" v-if="actionType === 'borrow'">-->
-<!--      <div class="checkbox-wrap">-->
-<!--        <div-->
-<!--          class="box-wrap"-->
-<!--          @click="toggleShowLeverage"-->
-<!--          :class="{ active: showLeverage, disabled: !showLeverage }"-->
-<!--        >-->
-<!--          <div class="checkbox" v-if="showLeverage">-->
-<!--            <img-->
-<!--              class="checkbox-checked"-->
-<!--              src="@/assets/images/checkboxChecked.svg"-->
-<!--              alt=""-->
-<!--            />-->
-<!--          </div>-->
-<!--          <div class="checkbox" v-else>-->
-<!--            <img src="@/assets/images/checkbox.svg" alt="" />-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <p class="label-text" @click="toggleShowLeverage">Change leverage</p>-->
+    <!--    <div class="config-box" v-if="actionType === 'borrow'">-->
+    <!--      <div class="checkbox-wrap">-->
+    <!--        <div-->
+    <!--          class="box-wrap"-->
+    <!--          @click="toggleShowLeverage"-->
+    <!--          :class="{ active: showLeverage, disabled: !showLeverage }"-->
+    <!--        >-->
+    <!--          <div class="checkbox" v-if="showLeverage">-->
+    <!--            <img-->
+    <!--              class="checkbox-checked"-->
+    <!--              src="@/assets/images/checkboxChecked.svg"-->
+    <!--              alt=""-->
+    <!--            />-->
+    <!--          </div>-->
+    <!--          <div class="checkbox" v-else>-->
+    <!--            <img src="@/assets/images/checkbox.svg" alt="" />-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        <p class="label-text" @click="toggleShowLeverage">Change leverage</p>-->
 
-<!--        <img-->
-<!--          src="@/assets/images/i-icon.svg"-->
-<!--          alt=""-->
-<!--          class="info-icon"-->
-<!--          v-tooltip="-->
-<!--            'Allows users to leverage their position. Read more about this in the documents!'-->
-<!--          "-->
-<!--        />-->
-<!--      </div>-->
+    <!--        <img-->
+    <!--          src="@/assets/images/i-icon.svg"-->
+    <!--          alt=""-->
+    <!--          class="info-icon"-->
+    <!--          v-tooltip="-->
+    <!--            'Allows users to leverage their position. Read more about this in the documents!'-->
+    <!--          "-->
+    <!--        />-->
+    <!--      </div>-->
 
-<!--      <template v-if="showLeverage">-->
-<!--        <transition name="fade">-->
-<!--          <SlipageBlock :slipage="slipage" @update="updateSlipage" />-->
-<!--        </transition>-->
-<!--        <transition name="fade">-->
-<!--          <LeverageBar :multiplier="multiplier" @update="updateMultiplier" />-->
-<!--        </transition>-->
-<!--      </template>-->
-<!--    </div>-->
+    <!--      <template v-if="showLeverage">-->
+    <!--        <transition name="fade">-->
+    <!--          <SlipageBlock :slipage="slipage" @update="updateSlipage" />-->
+    <!--        </transition>-->
+    <!--        <transition name="fade">-->
+    <!--          <LeverageBar :multiplier="multiplier" @update="updateMultiplier" />-->
+    <!--        </transition>-->
+    <!--      </template>-->
+    <!--    </div>-->
 
     <div class="action-wrap">
       <div class="checkbox-wrap">
@@ -148,9 +148,7 @@
 <script>
 const ValueInput = () => import("@/components/UiComponents/ValueInput");
 const LiquidationRules = () => import("@/components/Pool/LiquidatonRules");
-const LeverageBar = () => import("@/components/Pool/LeverageBar");
 const EstimationBlock = () => import("@/components/Pool/EstimationBlock");
-const SlipageBlock = () => import("@/components/Pool/SlipageBlock");
 
 export default {
   props: {
@@ -814,9 +812,7 @@ export default {
   components: {
     ValueInput,
     LiquidationRules,
-    LeverageBar,
     EstimationBlock,
-    SlipageBlock,
   },
 };
 </script>

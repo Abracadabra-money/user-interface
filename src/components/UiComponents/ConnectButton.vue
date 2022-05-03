@@ -7,11 +7,11 @@
       @mouseenter="itsHover = true"
       @mouseleave="itsHover = false"
     >
-      <ButtonLoader v-if="connectLoader"/>
+      <ButtonLoader v-if="connectLoader" />
       <template v-else>
         <div>
-          {{ walletBtnText}}
-          <p class="slicedAddress">{{slicedAccountAddress}} </p>
+          {{ walletBtnText }}
+          <p class="slicedAddress">{{ slicedAccountAddress }}</p>
         </div>
       </template>
     </button>
@@ -23,7 +23,7 @@
       :class="{ load: connectLoader, connected: isConnected }"
       @click="walletBtnHandler"
     >
-      <ButtonLoader v-if="connectLoader"/>
+      <ButtonLoader v-if="connectLoader" />
       <template v-else>
         {{ connectBtnText }}
       </template>
@@ -89,7 +89,9 @@ export default {
   computed: {
     walletBtnText() {
       let networkType = this.$store.getters.getChainId;
-      let networkName = this.networks.find((item) => item.chainid == networkType);
+      let networkName = this.networks.find(
+        (item) => item.chainid == networkType
+      );
 
       return `${networkName.title}`;
     },
@@ -139,7 +141,7 @@ export default {
   line-height: 16px;
   letter-spacing: 0em;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
   opacity: 50%;
 }
 
@@ -167,7 +169,7 @@ export default {
 }
 
 .connect-btn {
-  background: #E7FC6E;
+  background: #e7fc6e;
   border-radius: 21px;
 
   height: 32px;

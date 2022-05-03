@@ -1,9 +1,7 @@
 <template>
   <div class="empty-borrow">
     <p class="title">No {{ blockType }}</p>
-    <p class="subtitle">
-      Your {{ blockType }} will be displayed here
-    </p>
+    <p class="subtitle">Your {{ blockType }} will be displayed here</p>
   </div>
 </template>
 

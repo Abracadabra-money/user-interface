@@ -13,14 +13,14 @@
         >
           <p>{{ multiplierItem }}x</p>
 
-<!--          <transition name="fade">-->
-<!--            <img-->
-<!--              v-if="multiplierItem === 10 && multiplierItem === multiplier"-->
-<!--              src="@/assets/images/dani-mac.svg"-->
-<!--              alt=""-->
-<!--              class="dani-mac"-->
-<!--            />-->
-<!--          </transition>-->
+          <!--          <transition name="fade">-->
+          <!--            <img-->
+          <!--              v-if="multiplierItem === 10 && multiplierItem === multiplier"-->
+          <!--              src="@/assets/images/dani-mac.svg"-->
+          <!--              alt=""-->
+          <!--              class="dani-mac"-->
+          <!--            />-->
+          <!--          </transition>-->
         </div>
       </div>
 
@@ -115,7 +115,7 @@ export default {
       &:hover,
       &.active {
         p {
-          color: #E7FC6E;
+          color: #e7fc6e;
         }
       }
 
@@ -139,15 +139,15 @@ export default {
       transition: all 0.3s ease;
 
       &.safe {
-        background: #FDD33F;
+        background: #fdd33f;
       }
 
       &.medium {
-        background: #FDD33F;
+        background: #fdd33f;
       }
 
       &.hight {
-        background: #FDD33F;
+        background: #fdd33f;
       }
     }
   }

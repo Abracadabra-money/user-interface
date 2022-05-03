@@ -3,7 +3,7 @@
     class="token-icon-wrap"
     :class="{ 'mim-wrap': token === 'MIM' || full, pair: itsGroup, mini }"
   >
-<!--    <img :src="bgIcon" alt="" class="bg" />-->
+    <!--    <img :src="bgIcon" alt="" class="bg" />-->
     <img :src="tokenIcon" alt="" class="token-icon" />
   </div>
 </template>
