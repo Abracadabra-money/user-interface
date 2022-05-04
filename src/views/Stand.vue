@@ -4,7 +4,7 @@
       <div class="stand-group">
         <h1>NXUSD Markets</h1>
         <div class="stand-sort">
-          <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
+          <select :disabled="disabledSort" v-model="sortParam">
             <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
           </select>
         </div>
@@ -37,17 +37,8 @@ export default {
 
       sortParam: 'Sorted by Title',
       sortedBy: ['Sorted by Title', 'TVL', 'Fee', 'NXUSD left'],
-      sortedArray: [],
       disabledSort: false,
-    }
-  },
-  mounted() {
-    this.sortedArray = this.pools.sort(this.sortByTitle);
-
-    if(!this.pools.length) {
-      this.disabledSort = true;
-    } else
-      this.disabledSort = false;
+    };
   },
   components: {
     StandTable,
@@ -61,8 +52,17 @@ export default {
       return this.$store.getters.getWalletIsConnected;
     },
     sortList() {
-      return this.sortedArray;
-    }
+      if(this.sortParam === 'Fee') {
+        return this.pools.sort(this.sortByFee);
+      }
+      if(this.sortParam === 'TVL') {
+        return this.pools.sort(this.sortByTVL);
+      }
+      if(this.sortParam === 'NXUSD left') {
+        return this.pools.sort(this.sortByNXUSDleft);
+      }
+      return this.pools.sort(this.sortByTitle);
+    },
   },
   methods: {
     sortByFee(d1, d2) {
@@ -88,29 +88,11 @@ export default {
       )
       return (Number(borrowD1) < Number(borrowD2)) ? 1 : -1;
     },
-
-    sorting() {
-      if(this.sortParam === 'Fee') {
-        this.sortedArray = this.pools.sort(this.sortByFee);
-        return this.sortedArray;
-      } else if(this.sortParam === 'TVL') {
-        this.sortedArray = this.pools.sort(this.sortByTVL);
-        console.log("this sorted array", this.sortedArray);
-        return this.sortedArray;
-      } else if(this.sortParam === 'NXUSD left') {
-        this.sortedArray = this.pools.sort(this.sortByNXUSDleft);
-        return this.sortedArray;
-      }
-      else {
-        this.sortedArray = this.pools.sort(this.sortByTitle);
-        return this.sortedArray;
-      }
-    },
     setSortParam(sortParam) {
       this.sortParam = sortParam;
     },
     async walletBtnHandler() {
-      if (this.isConnected || !window.ethereum) {
+      if (this.isConnected) {
         return false;
       }
 
