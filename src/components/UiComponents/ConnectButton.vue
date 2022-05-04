@@ -133,14 +133,12 @@ export default {
 .slicedAddress {
   height: 16px;
   width: 65px;
+  opacity: 0.5;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px;
-  letter-spacing: 0em;
   text-align: center;
-  color: #FFFFFF;
-  opacity: 50%;
+  color: #ffffff;
 }
 
 .connected-btn {
