@@ -84,26 +84,23 @@ export default {
   },
   computed: {
     tokenPrice() {
-      const tokenToNUSD = 1 / this.$store.getters.getTokenPrice;
+      const tokenToNUSD = 1 / this.$store.getters.getTokenPrice(this.pool.id);
       return tokenToNUSD;
     },
     stableCoinMultiplyer() {
-      if (this.$store.getters.getPoolLtv === 90) {
+      if (this.$store.getters.getPoolLtv(this.pool.id) === 90) {
         return 10;
       }
 
       return 1;
     },
     liquidationPrice() {
-      const liquidationMultiplier =
-        (200 - this.$store.getters.getPoolLtv) / 100;
 
       const liquidationPrice =
-        ((this.$store.getters.getUserBorrowPart *
-          this.$store.getters.getTokenPrice) /
-          this.$store.getters.getUserCollateralShare) *
-        (1 / this.$store.getters.getTokenPrice) *
-        liquidationMultiplier;
+        (this.$store.getters.getUserBorrowPart(this.pool.id) /
+            (this.$store.getters.getUserCollateralShare(this.pool.id)
+                * this.$store.getters.getPoolLtv(this.pool.id) / 100)
+        );
 
       return liquidationPrice;
     },
@@ -114,7 +111,7 @@ export default {
     },
     liquidationRisk() {
       if (
-        +this.$store.getters.getUserBorrowPart === 0 ||
+        +this.$store.getters.getUserBorrowPart(this.pool.id) === 0 ||
         isNaN(this.liquidationPrice)
       )
         return 0;

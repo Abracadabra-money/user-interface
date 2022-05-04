@@ -417,29 +417,21 @@ export default {
       if (!this.mainValue && this.pairValue) {
         const liquidationPrice =
           (((+this.$store.getters.getUserBorrowPart(this.poolId) +
-            +this.pairValue) *
-            this.tokenToUsd) /
-            +this.$store.getters.getUserCollateralShare(this.poolId)) *
-          (1 / this.tokenToUsd) *
-          this.liquidationMultiplier;
-
+            +this.pairValue)/(this.$store.getters.getUserCollateralShare(this.poolId)*this.ltv/100)))
         return liquidationPrice;
       }
 
       if (this.mainValue && this.pairValue) {
         const liquidationPrice =
-          (((+this.$store.getters.getUserBorrowPart(this.poolId) +
-            +this.pairValue) *
-            this.tokenToUsd) /
-            (+this.$store.getters.getUserCollateralShare(this.poolId) +
-              (parseFloat(this.mainValue) || 0))) *
-          (1 / this.tokenToUsd) *
-          this.liquidationMultiplier;
-
+          ((+this.$store.getters.getUserBorrowPart(this.poolId) +
+            +this.pairValue) /
+              (
+                  (this.$store.getters.getUserCollateralShare(this.poolId) + +(parseFloat(this.mainValue)))
+                    * this.ltv / 100
+              )
+          )
         return liquidationPrice;
       }
-
-      // return ((1 / this.tokenToUsd / 100) * this.percentValue).toFixed(2);
 
       return "xxx.xx";
     },
