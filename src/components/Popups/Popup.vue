@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="popup"
-    v-if="isOpen"
-    @click="$emit('close')"
-  >
+  <div class="popup" v-if="isOpen" @click="$emit('close')">
     <div class="popup-window" @click.stop="">
       <img
         src="@/assets/images/close-popup.svg"
@@ -11,7 +7,7 @@
         class="close-btn"
         @click="$emit('close')"
       />
-      <p class="popup-title">{{title}}</p>
+      <p class="popup-title">{{ title }}</p>
       <div class="popup-body">
         <slot class="popup-slot"></slot>
       </div>
@@ -20,7 +16,6 @@
 </template>
 
 <script>
-
 export default {
   name: "Popup",
   props: {
@@ -59,11 +54,11 @@ export default {
 }
 
 .popup-title {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-weight: 400;
   font-size: 20px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-top: 6px;
   margin-bottom: 29px;
 }

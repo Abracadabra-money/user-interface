@@ -3,20 +3,20 @@
     <div class="container">
       <div class="leftLinks">
         <SocialLink
-            v-for="(item, index) in filteredLeftIcons"
-            :key="index"
-            :data="item.data"
-            :link="item.link"
-            :type="item.type"
+          v-for="(item, index) in filteredLeftIcons"
+          :key="index"
+          :data="item.data"
+          :link="item.link"
+          :type="item.type"
         />
       </div>
       <div class="rightLinks">
         <SocialLink
-            v-for="(item, index) in filteredRightIcons"
-            :key="index"
-            :data="item.data"
-            :link="item.link"
-            :type="item.type"
+          v-for="(item, index) in filteredRightIcons"
+          :key="index"
+          :data="item.data"
+          :link="item.link"
+          :type="item.type"
         />
       </div>
     </div>
@@ -30,32 +30,32 @@ import Twitter from "@/assets/images/Twitter.svg";
 import Medium from "@/assets/images/Medium.svg";
 
 export default {
-  data(){
+  data() {
     return {
       socialLink: [
         {
           data: "GitBook",
-          link: 'https://docs.nereus.finance/',
-          position: 'left',
-          type: 'text',
+          link: "https://docs.nereus.finance/",
+          position: "left",
+          type: "text",
         },
         {
           data: Discord,
-          link: 'https://discord.gg/4tw3VsuTf9',
-          position: 'right',
-          type: 'image',
+          link: "https://discord.gg/4tw3VsuTf9",
+          position: "right",
+          type: "image",
         },
         {
           data: Twitter,
-          link: 'https://twitter.com/nereusfinance',
-          position: 'right',
-          type: 'image',
+          link: "https://twitter.com/nereusfinance",
+          position: "right",
+          type: "image",
         },
         {
           data: Medium,
-          link: 'https://medium.com/nereus-protocol',
-          position: 'right',
-          type: 'image',
+          link: "https://medium.com/nereus-protocol",
+          position: "right",
+          type: "image",
         },
       ],
       filteredRightIcons: [],

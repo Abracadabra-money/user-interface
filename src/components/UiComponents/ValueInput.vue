@@ -194,7 +194,7 @@ export default {
 .val-input {
   background: $clrBg2;
   border-radius: 4px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;

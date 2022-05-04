@@ -45,7 +45,9 @@ export default {
       //   this.$ethers.utils.formatEther(this.pool.totalBorrow)
       // ).toFixed(0);
       return parseFloat(
-        this.$ethers.utils.formatEther(this.$store.getters.getTotalBorrow)
+        this.$ethers.utils.formatEther(
+          this.$store.getters.getTotalBorrow(this.pool.id)
+        )
       ).toFixed(0);
     },
     mainTokenPrice() {
@@ -70,7 +72,7 @@ export default {
       if (this.pool.token.name === "WXT") {
         return true;
       } else {
-        return true;
+        return false;
       }
     },
   },

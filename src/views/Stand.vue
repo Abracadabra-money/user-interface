@@ -3,7 +3,19 @@
     <div class="container mini">
       <div class="stand-group">
         <h1>NXUSD Markets</h1>
-        <StandTable :tableType="2" :items="pools" />
+
+        <div class="stand-container">
+          <div class="search-container">
+            <input class="search-input" type="text" v-model="search" placeholder="Search" />
+          </div>
+          <div class="stand-sort">
+            <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
+              <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
+            </select>
+          </div>
+        </div>
+        <StandTable :tableType="2" :items="filteredList" />
+
       </div>
     </div>
   </div>
@@ -18,8 +30,10 @@
 </template>
 
 <script>
+
 const StandTable = () => import("@/components/Stand/Table");
-const ActionComponent = () => import("@/components/UiComponents/ActionComponent");
+const ActionComponent = () =>
+  import("@/components/UiComponents/ActionComponent");
 
 export default {
   data() {
@@ -27,13 +41,36 @@ export default {
       text: "Please connect your wallet",
       name: "Connect",
       disabledStatus: false,
+
+      sortParam: 'Sorted by Title',
+      sortedBy: ['Sorted by Title', 'TVL', 'Fee', 'NXUSD left'],
+      sortedArray: [],
+      disabledSort: false,
+
+      search: '',
     }
+  },
+  mounted() {
+    this.sortedArray = this.pools.sort(this.sortByTitle);
+
+    if(!this.pools.length) {
+      this.disabledSort = true;
+    } else
+      this.disabledSort = false;
   },
   components: {
     StandTable,
     ActionComponent,
   },
   computed: {
+    filteredList() {
+      if (this.search.length !== 0) {
+        return this.pools.filter(pool => {
+          return pool.name.toLowerCase().includes(this.search.toLowerCase())
+        })
+      } else
+        return this.sortedArray;
+    },
     pools() {
       return this.$store.getters.getPools;
     },
@@ -42,26 +79,71 @@ export default {
     },
   },
   methods: {
-    async walletBtnHandler() {
-        if (this.isConnected || !window.ethereum) {
-          return false;
-        }
+    sortByFee(d1, d2) {
+      return (d1.stabilityFee < d2.stabilityFee) ? 1 : -1;
+    },
+    sortByNXUSDleft(d1, d2) {
+      return (Number(d1.dynamicBorrowAmount) < Number(d2.dynamicBorrowAmount)) ? 1 : -1;
+    },
+    sortByTitle(d1, d2) {
+      return (d1.name > d2.name) ? 1 : -1;
+    },
+    sortByTVL(d1, d2) {
+      let borrowD1 = parseFloat(
+        this.$ethers.utils.formatEther(
+          this.$store.getters.getTotalBorrow(d1.id)
+        )
+      )
 
-        this.disabledStatus = true;
+      let borrowD2 = parseFloat(
+        this.$ethers.utils.formatEther(
+          this.$store.getters.getTotalBorrow(d2.id)
+        )
+      )
+      return (Number(borrowD1) < Number(borrowD2)) ? 1 : -1;
+    },
 
-        try {
-          await this.$store.dispatch("connectAccount", window.ethereum);
-        } catch (e) {
-          console.log("e:", e);
-        }
-
-        this.disabledStatus = false;
+    sorting() {
+      if(this.sortParam === 'Fee') {
+        this.sortedArray = this.pools.sort(this.sortByFee);
+        return this.sortedArray;
+      } else if(this.sortParam === 'TVL') {
+        this.sortedArray = this.pools.sort(this.sortByTVL);
+        console.log("this sorted array", this.sortedArray);
+        return this.sortedArray;
+      } else if(this.sortParam === 'NXUSD left') {
+        this.sortedArray = this.pools.sort(this.sortByNXUSDleft);
+        return this.sortedArray;
       }
+      else {
+        this.sortedArray = this.pools.sort(this.sortByTitle);
+        return this.sortedArray;
+      }
+    },
+    setSortParam(sortParam) {
+      this.sortParam = sortParam;
+    },
+    async walletBtnHandler() {
+      if (this.isConnected || !window.ethereum) {
+        return false;
+      }
+
+      this.disabledStatus = true;
+
+      try {
+        await this.$store.dispatch("connectAccount", window.ethereum);
+      } catch (e) {
+        console.log("e:", e);
+      }
+
+      this.disabledStatus = false;
+    }
   },
 };
+
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .stand-view {
   padding: 40px 0;
   position: relative;
@@ -82,10 +164,66 @@ export default {
 .stand-action-view {
   position: relative;
   flex: 1;
-  background: #1C1C1C;
+  background: #1c1c1c;
+}
+
+.stand-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-input {
+  background: #353535 url(../assets/images/search-icon.svg) 98% center no-repeat;
+  display: flex;
+  height: 32px;
+  width: 160px;
+  border: 1px solid #8A8A8A;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 12px;
+  padding: 8px;
+  margin-bottom: 32px;
+  margin-right: 12px;
+  transition: .15s all ease-in-out;
+  &:focus {
+    outline: none;
+    transform: scale(1.05);
+    color: white;
+  }
+}
+
+.stand-sort select {
+  background: #353535 url(../assets/images/arrow-list.svg) 98% center no-repeat;
+  appearance: none;
+  color: #8A8A8A;
+  display: flex;
+  flex-direction: row;
+  height: 32px;
+  width: 160px;
+  border: 1px solid #8A8A8A;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 24px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:focus {
+    background: #1C1C1C;
+  }
+}
+
+.select-item {
+  color: white;
+  font-size: 12px;
+  background: #262626;
+  cursor: pointer;
+  :hover {
+    background-color: #1C1C1C;
+  }
 }
 @media screen and(max-width: 980px) {
-
   .stand-view .stand-group:first-child {
     padding-top: 30px;
   }
