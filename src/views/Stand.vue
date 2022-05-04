@@ -3,19 +3,12 @@
     <div class="container mini">
       <div class="stand-group">
         <h1>NXUSD Markets</h1>
-
-        <div class="stand-container">
-          <div class="search-container">
-            <input class="search-input" type="text" v-model="search" placeholder="Search" />
-          </div>
-          <div class="stand-sort">
-            <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
-              <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
-            </select>
-          </div>
+        <div class="stand-sort">
+          <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
+            <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
+          </select>
         </div>
-        <StandTable :tableType="2" :items="filteredList" />
-
+        <StandTable :tableType="2" :items="sortList" />
       </div>
     </div>
   </div>
@@ -46,8 +39,6 @@ export default {
       sortedBy: ['Sorted by Title', 'TVL', 'Fee', 'NXUSD left'],
       sortedArray: [],
       disabledSort: false,
-
-      search: '',
     }
   },
   mounted() {
@@ -63,14 +54,6 @@ export default {
     ActionComponent,
   },
   computed: {
-    filteredList() {
-      if (this.search.length !== 0) {
-        return this.pools.filter(pool => {
-          return pool.name.toLowerCase().includes(this.search.toLowerCase())
-        })
-      } else
-        return this.sortedArray;
-    },
     pools() {
       return this.$store.getters.getPools;
     },
@@ -165,32 +148,6 @@ export default {
   position: relative;
   flex: 1;
   background: #1c1c1c;
-}
-
-.stand-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.search-input {
-  background: #353535 url(../assets/images/search-icon.svg) 98% center no-repeat;
-  display: flex;
-  height: 32px;
-  width: 160px;
-  border: 1px solid #8A8A8A;
-  box-sizing: border-box;
-  border-radius: 4px;
-  font-weight: 400;
-  font-size: 12px;
-  padding: 8px;
-  margin-bottom: 32px;
-  margin-right: 12px;
-  transition: .15s all ease-in-out;
-  &:focus {
-    outline: none;
-    transform: scale(1.05);
-    color: white;
-  }
 }
 
 .stand-sort select {
