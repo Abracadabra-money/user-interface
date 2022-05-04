@@ -3,12 +3,19 @@
     <div class="container mini">
       <div class="stand-group">
         <h1>NXUSD Markets</h1>
-        <div class="stand-sort">
-          <select :disabled="disabledSort" v-model="sortParam">
-            <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
-          </select>
+
+        <div class="stand-container">
+          <div class="search-container">
+            <input class="search-input" type="text" v-model="search" placeholder="Search" />
+          </div>
+          <div class="stand-sort">
+            <select :disabled="disabledSort" v-model="sortParam">
+              <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
+            </select>
+          </div>
         </div>
-        <StandTable :tableType="2" :items="sortList" />
+        <StandTable :tableType="2" :items="filteredList" />
+
       </div>
     </div>
   </div>
@@ -38,6 +45,7 @@ export default {
       sortParam: 'Sorted by Title',
       sortedBy: ['Sorted by Title', 'TVL', 'Fee', 'NXUSD left'],
       disabledSort: false,
+      search: '',
     };
   },
   components: {
@@ -51,7 +59,12 @@ export default {
     isConnected() {
       return this.$store.getters.getWalletIsConnected;
     },
-    sortList() {
+    filteredList() {
+      if (this.search.length !== 0) {
+        return this.pools.filter(pool => {
+          return pool.name.toLowerCase().includes(this.search.toLowerCase())
+        })
+      }
       if(this.sortParam === 'Fee') {
         return this.pools.sort(this.sortByFee);
       }
