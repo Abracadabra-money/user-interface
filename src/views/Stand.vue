@@ -15,7 +15,7 @@
           </div>
         </div>
         <StandTable :tableType="2" :items="filteredList" />
-
+        <p class="notExist" v-if="!filteredList.length">The search has not given any results</p>
       </div>
     </div>
   </div>
@@ -53,10 +53,7 @@ export default {
   mounted() {
     this.sortedArray = this.pools.sort(this.sortByTitle);
 
-    if(!this.pools.length) {
-      this.disabledSort = true;
-    } else
-      this.disabledSort = false;
+    this.disabledSort = !this.pools.length;
   },
   components: {
     StandTable,
@@ -65,9 +62,10 @@ export default {
   computed: {
     filteredList() {
       if (this.search.length !== 0) {
-        return this.pools.filter(pool => {
+        let array = this.pools.filter(pool => {
           return pool.name.toLowerCase().includes(this.search.toLowerCase())
         })
+        return array;
       } else
         return this.sortedArray;
     },
@@ -186,6 +184,7 @@ export default {
   margin-bottom: 32px;
   margin-right: 12px;
   transition: .15s all ease-in-out;
+  color: #8A8A8A;
   &:focus {
     outline: none;
     transform: scale(1.05);
@@ -222,6 +221,13 @@ export default {
   :hover {
     background-color: #1C1C1C;
   }
+}
+
+.notExist {
+  margin: 64px 0 88px 0;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
 }
 @media screen and(max-width: 980px) {
   .stand-view .stand-group:first-child {
