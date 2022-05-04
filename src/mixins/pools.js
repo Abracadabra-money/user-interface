@@ -16,9 +16,9 @@ export default {
     },
   },
   methods: {
-    async createContracts(){
+    async createContracts() {
       const chainMasterContract = masterContractInfo.find(
-          (contract) => contract.contractChain === this.chainId
+        (contract) => contract.contractChain === this.chainId
       );
       console.log("chainMasterContract", chainMasterContract);
       if (!chainMasterContract) {
@@ -27,15 +27,14 @@ export default {
       }
 
       const masterContract = new this.$ethers.Contract(
-          chainMasterContract.address,
-          JSON.stringify(chainMasterContract.abi),
-          this.signer
+        chainMasterContract.address,
+        JSON.stringify(chainMasterContract.abi),
+        this.signer
       );
       await this.createPools(masterContract);
     },
 
     async createPools(masterContract) {
-
       const chainPools = poolsInfo.filter(
         (pool) => pool.contractChain === this.chainId
       );
@@ -46,9 +45,9 @@ export default {
       console.log("STAND CREATED POOLS:", pools);
       this.$store.commit("setPools", pools);
       const provider = await this.$store.getters.getProvider;
-      provider.once('block',()=>{
+      provider.once("block", () => {
         this.createPools(masterContract);
-      })
+      });
     },
     createWhitelistManager(address) {
       const whitelistContract = new this.$ethers.Contract(
