@@ -43,7 +43,7 @@ export default {
       disabledStatus: false,
 
       sortParam: 'Sorted by Title',
-      sortedBy: ['Sorted by Title', 'TVL', 'Fee', 'NXUSD left'],
+      sortedBy: ['Sorted by Title', 'NXUSD borrowed', 'Liquidation fee', 'NXUSD left'],
       sortedArray: [],
       disabledSort: false,
 
@@ -104,12 +104,11 @@ export default {
     },
 
     sorting() {
-      if(this.sortParam === 'Fee') {
+      if(this.sortParam === 'Liquidation fee') {
         this.sortedArray = this.pools.sort(this.sortByFee);
         return this.sortedArray;
-      } else if(this.sortParam === 'TVL') {
+      } else if(this.sortParam === 'NXUSD borrowed') {
         this.sortedArray = this.pools.sort(this.sortByTVL);
-        console.log("this sorted array", this.sortedArray);
         return this.sortedArray;
       } else if(this.sortParam === 'NXUSD left') {
         this.sortedArray = this.pools.sort(this.sortByNXUSDleft);
