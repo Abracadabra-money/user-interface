@@ -15,7 +15,9 @@
           </div>
         </div>
         <StandTable :tableType="2" :items="filteredList" />
-        <p class="notExist" v-if="!filteredList.length">The search has not given any results</p>
+        <p class="notExist" v-if="!filteredList.length && this.search.length !== 0">
+          The search has not given any results
+        </p>
       </div>
     </div>
   </div>
