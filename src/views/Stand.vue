@@ -129,11 +129,9 @@ export default {
   padding: 40px 0;
   position: relative;
   flex: 1;
-
   .stand-group {
     position: relative;
     z-index: 2;
-
     h1 {
       text-align: left;
       margin-bottom: 24px;
@@ -147,7 +145,31 @@ export default {
   flex: 1;
   background: #1c1c1c;
 }
-
+.stand-container {
+  display: flex;
+  flex-direction: row;
+}
+.search-input {
+  background: #353535 url(../assets/images/search-icon.svg) 98% center no-repeat;
+  display: flex;
+  height: 32px;
+  width: 160px;
+  border: 1px solid #8A8A8A;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 12px;
+  padding: 8px;
+  margin-bottom: 32px;
+  margin-right: 12px;
+  transition: .15s all ease-in-out;
+  color: #8A8A8A;
+  &:focus {
+    outline: none;
+    transform: scale(1.05);
+    color: white;
+  }
+}
 .stand-sort select {
   background: #353535 url(../assets/images/arrow-list.svg) 98% center no-repeat;
   appearance: none;
@@ -163,12 +185,10 @@ export default {
   margin-bottom: 24px;
   font-size: 12px;
   cursor: pointer;
-
   &:focus {
     background: #1C1C1C;
   }
 }
-
 .select-item {
   color: white;
   font-size: 12px;
@@ -178,20 +198,23 @@ export default {
     background-color: #1C1C1C;
   }
 }
+.notExist {
+  margin: 64px 0 88px 0;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
 @media screen and(max-width: 980px) {
   .stand-view .stand-group:first-child {
     padding-top: 30px;
   }
 }
-
 @media screen and(max-width: 780px) {
 }
-
 @media screen and(max-width: 640px) {
   .stand-view .stand-group h1 {
     margin-bottom: 30px;
   }
-
   .stand-view {
     padding-bottom: 100px;
   }
