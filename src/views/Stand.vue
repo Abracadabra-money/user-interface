@@ -109,15 +109,10 @@ export default {
         return false;
       }
 
-      this.disabledStatus = true;
-
-      try {
-        await this.$store.dispatch("connectMetamask", window.ethereum);
-      } catch (e) {
-        console.log("e:", e);
-      }
-
-      this.disabledStatus = false;
+      this.$store.commit("setPopupState", {
+        type: "connectWallet",
+        isShow: true,
+      });
     },
   },
 };
