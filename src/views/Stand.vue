@@ -15,7 +15,7 @@
           </div>
         </div>
         <StandTable :tableType="2" :items="filteredList" />
-
+        <p class="notExist" v-if="!filteredList.length">The search has not given any results</p>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
       disabledStatus: false,
 
       sortParam: 'Sorted by Title',
-      sortedBy: ['Sorted by Title', 'TVL', 'Fee', 'NXUSD left'],
+      sortedBy: ['Sorted by Title', 'NXUSD borrowed', 'Liquidation fee', 'NXUSD left'],
       disabledSort: false,
       search: '',
     };
@@ -65,10 +65,10 @@ export default {
           return pool.name.toLowerCase().includes(this.search.toLowerCase())
         })
       }
-      if(this.sortParam === 'Fee') {
+      if(this.sortParam === 'Liquidation fee') {
         return this.pools.sort(this.sortByFee);
       }
-      if(this.sortParam === 'TVL') {
+      if(this.sortParam === 'NXUSD borrowed') {
         return this.pools.sort(this.sortByTVL);
       }
       if(this.sortParam === 'NXUSD left') {
@@ -193,6 +193,7 @@ export default {
     background-color: #1C1C1C;
   }
 }
+
 .notExist {
   margin: 64px 0 88px 0;
   font-size: 14px;
