@@ -95,13 +95,11 @@ export default {
   },
   async created() {
     const isConnected = this.$store.getters.getWalletIsConnected;
-
     if (!isConnected) {
       this.$router.push({ name: "Stand" });
-      alert("Connect wallet first");
       return false;
     }
-    await this.createStakePool();
+    this.createStakePool();
   },
   mounted() {},
   components: {

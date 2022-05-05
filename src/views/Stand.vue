@@ -9,13 +9,15 @@
             <input class="search-input" type="text" v-model="search" placeholder="Search" />
           </div>
           <div class="stand-sort">
-            <select :disabled="disabledSort" v-on:change="sorting" v-model="sortParam">
+            <select :disabled="disabledSort" v-model="sortParam">
               <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
             </select>
           </div>
         </div>
         <StandTable :tableType="2" :items="filteredList" />
-        <p class="notExist" v-if="!filteredList.length">The search has not given any results</p>
+        <p class="notExist" v-if="!filteredList.length && this.search.length !== 0">
+          The search has not given any results
+        </p>
       </div>
     </div>
   </div>
@@ -44,36 +46,37 @@ export default {
 
       sortParam: 'Sorted by Title',
       sortedBy: ['Sorted by Title', 'NXUSD borrowed', 'Liquidation fee', 'NXUSD left'],
-      sortedArray: [],
       disabledSort: false,
-
       search: '',
-    }
-  },
-  mounted() {
-    this.sortedArray = this.pools.sort(this.sortByTitle);
-
-    this.disabledSort = !this.pools.length;
+    };
   },
   components: {
     StandTable,
     ActionComponent,
   },
   computed: {
-    filteredList() {
-      if (this.search.length !== 0) {
-        let array = this.pools.filter(pool => {
-          return pool.name.toLowerCase().includes(this.search.toLowerCase())
-        })
-        return array;
-      } else
-        return this.sortedArray;
-    },
     pools() {
       return this.$store.getters.getPools;
     },
     isConnected() {
       return this.$store.getters.getWalletIsConnected;
+    },
+    filteredList() {
+      if (this.search.length !== 0) {
+        return this.pools.filter(pool => {
+          return pool.name.toLowerCase().includes(this.search.toLowerCase())
+        })
+      }
+      if(this.sortParam === 'Liquidation fee') {
+        return this.pools.sort(this.sortByFee);
+      }
+      if(this.sortParam === 'NXUSD borrowed') {
+        return this.pools.sort(this.sortByTVL);
+      }
+      if(this.sortParam === 'NXUSD left') {
+        return this.pools.sort(this.sortByNXUSDleft);
+      }
+      return this.pools.sort(this.sortByTitle);
     },
   },
   methods: {
@@ -100,41 +103,19 @@ export default {
       )
       return (Number(borrowD1) < Number(borrowD2)) ? 1 : -1;
     },
-
-    sorting() {
-      if(this.sortParam === 'Liquidation fee') {
-        this.sortedArray = this.pools.sort(this.sortByFee);
-        return this.sortedArray;
-      } else if(this.sortParam === 'NXUSD borrowed') {
-        this.sortedArray = this.pools.sort(this.sortByTVL);
-        return this.sortedArray;
-      } else if(this.sortParam === 'NXUSD left') {
-        this.sortedArray = this.pools.sort(this.sortByNXUSDleft);
-        return this.sortedArray;
-      }
-      else {
-        this.sortedArray = this.pools.sort(this.sortByTitle);
-        return this.sortedArray;
-      }
-    },
     setSortParam(sortParam) {
       this.sortParam = sortParam;
     },
     async walletBtnHandler() {
-      if (this.isConnected || !window.ethereum) {
+      if (this.isConnected) {
         return false;
       }
 
-      this.disabledStatus = true;
-
-      try {
-        await this.$store.dispatch("connectAccount", window.ethereum);
-      } catch (e) {
-        console.log("e:", e);
-      }
-
-      this.disabledStatus = false;
-    }
+      this.$store.commit("setPopupState", {
+        type: "connectWallet",
+        isShow: true,
+      });
+    },
   },
 };
 
@@ -145,11 +126,9 @@ export default {
   padding: 40px 0;
   position: relative;
   flex: 1;
-
   .stand-group {
     position: relative;
     z-index: 2;
-
     h1 {
       text-align: left;
       margin-bottom: 24px;
@@ -163,12 +142,10 @@ export default {
   flex: 1;
   background: #1c1c1c;
 }
-
 .stand-container {
   display: flex;
   flex-direction: row;
 }
-
 .search-input {
   background: #353535 url(../assets/images/search-icon.svg) 98% center no-repeat;
   display: flex;
@@ -190,7 +167,6 @@ export default {
     color: white;
   }
 }
-
 .stand-sort select {
   background: #353535 url(../assets/images/arrow-list.svg) 98% center no-repeat;
   appearance: none;
@@ -206,12 +182,10 @@ export default {
   margin-bottom: 24px;
   font-size: 12px;
   cursor: pointer;
-
   &:focus {
     background: #1C1C1C;
   }
 }
-
 .select-item {
   color: white;
   font-size: 12px;
@@ -233,15 +207,12 @@ export default {
     padding-top: 30px;
   }
 }
-
 @media screen and(max-width: 780px) {
 }
-
 @media screen and(max-width: 640px) {
   .stand-view .stand-group h1 {
     margin-bottom: 30px;
   }
-
   .stand-view {
     padding-bottom: 100px;
   }

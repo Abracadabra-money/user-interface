@@ -7,13 +7,12 @@
         <router-view></router-view>
       </transition>
       <Footer></Footer>
-
       <PopupsWrapper v-if="showPopup" />
     </template>
 
-    <MetamaskChecker
-      @checkSuccess="metamaskCheckSuccess"
-      @checkError="metamaskCheckError"
+    <ConnectionChecker
+      @checkSuccess="checkSuccess"
+      @checkError="checkError"
     />
 
     <NotificationContainer />
@@ -27,9 +26,8 @@ const Footer = () => import("@/components/Footer");
 const PopupsWrapper = () => import("@/components/Popups/PopupWrapper");
 const NotificationContainer = () =>
   import("@/components/Notifications/NotificationContainer");
-const MetamaskChecker = () =>
-  import("@/components/MetamaskChecker/MetamaskChecker");
-
+const ConnectionChecker = () =>
+  import("@/components/ConnectionChecker/ConnectionChecker");
 import poolsMixin from "@/mixins/pools.js";
 import farmPoolsMixin from "@/mixins/farmPools.js";
 import swapMixin from "@/mixins/swap.js";
@@ -49,12 +47,16 @@ export default {
     showPopup() {
       return this.$store.getters.getPopupState;
     },
+    isConnected() {
+      return this.$store.getters.getWalletIsConnected;
+    },
   },
   methods: {
-    async metamaskCheckSuccess() {
+    async checkSuccess() {
       console.log("CHECK COMPLETE");
-      await this.createPools();
+      await this.createContracts();
       await this.createFarmPools();
+      console.log("asasdsad");
       //.... await this.initSwap();
       this.checkInProcess = false;
       clearInterval(this.farmPoolsTimer);
@@ -64,7 +66,7 @@ export default {
       //   await this.createPools();
       // }, 5000);
     },
-    metamaskCheckError(message) {
+    checkError(message) {
       console.log("CHECK COMPLETE");
       clearInterval(this.farmPoolsTimer);
       this.checkInProcess = false;
@@ -80,7 +82,7 @@ export default {
     Footer,
     // Banner,
     PopupsWrapper,
-    MetamaskChecker,
+    ConnectionChecker,
     NotificationContainer,
   },
 };

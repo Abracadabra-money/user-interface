@@ -111,19 +111,29 @@ export default {
   },
   methods: {
     async walletBtnHandler() {
-      if (this.isConnected || !window.ethereum) {
+      if (this.isConnected) {
+        this.toDashboard();
         return false;
       }
-
-      this.connectLoader = true;
-
-      try {
-        await this.$store.dispatch("connectAccount", window.ethereum);
-      } catch (e) {
-        console.log("e:", e);
-      }
-
-      this.connectLoader = false;
+      this.$store.commit("setPopupState", {
+        type: "connectWallet",
+        isShow: true,
+      });
+      //
+      // if (!window.ethereum) return false;
+      //
+      // this.connectLoader = true;
+      // console.log(0)
+      // try {
+      //   await this.$store.dispatch("connectAccount", window.ethereum);
+      // } catch (e) {
+      //   console.log("e:", e);
+      // }
+      //
+      // this.connectLoader = false;
+    },
+    toDashboard() {
+      this.$router.push({ name: "Dashboard" });
     },
   },
   components: {

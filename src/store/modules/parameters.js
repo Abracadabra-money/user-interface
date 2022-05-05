@@ -240,12 +240,8 @@ export default {
       const borrowLeftParsed = borrowLeft.toString().match(re)[0];
       const collateralDeposited = userCollateralShare.toString().match(re)[0];
 
-      const liquidationMultiplier = (200 - ltv) / 100;
-
       const liquidationPrice =
-        ((userBorrowPart * tokenPrice) / userCollateralShare) *
-          (1 / tokenPrice) *
-          liquidationMultiplier || 0;
+        (userBorrowPart / (userCollateralShare*ltv/100)) || 0;
 
       const collateralInfo = [
         {

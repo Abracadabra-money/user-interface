@@ -16,11 +16,11 @@ export default {
     },
   },
   methods: {
-    async createPools() {
+    async createContracts() {
       const chainMasterContract = masterContractInfo.find(
         (contract) => contract.contractChain === this.chainId
       );
-
+      console.log("chainMasterContract", chainMasterContract);
       if (!chainMasterContract) {
         console.log("No master Contract");
         return false;
@@ -31,18 +31,23 @@ export default {
         JSON.stringify(chainMasterContract.abi),
         this.signer
       );
+      await this.createPools(masterContract);
+    },
 
+    async createPools(masterContract) {
       const chainPools = poolsInfo.filter(
         (pool) => pool.contractChain === this.chainId
       );
-
       const pools = await Promise.all(
         chainPools.map((pool) => this.createPool(pool, masterContract))
       );
 
       console.log("STAND CREATED POOLS:", pools);
-
       this.$store.commit("setPools", pools);
+      const provider = await this.$store.getters.getProvider;
+      provider.once("block", () => {
+        this.createPools(masterContract);
+      });
     },
     createWhitelistManager(address) {
       const whitelistContract = new this.$ethers.Contract(
@@ -397,12 +402,8 @@ export default {
       const borrowLeftParsed = borrowLeft.toString().match(re)[0];
       const collateralDeposited = userCollateralShare.toString().match(re)[0];
 
-      const liquidationMultiplier = (200 - ltv) / 100;
-
       const liquidationPrice =
-        ((userBorrowPart * tokenPrice) / userCollateralShare) *
-          (1 / tokenPrice) *
-          liquidationMultiplier || 0;
+        (userBorrowPart / (userCollateralShare * ltv / 100)) || 0;
 
       return [
         {
@@ -422,7 +423,7 @@ export default {
         },
         {
           title: "Liquidation price",
-          value: `$${parseFloat(liquidationPrice).toFixed(4)}`,
+          value: `$${parseFloat(liquidationPrice.toString()).toFixed(4)}`,
           additional: "",
         },
         {
