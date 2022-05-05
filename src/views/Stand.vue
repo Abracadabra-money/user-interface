@@ -62,21 +62,22 @@ export default {
       return this.$store.getters.getWalletIsConnected;
     },
     filteredList() {
+      let sortedArray = this.pools;
       if (this.search.length !== 0) {
-        return this.pools.filter(pool => {
+        sortedArray = sortedArray.filter(pool => {
           return pool.name.toLowerCase().includes(this.search.toLowerCase())
         })
       }
       if(this.sortParam === 'Liquidation fee') {
-        return this.pools.sort(this.sortByFee);
+        return sortedArray.sort(this.sortByFee);
       }
       if(this.sortParam === 'NXUSD borrowed') {
-        return this.pools.sort(this.sortByTVL);
+        return sortedArray.sort(this.sortByTVL);
       }
       if(this.sortParam === 'NXUSD left') {
-        return this.pools.sort(this.sortByNXUSDleft);
+        return sortedArray.sort(this.sortByNXUSDleft);
       }
-      return this.pools.sort(this.sortByTitle);
+      return sortedArray.sort(this.sortByTitle);
     },
   },
   methods: {
@@ -117,7 +118,7 @@ export default {
       });
     },
   },
-};
+}
 
 </script>
 
