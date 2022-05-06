@@ -56,7 +56,6 @@ export default {
       console.log("CHECK COMPLETE");
       await this.createContracts();
       await this.createFarmPools();
-      console.log("asasdsad");
       //.... await this.initSwap();
       this.checkInProcess = false;
       clearInterval(this.farmPoolsTimer);

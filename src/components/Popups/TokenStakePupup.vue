@@ -133,7 +133,6 @@ export default {
         const balance = await contract.balanceOf(this.account);
 
         this.balance = this.$ethers.utils.formatEther(balance.toString());
-        console.log();
       } catch (e) {
         console.log("getUserBalance err:", e);
       }
@@ -151,13 +150,7 @@ export default {
           sspellBalance.toString()
         );
         const parsedTotalSupply = this.$ethers.utils.formatEther(totalSupply);
-        console.log("parsedBalance", parsedBalance);
-        console.log("parsedTotalSupply", parsedTotalSupply);
-
         const tokenRate = parsedBalance / parsedTotalSupply;
-
-        console.log("tokenRate", tokenRate);
-
         return tokenRate;
       } catch (e) {
         console.log("getUserBalance err:", e);
