@@ -4671,7 +4671,7 @@ export default [
     },
     token: {
       name: "WBTC",
-      decimals: 18,
+      decimals: 8,
       address: "0xb77Af13D67A5796C860427603a638708c3054233",
       oracleId: 3,
       oracleDatas: {
@@ -15735,7 +15735,7 @@ export default [
     id: 9,
     contract: {
       name: "CauldronV2",
-      address: "0x7bD0186F3a8Fe77c0f8bE79D6Ff1bf77dF073719",
+      address: "0x88A6414466D61b9Fb6aaFC763c1BaB6EE1462631",
       abi: [
         {
           inputs: [
@@ -16469,7 +16469,7 @@ export default [
     },
     token: {
       name: "WBTC",
-      decimals: 18,
+      decimals: 8,
       address: "0x50b7545627a5162F82A992c33b87aDc75187B218",
       oracleId: 9,
       oracleDatas: {
