@@ -68,8 +68,6 @@ export default {
   },
   computed: {
     nxusdAmountDisplay() {
-      console.log('this.$store.getters.getUserBorrowPart(this.pool.id)', this.$store.getters.getUserBorrowPart(this.pool.id));
-      console.log('this.nxusdAmount', this.nxusdAmount);
       return (
         parseFloat(this.$store.getters.getUserBorrowPart(this.pool.id)) +
         parseFloat(this.nxusdAmount || 0)

@@ -412,11 +412,6 @@ export default {
       //
       //   return ((1 / this.tokenToUsd / 100) * percent).toFixed(2);
       // }
-      console.log('this.percentValue', this.percentValue)
-      console.log('this.pairValue', this.pairValue);
-      console.log('this.mainValue', this.mainValue);
-      console.log('this.$store.getters.getUserBorrowPart(this.poolId)', this.$store.getters.getUserBorrowPart(this.poolId));
-      console.log('this.$store.getters.getUserCollateralShare(this.poolId)', this.$store.getters.getUserCollateralShare(this.poolId));
       if (this.actionType === "borrow") {
         const liquidationPrice =
             ((+this.$store.getters.getUserBorrowPart(this.poolId) +
@@ -436,9 +431,9 @@ export default {
                   * this.ltv / 100
               )
           )
-      // if(liquidationPrice === Infinity){
-      //   return this.liquidationPrice
-      // }
+      if(liquidationPrice === Infinity || liquidationPrice<=0){
+        return 'xxx.xx'
+      }
       return liquidationPrice;
     },
   },
@@ -683,7 +678,6 @@ export default {
         const collateralPercent = (this.pairValue / this.maxPairValue) * 100;
         const borrowPercent =
             (value / this.$store.getters.getUserBorrowPart(this.poolId)) * 100; //this.userTotalBorrowed
-
         const borrowedInDolarts =
             this.$store.getters.getUserBorrowPart(this.poolId) /
             this.tokenPairToUsd; //this.userTotalBorrowed
@@ -692,7 +686,6 @@ export default {
             this.tokenToUsd; //this.userTotalCollateral
         const userHasDolars = collateralInDolarts - borrowedInDolarts;
         const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
-
         if (
             collateralPercent <= borrowPercent &&
             collateralPercent < acceptedPercent
@@ -717,7 +710,6 @@ export default {
         this.pairValueError = `Insufficient amount. The value available ${this.maxPairValue}`;
         return false;
       }
-
       if (this.actionType === "repay") {
         if (!value) {
           this.pairValueError = "";
@@ -747,7 +739,6 @@ export default {
           return false;
         }
 
-        console.log(collateralPercent, borrowPercent);
         this.pairValueError = "";
         this.pairValue = value;
 
