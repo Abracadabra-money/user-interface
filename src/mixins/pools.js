@@ -305,7 +305,6 @@ export default {
         const poolBalance = await bentoContract.balanceOf(tokenAddr, poolAddr, {
           gasLimit: 1000000,
         });
-        console.log("poolBalance:", poolBalance);
 
         const toAmount = await bentoContract.toAmount(
           tokenAddr,
@@ -313,10 +312,7 @@ export default {
           false
         );
 
-        const parsedAmount = this.$ethers.utils.formatUnits(toAmount, 18);
-
-        console.log("to amount", parsedAmount);
-        return parsedAmount;
+        return this.$ethers.utils.formatUnits(toAmount, 18);
       } catch (e) {
         console.log("getMaxBorrow err:", e);
         return false;

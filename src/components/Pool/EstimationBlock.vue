@@ -2,10 +2,9 @@
   <div class="estimation-block">
     <div class="item-main">
       <p>NXUSD Amount</p>
-      <p class="percent-text" v-if="value">
+      <p class="percent-text">
         <span>~$ </span>{{ this.nxusdAmountDisplay }}
       </p>
-      <p class="percent-text" v-if="!value"><span>~$ </span>{{ borrowPart }}</p>
     </div>
 
     <div class="item-main">
@@ -69,6 +68,8 @@ export default {
   },
   computed: {
     nxusdAmountDisplay() {
+      console.log('this.$store.getters.getUserBorrowPart(this.pool.id)', this.$store.getters.getUserBorrowPart(this.pool.id));
+      console.log('this.nxusdAmount', this.nxusdAmount);
       return (
         parseFloat(this.$store.getters.getUserBorrowPart(this.pool.id)) +
         parseFloat(this.nxusdAmount || 0)
