@@ -247,24 +247,26 @@ export default {
       const collateralInDolarts =
         this.$store.getters.getUserCollateralShare(this.poolId) /
         this.tokenToUsd;
-      const userHasDolars = collateralInDolarts - borrowedInDolarts;
+      // const userHasDolars = collateralInDolarts - borrowedInDolarts;
 
       let calcAmount;
-
       if (this.mainValue) {
-        const borrowPercent =
-          (this.mainValue /
-            this.$store.getters.getUserBorrowPart(this.poolId)) *
-          100;
-
-        calcAmount = (this.maxPairValue * borrowPercent) / 100;
+        const collateralInUSDNeedToLeft =
+          ((borrowedInDolarts - this.mainValue) * 100) / this.ltv;
+        const collateralInUSDCanRemove =
+          collateralInDolarts - collateralInUSDNeedToLeft;
+        calcAmount =
+          (collateralInUSDCanRemove * this.userTotalCollateral) /
+          collateralInDolarts;
       } else {
-        const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
-
-        calcAmount = (this.maxPairValue * acceptedPercent) / 100;
+        const collateralInUSDNeedToLeft = (borrowedInDolarts * 100) / this.ltv;
+        const collateralInUSDCanRemove =
+          collateralInDolarts - collateralInUSDNeedToLeft;
+        calcAmount =
+          (collateralInUSDCanRemove * this.userTotalCollateral) /
+          collateralInDolarts;
       }
-
-      return calcAmount;
+      return calcAmount.toFixed(6);
     },
     useAVAX() {
       return this.$store.getters.getUseAVAX;
@@ -416,20 +418,22 @@ export default {
 
       if (!this.mainValue && this.pairValue) {
         const liquidationPrice =
-          (((+this.$store.getters.getUserBorrowPart(this.poolId) +
-            +this.pairValue)/(this.$store.getters.getUserCollateralShare(this.poolId)*this.ltv/100)))
+          (+this.$store.getters.getUserBorrowPart(this.poolId) +
+            +this.pairValue) /
+          ((this.$store.getters.getUserCollateralShare(this.poolId) *
+            this.ltv) /
+            100);
         return liquidationPrice;
       }
 
       if (this.mainValue && this.pairValue) {
         const liquidationPrice =
-          ((+this.$store.getters.getUserBorrowPart(this.poolId) +
+          (+this.$store.getters.getUserBorrowPart(this.poolId) +
             +this.pairValue) /
-              (
-                  (this.$store.getters.getUserCollateralShare(this.poolId) + +(parseFloat(this.mainValue)))
-                    * this.ltv / 100
-              )
-          )
+          (((this.$store.getters.getUserCollateralShare(this.poolId) +
+            +parseFloat(this.mainValue)) *
+            this.ltv) /
+            100);
         return liquidationPrice;
       }
 
@@ -741,7 +745,12 @@ export default {
           return false;
         }
 
-        console.log(collateralPercent, borrowPercent);
+        if(acceptedPercent >= 5) {
+          this.pairValue = 0;
+          value = 0;
+          this.pairValueError = `You have insufficient collateral. Please enter a smaller amount or repay more.`;
+        }
+        console.log("saddsdaa", collateralPercent);
         this.pairValueError = "";
         this.pairValue = value;
 
