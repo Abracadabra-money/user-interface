@@ -483,7 +483,7 @@ export default [
     name: "BTCOracle",
     id: 9,
     contractChain: "0xa86a",
-    address: "0x3738427ABF5C8792A94F25D3DcBc706770A7Fca6",
+    address: "0x24ed1513d790f8F9A1A177F53915c45d4F590349",
     abi: [
       {
         inputs: [{ internalType: "bytes", name: "data", type: "bytes" }],
