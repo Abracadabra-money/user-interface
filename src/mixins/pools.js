@@ -20,7 +20,6 @@ export default {
       const chainMasterContract = masterContractInfo.find(
         (contract) => contract.contractChain === this.chainId
       );
-      console.log("chainMasterContract", chainMasterContract);
       if (!chainMasterContract) {
         console.log("No master Contract");
         return false;
@@ -305,7 +304,6 @@ export default {
         const poolBalance = await bentoContract.balanceOf(tokenAddr, poolAddr, {
           gasLimit: 1000000,
         });
-        console.log("poolBalance:", poolBalance);
 
         const toAmount = await bentoContract.toAmount(
           tokenAddr,
@@ -314,8 +312,6 @@ export default {
         );
 
         const parsedAmount = this.$ethers.utils.formatUnits(toAmount, 18);
-
-        console.log("to amount", parsedAmount);
         return parsedAmount;
       } catch (e) {
         console.log("getMaxBorrow err:", e);
