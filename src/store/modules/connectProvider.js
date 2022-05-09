@@ -40,8 +40,8 @@ export default {
         },
       });
       const connector = walletConnectProvider.connector;
-      if (connector.accounts>0) {
-        const accounts = await walletConnectProvider.enable()
+      if (connector.accounts > 0) {
+        const accounts = await walletConnectProvider.enable();
         provider = new providers.Web3Provider(walletConnectProvider);
         const chainId = utils.hexlify(connector.chainId);
         const signer = provider.getSigner();
@@ -98,7 +98,9 @@ export default {
           return false;
         }
 
-        const chainId = await window.ethereum.request({ method: "eth_chainId" });
+        const chainId = await window.ethereum.request({
+          method: "eth_chainId",
+        });
         const provider = await new providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         if (chainId) {

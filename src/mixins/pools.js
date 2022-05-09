@@ -399,7 +399,7 @@ export default {
       const collateralDeposited = userCollateralShare.toString().match(re)[0];
 
       const liquidationPrice =
-        (userBorrowPart / (userCollateralShare * ltv / 100)) || 0;
+        userBorrowPart / ((userCollateralShare * ltv) / 100) || 0;
 
       return [
         {

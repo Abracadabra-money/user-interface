@@ -6,16 +6,31 @@
 
         <div class="stand-container">
           <div class="search-container">
-            <input class="search-input" type="text" v-model="search" placeholder="Search" />
+            <input
+              class="search-input"
+              type="text"
+              v-model="search"
+              placeholder="Search"
+            />
           </div>
           <div class="stand-sort">
             <select :disabled="disabledSort" v-model="sortParam">
-              <option class="select-item" v-for="item in sortedBy" :key="item" @click="setSortParam(item)">{{item}}</option>
+              <option
+                class="select-item"
+                v-for="item in sortedBy"
+                :key="item"
+                @click="setSortParam(item)"
+              >
+                {{ item }}
+              </option>
             </select>
           </div>
         </div>
         <StandTable :tableType="2" :items="filteredList" />
-        <p class="notExist" v-if="!filteredList.length && this.search.length !== 0">
+        <p
+          class="notExist"
+          v-if="!filteredList.length && this.search.length !== 0"
+        >
           The search has not given any results
         </p>
       </div>
@@ -32,7 +47,6 @@
 </template>
 
 <script>
-
 const StandTable = () => import("@/components/Stand/Table");
 const ActionComponent = () =>
   import("@/components/UiComponents/ActionComponent");
@@ -44,10 +58,15 @@ export default {
       name: "Connect",
       disabledStatus: false,
 
-      sortParam: 'Sorted by Title',
-      sortedBy: ['Sorted by Title', 'NXUSD borrowed', 'Liquidation fee', 'NXUSD left'],
+      sortParam: "Sorted by Title",
+      sortedBy: [
+        "Sorted by Title",
+        "NXUSD borrowed",
+        "Liquidation fee",
+        "NXUSD left",
+      ],
       disabledSort: false,
-      search: '',
+      search: "",
     };
   },
   components: {
@@ -64,17 +83,17 @@ export default {
     filteredList() {
       let sortedArray = this.pools;
       if (this.search.length !== 0) {
-        sortedArray = sortedArray.filter(pool => {
-          return pool.name.toLowerCase().includes(this.search.toLowerCase())
-        })
+        sortedArray = sortedArray.filter((pool) => {
+          return pool.name.toLowerCase().includes(this.search.toLowerCase());
+        });
       }
-      if(this.sortParam === 'Liquidation fee') {
+      if (this.sortParam === "Liquidation fee") {
         return sortedArray.sort(this.sortByFee);
       }
-      if(this.sortParam === 'NXUSD borrowed') {
+      if (this.sortParam === "NXUSD borrowed") {
         return sortedArray.sort(this.sortByTVL);
       }
-      if(this.sortParam === 'NXUSD left') {
+      if (this.sortParam === "NXUSD left") {
         return sortedArray.sort(this.sortByNXUSDleft);
       }
       return sortedArray.sort(this.sortByTitle);
@@ -82,27 +101,29 @@ export default {
   },
   methods: {
     sortByFee(d1, d2) {
-      return (d1.stabilityFee < d2.stabilityFee) ? 1 : -1;
+      return d1.stabilityFee < d2.stabilityFee ? 1 : -1;
     },
     sortByNXUSDleft(d1, d2) {
-      return (Number(d1.dynamicBorrowAmount) < Number(d2.dynamicBorrowAmount)) ? 1 : -1;
+      return Number(d1.dynamicBorrowAmount) < Number(d2.dynamicBorrowAmount)
+        ? 1
+        : -1;
     },
     sortByTitle(d1, d2) {
-      return (d1.name > d2.name) ? 1 : -1;
+      return d1.name > d2.name ? 1 : -1;
     },
     sortByTVL(d1, d2) {
       let borrowD1 = parseFloat(
         this.$ethers.utils.formatEther(
           this.$store.getters.getTotalBorrow(d1.id)
         )
-      )
+      );
 
       let borrowD2 = parseFloat(
         this.$ethers.utils.formatEther(
           this.$store.getters.getTotalBorrow(d2.id)
         )
-      )
-      return (Number(borrowD1) < Number(borrowD2)) ? 1 : -1;
+      );
+      return Number(borrowD1) < Number(borrowD2) ? 1 : -1;
     },
     setSortParam(sortParam) {
       this.sortParam = sortParam;
@@ -118,8 +139,7 @@ export default {
       });
     },
   },
-}
-
+};
 </script>
 
 <style scoped lang="scss">
@@ -152,7 +172,7 @@ export default {
   display: flex;
   height: 32px;
   width: 160px;
-  border: 1px solid #8A8A8A;
+  border: 1px solid #8a8a8a;
   box-sizing: border-box;
   border-radius: 4px;
   font-weight: 400;
@@ -160,8 +180,8 @@ export default {
   padding: 8px;
   margin-bottom: 32px;
   margin-right: 12px;
-  transition: .15s all ease-in-out;
-  color: #8A8A8A;
+  transition: 0.15s all ease-in-out;
+  color: #8a8a8a;
   &:focus {
     outline: none;
     transform: scale(1.05);
@@ -171,12 +191,12 @@ export default {
 .stand-sort select {
   background: #353535 url(../assets/images/arrow-list.svg) 98% center no-repeat;
   appearance: none;
-  color: #8A8A8A;
+  color: #8a8a8a;
   display: flex;
   flex-direction: row;
   height: 32px;
   width: 160px;
-  border: 1px solid #8A8A8A;
+  border: 1px solid #8a8a8a;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 8px;
@@ -184,7 +204,7 @@ export default {
   font-size: 12px;
   cursor: pointer;
   &:focus {
-    background: #1C1C1C;
+    background: #1c1c1c;
   }
 }
 .select-item {
@@ -193,7 +213,7 @@ export default {
   background: #262626;
   cursor: pointer;
   :hover {
-    background-color: #1C1C1C;
+    background-color: #1c1c1c;
   }
 }
 

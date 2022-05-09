@@ -59,10 +59,10 @@ export default {
     },
     liquidationPrice() {
       const liquidationPrice =
-          (this.$store.getters.getUserBorrowPart(this.pool.id) / (
-              this.$store.getters.getUserCollateralShare(this.pool.id)
-              *
-              this.$store.getters.getPoolLtv(this.pool.id) / 100))
+        this.$store.getters.getUserBorrowPart(this.pool.id) /
+        ((this.$store.getters.getUserCollateralShare(this.pool.id) *
+          this.$store.getters.getPoolLtv(this.pool.id)) /
+          100);
       return liquidationPrice;
     },
     priceDifferens() {
