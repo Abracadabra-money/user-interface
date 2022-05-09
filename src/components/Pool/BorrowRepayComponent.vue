@@ -245,26 +245,28 @@ export default {
           this.$store.getters.getUserBorrowPart(this.poolId) /
           this.tokenPairToUsd;
       const collateralInDolarts =
-          this.$store.getters.getUserCollateralShare(this.poolId) /
-          this.tokenToUsd;
-      const userHasDolars = collateralInDolarts - borrowedInDolarts;
+        this.$store.getters.getUserCollateralShare(this.poolId) /
+        this.tokenToUsd;
+      // const userHasDolars = collateralInDolarts - borrowedInDolarts;
 
       let calcAmount;
-
       if (this.mainValue) {
-        const borrowPercent =
-            (this.mainValue /
-                this.$store.getters.getUserBorrowPart(this.poolId)) *
-            100;
-
-        calcAmount = (this.maxPairValue * borrowPercent) / 100;
+        const collateralInUSDNeedToLeft =
+          ((borrowedInDolarts - this.mainValue) * 100) / this.ltv;
+        const collateralInUSDCanRemove =
+          collateralInDolarts - collateralInUSDNeedToLeft;
+        calcAmount =
+          (collateralInUSDCanRemove * this.userTotalCollateral) /
+          collateralInDolarts;
       } else {
-        const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
-
-        calcAmount = (this.maxPairValue * acceptedPercent) / 100;
+        const collateralInUSDNeedToLeft = (borrowedInDolarts * 100) / this.ltv;
+        const collateralInUSDCanRemove =
+          collateralInDolarts - collateralInUSDNeedToLeft;
+        calcAmount =
+          (collateralInUSDCanRemove * this.userTotalCollateral) /
+          collateralInDolarts;
       }
-
-      return calcAmount;
+      return calcAmount.toFixed(6);
     },
     useAVAX() {
       return this.$store.getters.getUseAVAX;
@@ -345,34 +347,50 @@ export default {
 
         if (this.mainValue) {
           valueInDolars = this.mainValue / this.tokenToUsd;
-          maxPairValue = (valueInDolars / 100) * this.ltv;
+          maxPairValue = (valueInDolars / 100) * (this.ltv - 1);
         } else {
           valueInDolars =
               this.$store.getters.getUserCollateralShare(this.poolId) /
               this.tokenToUsd;
           maxPairValue =
-              (valueInDolars / 100) * this.ltv -
-              this.$store.getters.getUserBorrowPart(this.poolId);
+            (valueInDolars / 100) * (this.ltv - 1) -
+            this.$store.getters.getUserBorrowPart(this.poolId);
         }
 
-        return maxPairValue;
+        return this.toFixed(
+          maxPairValue *
+            ((100 - this.$store.getters.getBorrowFee(this.poolId)) / 100),
+          this.pairValueDecimals
+        );
       }
 
       if (this.actionType === "repay") {
-        const maxAmount = parseFloat(
-            +this.$store.getters.getUserCollateralShare(this.poolId)
-        ).toFixed(20);
-        // .toLocaleString(
-        //   "fullwide",
-        //   {
-        //     maximumFractionDigits: this.pairValueDecimals,
-        //   }
-        // );
-        let re = new RegExp(
-            // eslint-disable-next-line no-useless-escape
-            `^-?\\d+(?:\.\\d{0,` + (this.pairValueDecimals || -1) + `})?`
-        );
-        return maxAmount.toString().match(re)[0];
+        const borrowedInDolarts =
+          this.$store.getters.getUserBorrowPart(this.poolId) /
+          this.tokenPairToUsd;
+        const collateralInDolarts =
+          this.$store.getters.getUserCollateralShare(this.poolId) /
+          this.tokenToUsd;
+        let maxAmount;
+
+        if (this.mainValue) {
+          const collateralInUSDNeedToLeft =
+            ((borrowedInDolarts - this.mainValue) * 100) / this.ltv;
+          const collateralInUSDCanRemove =
+            collateralInDolarts - collateralInUSDNeedToLeft;
+          maxAmount =
+            (collateralInUSDCanRemove * this.userTotalCollateral) /
+            collateralInDolarts;
+        } else {
+          const collateralInUSDNeedToLeft =
+            (borrowedInDolarts * 100) / this.ltv;
+          const collateralInUSDCanRemove =
+            collateralInDolarts - collateralInUSDNeedToLeft;
+          maxAmount =
+            (collateralInUSDCanRemove * this.userTotalCollateral) /
+            collateralInDolarts;
+        }
+        return this.toFixed(maxAmount, this.pairValueDecimals - 3);
       }
 
       return 0;
@@ -464,6 +482,9 @@ export default {
     toFixed(num, fixed) {
       // eslint-disable-next-line no-useless-escape
       let re = new RegExp(`^-?\\d+(?:\.\\d{0,` + (fixed || -1) + `})?`);
+      if (!num.toString().match(re)) {
+        return "0";
+      }
       return num.toString().match(re)[0];
     },
     actionHandler() {
@@ -715,25 +736,8 @@ export default {
           this.pairValueError = "";
           this.pairValue = value;
         }
-
-        const borrowedInDolarts =
-            this.$store.getters.getUserBorrowPart(this.poolId) /
-            this.tokenPairToUsd;
-        const collateralInDolarts =
-            this.$store.getters.getUserCollateralShare(this.poolId) /
-            this.tokenToUsd;
-        const userHasDolars = collateralInDolarts - borrowedInDolarts;
-        const acceptedPercent = (userHasDolars / collateralInDolarts) * 100;
-
         const collateralPercent = (value / this.maxPairValue) * 100;
-        const borrowPercent =
-            (this.mainValue /
-                this.$store.getters.getUserBorrowPart(this.poolId)) *
-            100;
-        if (
-            acceptedPercent < collateralPercent &&
-            collateralPercent > borrowPercent
-        ) {
+        if (collateralPercent > 100) {
           this.pairValueError = `You have insufficient collateral. Please enter a smaller amount or repay more.`;
           this.pairValue = value;
           return false;

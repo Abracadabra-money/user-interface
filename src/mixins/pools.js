@@ -20,7 +20,6 @@ export default {
       const chainMasterContract = masterContractInfo.find(
         (contract) => contract.contractChain === this.chainId
       );
-      console.log("chainMasterContract", chainMasterContract);
       if (!chainMasterContract) {
         console.log("No master Contract");
         return false;
@@ -312,7 +311,8 @@ export default {
           false
         );
 
-        return this.$ethers.utils.formatUnits(toAmount, 18);
+        const parsedAmount = this.$ethers.utils.formatUnits(toAmount, 18);
+        return parsedAmount;
       } catch (e) {
         console.log("getMaxBorrow err:", e);
         return false;

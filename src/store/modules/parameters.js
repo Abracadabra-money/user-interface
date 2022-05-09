@@ -287,5 +287,6 @@ export default {
     getPoolLtv: (state) => (id) => state.ltv[id],
     getTokenPrice: (state) => (id) => state.tokenPrice[id],
     getCollateralInfo: (state) => (id) => state.collateralInfo[id],
+    getBorrowFee: (state) => (id) => state.borrowFee[id],
   },
 };
