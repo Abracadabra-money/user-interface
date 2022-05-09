@@ -28,6 +28,7 @@ export default {
   border-radius: 4px;
 
   .items-wrap {
+    min-height: 150px;
     max-height: 200px;
     overflow-y: auto;
     padding-right: 5px;
