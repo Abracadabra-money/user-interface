@@ -8,13 +8,16 @@
       <div class="val-item">
         <div class="item-wrapper">
           <TokenIcon :token="pool.token.name" />
-          <p>{{ pool.name }} <img
+          <p>
+            {{ pool.name }}
+            <img
               v-if="isWTXPool"
               src="@/assets/images/i-icon.svg"
               alt=""
               class="info-icon"
               v-tooltip="'This is a private market.'"
-          /></p>
+            />
+          </p>
         </div>
       </div>
     </div>
