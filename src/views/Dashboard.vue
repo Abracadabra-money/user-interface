@@ -63,7 +63,7 @@ export default {
     userPools() {
       return this.pools.filter(
         (pool) =>
-          pool.userBorrowPart !== "0.0" && pool.userCollateralShare !== "0.0"
+          pool.userBorrowPart !== "0.0" || pool.userCollateralShare !== "0.0"
       );
     },
   },
