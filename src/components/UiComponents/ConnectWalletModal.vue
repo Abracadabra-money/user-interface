@@ -16,7 +16,11 @@
           :key="connector.name"
           class="modal-body"
         >
-          <div class="provider-btn" @click="connector.onClick()" v-if="!connector.disabled">
+          <div
+            class="provider-btn"
+            @click="connector.onClick()"
+            v-if="!connector.disabled"
+          >
             <div>{{ connector.name }}</div>
             <img
               :src="require(`@/assets/images/${connector.iconName}.svg`)"

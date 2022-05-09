@@ -44,11 +44,7 @@ export default {
         lpTokenContractInstance
       );
 
-      console.log("userLpBalance", userLpBalance);
-
       const poolBalances = await this.getPoolBalances(poolContractInstance);
-
-      console.log("poolBalances", poolBalances);
 
       const tokenRateContract = new this.$ethers.Contract(
         chainPool.tokensRateContract.address,

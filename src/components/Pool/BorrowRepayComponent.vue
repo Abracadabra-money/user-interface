@@ -34,7 +34,7 @@
 
     <div class="input-wrap">
       <ValueInput
-        :max="maxPairValue"
+        :max="maxValueAmount"
         :showMax="showMax"
         :valueName="pairValueTokenName"
         @onchange="updatePairValue"
@@ -46,7 +46,9 @@
     <div class="estimate-box">
       <EstimationBlock
         :liquidityPrice="liquidationPrice"
-        :nxusdAmount="this.pairValue"
+        :nxusdAmount="
+          this.actionType === 'borrow' ? this.pairValue : -this.mainValue
+        "
         @onchange="updatePercentValue"
         :maxValue="ltv"
         :value="percentValue"
@@ -430,30 +432,27 @@ export default {
       //
       //   return ((1 / this.tokenToUsd / 100) * percent).toFixed(2);
       // }
-      if (!this.percentValue) return "xxx.xx";
-
-      if (!this.mainValue && this.pairValue) {
+      if (this.actionType === "borrow") {
         const liquidationPrice =
           (+this.$store.getters.getUserBorrowPart(this.poolId) +
             +this.pairValue) /
-          ((this.$store.getters.getUserCollateralShare(this.poolId) *
+          (((+this.$store.getters.getUserCollateralShare(this.poolId) +
+            +parseFloat(+this.mainValue)) *
             this.ltv) /
             100);
         return liquidationPrice;
       }
-
-      if (this.mainValue && this.pairValue) {
-        const liquidationPrice =
-          (+this.$store.getters.getUserBorrowPart(this.poolId) +
-            +this.pairValue) /
-          (((this.$store.getters.getUserCollateralShare(this.poolId) +
-            +parseFloat(this.mainValue)) *
-            this.ltv) /
-            100);
-        return liquidationPrice;
+      const liquidationPrice =
+        (+this.$store.getters.getUserBorrowPart(this.poolId) -
+          +this.mainValue) /
+        (((+this.$store.getters.getUserCollateralShare(this.poolId) -
+          +parseFloat(+this.pairValue)) *
+          this.ltv) /
+          100);
+      if (liquidationPrice === Infinity || liquidationPrice <= 0) {
+        return "xxx.xx";
       }
-
-      return "xxx.xx";
+      return liquidationPrice;
     },
   },
   methods: {
@@ -700,7 +699,6 @@ export default {
         const collateralPercent = (this.pairValue / this.maxPairValue) * 100;
         const borrowPercent =
           (value / this.$store.getters.getUserBorrowPart(this.poolId)) * 100; //this.userTotalBorrowed
-
         const borrowedInDolarts =
           this.$store.getters.getUserBorrowPart(this.poolId) /
           this.tokenPairToUsd; //this.userTotalBorrowed
@@ -733,7 +731,6 @@ export default {
         this.pairValueError = `Insufficient amount. The value available ${this.maxPairValue}`;
         return false;
       }
-
       if (this.actionType === "repay") {
         if (!value) {
           this.pairValueError = "";
@@ -745,6 +742,7 @@ export default {
           this.pairValue = value;
           return false;
         }
+
         this.pairValueError = "";
         this.pairValue = value;
 
@@ -826,6 +824,7 @@ export default {
     padding: 16px 12px;
     margin-bottom: 8px;
   }
+
   .config-box {
     background: rgba(255, 255, 255, 0.02);
     border-radius: 4px;

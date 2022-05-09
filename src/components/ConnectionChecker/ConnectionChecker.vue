@@ -72,15 +72,15 @@ export default {
     },
     async setAccountListeners() {
       let accounts;
-      if(window.ethereum){
-        accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (window.ethereum) {
+        accounts = await window.ethereum.request({ method: "eth_accounts" });
       }
-      if(accounts && accounts.length>0){
+      if (accounts && accounts.length > 0) {
         window.ethereum.on("chainChanged", this.reload);
         window.ethereum.on("accountsChanged", this.onAccountChange);
-        window.ethereum.on("block",()=>{
-          this.updatePoolData()
-        })
+        window.ethereum.on("block", () => {
+          this.updatePoolData();
+        });
         console.log("SET METAMASK ACCOUNT LISTENERS FUNC");
       } else {
         const walletConnectProvider = new WalletConnectProvider({
@@ -92,15 +92,15 @@ export default {
         });
         walletConnectProvider.on("disconnect", this.reload);
         walletConnectProvider.on("session_update", this.reload);
-        walletConnectProvider.on("block",()=>{
-          this.updatePoolData()
-        })
+        walletConnectProvider.on("block", () => {
+          this.updatePoolData();
+        });
         console.log("SET WALLETCONNECT ACCOUNT LISTENERS FUNC");
       }
     },
     updatePoolData() {
       const poolData = this.$store.getters.getPools;
-      console.log('poolData', poolData[0]);
+      console.log("poolData", poolData[0]);
     },
     onAccountChange(accounts) {
       if (accounts.length === 0) {

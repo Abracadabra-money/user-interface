@@ -2,10 +2,7 @@
   <div class="estimation-block">
     <div class="item-main">
       <p>NXUSD Amount</p>
-      <p class="percent-text" v-if="value">
-        <span>~$ </span>{{ this.nxusdAmountDisplay }}
-      </p>
-      <p class="percent-text" v-if="!value"><span>~$ </span>{{ borrowPart }}</p>
+      <p class="percent-text"><span>~$ </span>{{ this.nxusdAmountDisplay }}</p>
     </div>
 
     <div class="item-main">
@@ -89,8 +86,7 @@ export default {
       return 1;
     },
     liquidityPriceFormatted() {
-      return this.liquidityPrice === "xxx.xx" ||
-        this.liquidityPrice === undefined
+      return this.liquidityPrice === "xxx.xx" || !this.liquidityPrice
         ? "xxx.xx"
         : parseFloat(this.liquidityPrice).toFixed(8);
     },

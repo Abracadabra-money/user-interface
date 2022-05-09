@@ -10,10 +10,7 @@
       <PopupsWrapper v-if="showPopup" />
     </template>
 
-    <ConnectionChecker
-      @checkSuccess="checkSuccess"
-      @checkError="checkError"
-    />
+    <ConnectionChecker @checkSuccess="checkSuccess" @checkError="checkError" />
 
     <NotificationContainer />
   </div>
