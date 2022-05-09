@@ -21,22 +21,12 @@
     </div>
 
     <nav>
-      <router-link :to="{ name: 'FarmStand' }" class="nav-link"
-        >farm</router-link
+      <router-link :to="{ name: 'Stand' }" class="nav-link"
+        >Markets</router-link
       >
-      <router-link :to="{ name: 'Stand' }" class="nav-link">borrow</router-link>
-
-      <a href="https://crv.to/pool" target="_blank" class="nav-link"
-        >MIM3POOL</a
+      <router-link :to="{ name: 'Dashboard' }" class="nav-link"
+        >My Dashboard</router-link
       >
-      <a href="https://crv.to/" target="_blank" class="nav-link">Swap</a>
-
-      <!-- <router-link :to="{ name: 'Docs' }" class="nav-link">Docs</router-link>
-      <router-link :to="{ name: 'Tech' }" class="nav-link">Tech</router-link> -->
-      <router-link :to="{ name: 'Liquidations' }" class="nav-link"
-        >Liquidations</router-link
-      >
-      <!-- <a href="#" class="nav-link" @click.prevent="showSwapPopup">Swap</a> -->
     </nav>
   </div>
 </template>

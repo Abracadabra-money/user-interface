@@ -89,6 +89,8 @@ export default {
   z-index: 1;
   height: $footerHeight;
   background: #262626;
+  display: flex;
+  align-items: center;
 
   &.transparent {
     position: absolute;
@@ -98,7 +100,7 @@ export default {
   }
 
   .container {
-    padding: 0 80px;
+    padding: 0 20px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -131,7 +133,7 @@ export default {
   }
   .app-footer .container {
     height: auto;
-    width: 45px;
+    //width: 45px;
   }
 
   .app-footer .container {

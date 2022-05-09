@@ -130,7 +130,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding: 0 80px;
+    padding: 0 16px;
     width: 100%;
   }
 

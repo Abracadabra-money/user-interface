@@ -6,15 +6,19 @@
   >
     <div class="table-col pool-name">
       <div class="val-item">
-        <TokenIcon :token="pool.token.name" />
-        <p>{{ pool.name }}</p>
-        <img
-          v-if="isWTXPool"
-          src="@/assets/images/i-icon.svg"
-          alt=""
-          class="info-icon"
-          v-tooltip="'This is a private market.'"
-        />
+        <div class="item-wrapper">
+          <TokenIcon :token="pool.token.name" />
+          <p>
+            {{ pool.name }}
+            <img
+              v-if="isWTXPool"
+              src="@/assets/images/i-icon.svg"
+              alt=""
+              class="info-icon"
+              v-tooltip="'This is a private market.'"
+            />
+          </p>
+        </div>
       </div>
     </div>
     <div class="table-col">
@@ -194,6 +198,14 @@ export default {
         max-width: none !important;
       }
     }
+    .item-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .info-icon {
+        margin: 0;
+      }
+    }
   }
 
   .val-icon {
@@ -240,8 +252,9 @@ export default {
 
 @media screen and(max-width: 640px) {
   .stand-table-item {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    justify-content: space-between;
   }
 
   .stand-table-item .table-col p {
@@ -256,6 +269,15 @@ export default {
   .stand-table-item .val-item {
     flex-direction: column;
     align-items: flex-start;
+    .token-icon-wrap {
+      margin: 0;
+    }
+    .item-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .stand-table-item .val-icon {
